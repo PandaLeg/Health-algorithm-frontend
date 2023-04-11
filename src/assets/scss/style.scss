@@ -1,0 +1,74 @@
+/* Mixins */
+
+/* Fonts */
+
+/* Connecting fonts */
+
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap');
+
+/* Icon fonts */
+
+/* Default Font */
+
+$fontFamily: "Heebo", sans-serif;
+
+/* Variables */
+
+$minWidth: 320;
+$maxWidth: 1400;
+$maxWidthContainer: 1200;
+$md1: $maxWidthContainer + 12;
+$md2: 991.38;
+$md3: 767.98;
+$md4: 479.98;
+
+/* Zeroing. Common parameters */
+
+@import "null";
+
+body {
+  color: #21243D;
+
+  &.lock {
+    overflow: hidden;
+  }
+}
+
+/* SHELL */
+
+.wrapper {
+  overflow: hidden;
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* MAIN GRID */
+
+._container {
+  max-width: $maxWidthContainer + px;
+  margin: 0 auto;
+
+  @media (max-width: $md1+px) {
+    max-width: 980px;
+  }
+
+  @media (max-width: $md2+px) {
+    max-width: 750px;
+  }
+
+  @media (max-width: $md3+px) {
+    max-width: none;
+  }
+}
+
+/* CONNECTING UI FILES OF PAGE STYLES AND ELEMENTS */
+
+
+/* MAIN UNIT */
+
+.page {
+  padding: 50px 0 0 0;
+  flex: 1 1 auto;
+}

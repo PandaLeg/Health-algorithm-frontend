@@ -1,6 +1,8 @@
 <template>
-    <div>
-        <h1>Welcome to the App!</h1>
+    <div class="wrapper">
+        <main class="page">
+            <router-view></router-view>
+        </main>
     </div>
 </template>
 
@@ -10,6 +12,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+@import "/src/assets/scss/style";
 </style>
