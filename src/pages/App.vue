@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <TheNavbar />
+        <TheNavbar/>
         <main class="page">
             <router-view></router-view>
         </main>
@@ -19,5 +19,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import "src/assets/scss/variables.scss";
 @import "/src/assets/scss/style.scss";
+
+#app {
+  height: 100%;
+}
+
 </style>

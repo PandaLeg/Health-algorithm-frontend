@@ -2,17 +2,57 @@
     <header class="header">
         <div class="header__content">
             <nav class="header__menu menu">
-                <div class="menu__icon icon-menu">
+                <div
+                    class="menu__icon icon-menu"
+                    :class="active"
+                    @click="changeStateBurger"
+                >
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
-                <div class="menu__body">
+                <div
+                    class="menu__body"
+                    :class="active"
+                    @click="changeStateBurger"
+                >
                     <ul class="menu__list">
-                        <li><a href="#" class="menu__link">Main</a></li>
-                        <li><a href="#" class="menu__link">Doctors</a></li>
-                        <li><a href="#" class="menu__link">Clinics</a></li>
-                        <li><a href="#" class="menu__link">Log In</a></li>
+                        <li>
+                            <router-link
+                                :to="{name: routesNames.home.name}"
+                                class="menu__link"
+                                @click="changeStateBurger"
+                            >
+                                Main
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link
+                                :to="{name: routesNames.home.name}"
+                                class="menu__link"
+                                @click="changeStateBurger"
+                            >
+                                Doctors
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link
+                                :to="{name: routesNames.home.name}"
+                                class="menu__link"
+                                @click="changeStateBurger"
+                            >
+                                Clinics
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link
+                                :to="{name: routesNames.home.name}"
+                                class="menu__link"
+                                @click="changeStateBurger"
+                            >
+                                Log in
+                            </router-link>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -21,8 +61,33 @@
 </template>
 
 <script>
+import routesNames from "../../router/routesNames";
+
 export default {
-    name: "TheNavbar"
+    name: "TheNavbar",
+    data() {
+        return {
+            isActive: false,
+        }
+    },
+    computed: {
+        routesNames() {
+            return routesNames
+        },
+        active() {
+            return {
+                active: this.isActive,
+            }
+        }
+    },
+    methods: {
+        changeStateBurger() {
+            this.isActive = !this.isActive
+
+            const body = document.body
+            body.classList.toggle('lock')
+        }
+    }
 }
 </script>
 

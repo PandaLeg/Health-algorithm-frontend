@@ -55,11 +55,13 @@ body {
 }
 
 /* CONNECTING UI FILES OF PAGE STYLES AND ELEMENTS */
-@import "src/assets/scss/header.scss";
+//@import "src/assets/scss/header.scss";
 
 /* MAIN UNIT */
 
 .page {
-  padding: 50px 0 0 0;
+  padding: 82px 0 0 0;
+  width: 100%;
+  height: 100%;
   flex: 1 1 auto;
 }
