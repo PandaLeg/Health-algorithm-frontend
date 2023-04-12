@@ -1,17 +1,32 @@
 <template>
     <div class="wrapper">
+        <TheNavbar/>
         <main class="page">
             <router-view></router-view>
         </main>
+        <TheFooter/>
     </div>
 </template>
 
 <script>
+import TheNavbar from "../components/navbar/TheNavbar.vue";
+import TheFooter from "../components/footer/TheFooter.vue";
+
 export default {
-    name: "App"
+    name: "App",
+    components: {
+        TheNavbar,
+        TheFooter
+    }
 }
 </script>
 
-<style scoped lang="scss">
-@import "/src/assets/scss/style";
+<style lang="scss">
+@import "src/assets/scss/variables.scss";
+@import "/src/assets/scss/style.scss";
+
+#app {
+  height: 100%;
+}
+
 </style>

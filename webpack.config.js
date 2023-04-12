@@ -36,7 +36,7 @@ module.exports = {
     },
     output: {
         filename: filename('js'),
-        path: path.resolve(__dirname, './dist'),
+        path: path.resolve(__dirname, 'dist'),
         chunkFilename: filename('js'),
         publicPath: (isDev ? '' : './')
     },
@@ -101,7 +101,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env': {},
             __VUE_PROD_DEVTOOLS__: false,
-            __VUE_OPTIONS_API__: false
+            __VUE_OPTIONS_API__: true
         })
     ]
 }
