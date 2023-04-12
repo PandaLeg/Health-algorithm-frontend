@@ -37,9 +37,10 @@ body {
 
 /* MAIN GRID */
 
-._container {
+.container {
   max-width: $maxWidthContainer + px;
   margin: 0 auto;
+  padding: 0 15px;
 
   @media (max-width: $md1+px) {
     max-width: 980px;

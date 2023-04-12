@@ -4,16 +4,19 @@
         <main class="page">
             <router-view></router-view>
         </main>
+        <TheFooter/>
     </div>
 </template>
 
 <script>
 import TheNavbar from "../components/navbar/TheNavbar.vue";
+import TheFooter from "../components/footer/TheFooter.vue";
 
 export default {
     name: "App",
     components: {
-        TheNavbar
+        TheNavbar,
+        TheFooter
     }
 }
 </script>

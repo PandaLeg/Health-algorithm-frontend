@@ -1,6 +1,11 @@
 <template>
     <header class="header">
         <div class="header__content">
+            <div class="header__logo logo">
+                <router-link :to="{name: routesNames.home.name}" class="logo__title">
+                    Health Algorithm
+                </router-link>
+            </div>
             <nav class="header__menu menu">
                 <div
                     class="menu__icon icon-menu"
