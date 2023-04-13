@@ -4,6 +4,9 @@ const routesNames = Object.freeze({
     },
     registration: {
         name: 'Registration'
+    },
+    registrationPatient: {
+        name: 'RegistrationPatient'
     }
 })
 

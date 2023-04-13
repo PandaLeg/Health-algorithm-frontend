@@ -1,44 +1,44 @@
 <template>
     <div class="registration">
         <div class="container">
-            <v-card class="elevation-12 registration__body">
-                <v-window v-model="step">
-                    <v-window-item :value="1">
-                        <RegistrationPatientForm/>
-                    </v-window-item>
-                    <v-window-item :value="2">
-
-                    </v-window-item>
-                </v-window>
-            </v-card>
+            <router-link
+                    :to="{name: routesNames.registrationPatient.name}"
+                    class="registration__body"
+            >
+                <div class="elevation-12">
+                    <h1>Patient</h1>
+                </div>
+            </router-link>
         </div>
     </div>
 </template>
 
 <script>
 import RegistrationPatientForm from "../../components/auth/registration/RegistrationPatientForm.vue";
+import routesNames from "../../router/routesNames";
 
 export default {
     name: "Registration",
     components: {
-        RegistrationPatientForm
+        RegistrationPatientForm,
     },
-    data() {
-        return {
-            step: 1
+    computed: {
+        routesNames() {
+            return routesNames
         }
-    }
+    },
 }
 </script>
 
 <style scoped lang="scss">
 .registration {
-  padding: 40px 20px 0;
+  padding: 40px 20px;
+  overflow: auto;
 
   &__body {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 0 20px;
+    display: block;
+    max-width: 600px;
+    padding: 0 20px;
   }
 }
 </style>

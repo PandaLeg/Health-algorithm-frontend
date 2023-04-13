@@ -38,7 +38,7 @@ module.exports = {
         filename: filename('js'),
         path: path.resolve(__dirname, 'dist'),
         chunkFilename: filename('js'),
-        publicPath: (isDev ? '' : './')
+        publicPath: (isDev ? '/' : './')
     },
     devServer: {
         port: '9090',
