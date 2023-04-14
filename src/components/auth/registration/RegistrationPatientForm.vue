@@ -44,13 +44,11 @@ export default {
             required: true
         },
         firstName: {
-            type: String,
             required: true,
             default: null,
             validator: p => typeof p === 'string' || p === null,
         },
         lastName: {
-            type: [null, String],
             required: true,
             default: null,
             validator: p => typeof p === 'string' || p === null,
