@@ -1,0 +1,52 @@
+<template>
+    <select v-model="selectModel" @blur="$emit('touch')">
+        <option value="" disabled selected>Выберите из списка</option>
+        <option
+                v-for="option in options"
+                :key="`k-${option.id}`"
+                :value="option.id"
+        >
+            {{ option.name }}
+        </option>
+    </select>
+</template>
+
+<script>
+export default {
+    name: "VSelect",
+    props: {
+        options: {
+            type: Array,
+            default: () => []
+        },
+        modelValue: {
+            required: true
+        },
+        touch: {
+            default: null
+        }
+    },
+    computed: {
+        selectModel: {
+            get() {
+                return this.modelValue
+            },
+
+            set(event) {
+                this.$emit('update:modelValue', event)
+            }
+        }
+    }
+}
+</script>
+
+<style scoped lang="scss">
+@import "src/assets/scss/variables";
+@import "src/assets/scss/ui";
+
+select {
+  @extend %fieldReg;
+  font-size: 16px;
+}
+
+</style>

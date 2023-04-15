@@ -6,13 +6,13 @@
 }
 
 .form-error {
-  input {
+  input, select {
     border-color: #f57f6c;
     outline: #f57f6c;
   }
 }
 
-%inputReg {
+%fieldReg {
     padding: 12px;
     width: 100%;
     border: 2px solid #000;

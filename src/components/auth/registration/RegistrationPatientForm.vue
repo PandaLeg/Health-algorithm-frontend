@@ -1,12 +1,11 @@
 <template>
     <div
-            class="registration__firstName"
+            class="registration-patient__firstName"
             :class="{'form-error': v$.patient.firstName.$error}"
     >
-        <label for="firstName">First Name *</label>
+        <label>First Name *</label>
         <input
                 v-model="modelFirstName"
-                id="firstName"
                 placeholder="Enter first name"
                 required
                 @input="v$.patient.firstName.$touch"
@@ -17,13 +16,12 @@
         </div>
     </div>
     <div
-            class="registration__lastName"
+            class="registration-patient__lastName"
             :class="{'form-error': v$.patient.lastName.$error}"
     >
-        <label for="lastName">Last Name *</label>
+        <label>Last Name *</label>
         <input
                 v-model="modelLastName"
-                id="lastName"
                 placeholder="Enter last name"
                 required
                 @input="v$.patient.lastName.$touch"
@@ -91,11 +89,11 @@ export default {
 @import "src/assets/scss/ui";
 
 input {
-    @extend %inputReg;
+  @extend %fieldReg;
 }
 
 label {
-    @extend %labelReg;
+  @extend %labelReg;
 }
 
 ::placeholder {

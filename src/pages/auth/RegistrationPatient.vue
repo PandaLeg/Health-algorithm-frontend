@@ -74,8 +74,9 @@ export default {
 @import "src/assets/scss/variables";
 
 .registration-patient {
+  height: 100%;
   padding: 40px 0 40px 0;
-  background: linear-gradient(240deg, #F5C986F9, #009688);
+  background: linear-gradient(240deg, $golden, $darkGreen);
 
   &__body {
     max-width: 600px;

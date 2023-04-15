@@ -1,27 +1,29 @@
 <template>
     <div class="registration">
         <div class="container">
-            <router-link
-                    :to="{name: routesNames.registrationPatient.name}"
-                    class="registration__body"
-            >
-                <div class="elevation-12">
+            <div class="registration__body">
+                <router-link
+                        :to="{name: routesNames.registrationPatient.name}"
+                        class="registration__link"
+                >
                     <h1>Patient</h1>
-                </div>
-            </router-link>
+                </router-link>
+                <router-link
+                        :to="{name: routesNames.registrationDoctor.name}"
+                        class="registration__link"
+                >
+                    <h1>Doctor</h1>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import RegistrationPatientForm from "../../components/auth/registration/RegistrationPatientForm.vue";
 import routesNames from "../../router/routesNames";
 
 export default {
     name: "Registration",
-    components: {
-        RegistrationPatientForm,
-    },
     computed: {
         routesNames() {
             return routesNames

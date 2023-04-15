@@ -21,6 +21,11 @@ const routes = [
         path: '/registration-patient',
         name: routesNames.registrationPatient.name,
         component: () => import(/* webpackChunkName: "RegistrationPatient" */ '../pages/auth/RegistrationPatient.vue')
+    },
+    {
+        path: '/registration-doctor',
+        name: routesNames.registrationDoctor.name,
+        component: () => import(/* webpackChunkName: "RegistrationDoctor" */ '../pages/auth/RegistrationDoctor.vue')
     }
 ]
 

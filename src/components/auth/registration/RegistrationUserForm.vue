@@ -4,10 +4,9 @@
                 class="registration__phone"
                 :class="{'form-error': v$.phone.$error}"
         >
-            <label for="phone">Phone *</label>
+            <label>Phone *</label>
             <input
                     v-model="modelPhone"
-                    id="phone"
                     placeholder="Enter phone"
                     required
                     @input="v$.phone.$touch"
@@ -21,11 +20,10 @@
                 class="registration__email"
                 :class="{'form-error': v$.email.$error}"
         >
-            <label for="email">Email *</label>
+            <label>Email *</label>
             <input
                     v-model="modelEmail"
                     type="email"
-                    id="email"
                     placeholder="Enter email"
                     required
                     @input="v$.email.$touch"
@@ -39,11 +37,10 @@
                 class="registration__password"
                 :class="{'form-error': v$.password.$error}"
         >
-            <label for="password">Password *</label>
+            <label>Password *</label>
             <input
                     v-model="modelPassword"
                     type="password"
-                    id="password"
                     placeholder="Enter password"
                     required
                     @input="v$.password.$touch"
@@ -57,10 +54,9 @@
                 class="registration__city"
                 :class="{'form-error': v$.city.$error}"
         >
-            <label for="city">City *</label>
+            <label>City *</label>
             <input
                     v-model="modelCity"
-                    id="city"
                     placeholder="Enter city"
                     required
                     @input="v$.city.$touch"
@@ -70,9 +66,7 @@
                 {{ cityErrors[0] }}
             </div>
         </div>
-        <slot>
-
-        </slot>
+        <slot></slot>
         <div class="registration__reg-button" @click="$emit('registration')">
             <button>Sign Up</button>
         </div>
@@ -214,15 +208,15 @@ export default {
 }
 
 input {
-    @extend %inputReg;
+  @extend %fieldReg;
 }
 
 label {
-    @extend %labelReg;
+  @extend %labelReg;
 }
 
 ::placeholder {
-    color: $darkBlue;
-    font-size: 16px;
+  color: $darkBlue;
+  font-size: 16px;
 }
 </style>
