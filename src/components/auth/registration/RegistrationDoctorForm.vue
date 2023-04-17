@@ -54,8 +54,8 @@
         <label>Experience *</label>
         <input
                 v-model="modelExperience"
-                id="experience"
                 placeholder="Enter experience"
+                type="number"
                 required
                 @input="v$.doctor.experience.$touch"
                 @blur="v$.doctor.experience.$touch"
@@ -69,20 +69,43 @@
             :class="{'form-error': v$.doctor.categoryId.$error}"
     >
         <label>Category *</label>
-        <VSelect v-model="modelCategory" :options="[ { id: 1,name: 'SPEC' } ]"/>
+        <VSelect
+            v-model="modelCategory"
+            :options="categories"
+        />
         <div class="input-error">
             {{ categoryIdErrors[0] }}
+        </div>
+    </div>
+    <div
+            class="registration-doctor__specialties"
+            :class="{'form-error': v$.doctor.specialties.$error}"
+            v-if="specialtiesFromDb.length"
+    >
+        <label>Specialties *</label>
+        <VAutocomplete
+            v-model="modelSpecialties"
+            :items="specialtiesFromDb"
+            item-title="name"
+            item-value="id"
+            label="Select the specialty"
+            multiple
+        />
+        <div class="input-error">
+            {{ specialtyErrors[0] }}
         </div>
     </div>
 </template>
 
 <script>
-import VSelect from "../../VSelect.vue";
+import VSelect from "../../custom/VSelect.vue";
+import VAutocomplete from "../../custom/VAutocomplete.vue";
 
 export default {
     name: "RegistrationDoctorForm",
     components: {
         VSelect,
+        VAutocomplete
     },
     props: {
         v$: {
@@ -90,26 +113,27 @@ export default {
         },
         firstName: {
             required: true,
-            default: null,
-            validator: p => typeof p === 'string' || p === null,
         },
         lastName: {
             required: true,
-            default: null,
-            validator: p => typeof p === 'string' || p === null,
         },
         surname: {
             required: true,
-            default: null,
-            validator: p => typeof p === 'string' || p === null,
         },
         experience: {
             required: true,
-            default: null
         },
         categoryId: {
             required: true,
-            default: null,
+        },
+        categories: {
+            required: true,
+        },
+        specialties: {
+            required: true
+        },
+        specialtiesFromDb: {
+            required: true
         },
         firstNameErrors: {
             required: true
@@ -125,19 +149,9 @@ export default {
         },
         categoryIdErrors: {
             required: true
-        }
-    },
-    emits: [
-        'update:first-name', 'update:last-name', 'update:surname', 'update:experience', 'update:categoryId'
-    ],
-    data() {
-        return {
-            options: [
-                {
-                    id: 1,
-                    name: 'SPEC'
-                }
-            ]
+        },
+        specialtyErrors: {
+            required: true
         }
     },
     computed: {
@@ -184,6 +198,15 @@ export default {
 
             set(value) {
                 this.$emit('update:categoryId', value)
+            }
+        },
+        modelSpecialties: {
+            get() {
+                return this.specialties
+            },
+
+            set(value) {
+                this.$emit('update:specialties', value)
             }
         }
     }

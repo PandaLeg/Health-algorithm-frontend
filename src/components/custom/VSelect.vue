@@ -1,6 +1,12 @@
 <template>
-    <select v-model="selectModel" @blur="$emit('touch')">
-        <option value="" disabled selected>Выберите из списка</option>
+    <select v-model="selectModel">
+        <option
+            value=""
+            disabled
+            selected
+        >
+            Выберите из списка
+        </option>
         <option
                 v-for="option in options"
                 :key="`k-${option.id}`"
@@ -21,9 +27,6 @@ export default {
         },
         modelValue: {
             required: true
-        },
-        touch: {
-            default: null
         }
     },
     computed: {

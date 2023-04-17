@@ -82,28 +82,16 @@ export default {
             required: true
         },
         phone: {
-            type: String,
             required: true,
-            default: null,
-            validator: p => typeof p === 'string' || p === null,
         },
         email: {
-            type: String,
             required: true,
-            default: null,
-            validator: p => typeof p === 'string' || p === null,
         },
         password: {
-            type: String,
             required: true,
-            default: null,
-            validator: p => typeof p === 'string' || p === null,
         },
         city: {
-            type: String,
             required: true,
-            default: null,
-            validator: p => typeof p === 'string' || p === null,
         },
         phoneErrors: {
             required: true
@@ -118,9 +106,6 @@ export default {
             required: true
         },
     },
-    emits: [
-        'update:phone', 'update:email', 'update:password', 'update:city', 'registration'
-    ],
     computed: {
         modelPhone: {
             get() {

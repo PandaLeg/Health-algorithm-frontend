@@ -43,13 +43,9 @@ export default {
         },
         firstName: {
             required: true,
-            default: null,
-            validator: p => typeof p === 'string' || p === null,
         },
         lastName: {
             required: true,
-            default: null,
-            validator: p => typeof p === 'string' || p === null,
         },
         firstNameErrors: {
             required: true
@@ -58,9 +54,6 @@ export default {
             required: true
         },
     },
-    emits: [
-        'update:first-name', 'update:last-name'
-    ],
     computed: {
         modelFirstName: {
             get() {

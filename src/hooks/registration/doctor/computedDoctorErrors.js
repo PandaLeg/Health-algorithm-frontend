@@ -71,12 +71,26 @@ export default function (v$, isObj = false) {
         return errors
     })
 
+    const specialtiesErrors = computed(() => {
+        const errors = []
+
+        const dirty = isObj ? v$.value.user.doctor.specialties.$dirty : v$.value.doctor.specialties.$dirty
+
+        if (!dirty) return errors
+
+        const requiredRule = isObj ? v$.value.user.doctor.specialties.required : v$.value.doctor.specialties.required
+
+        requiredRule.$invalid && errors.push('Select specialties')
+
+        return errors
+    })
+
     const isValid = () => {
         return !v$.value.email.$error && !v$.value.password.$error
             && !v$.value.phone.$error && !v$.value.city.$error
             && !v$.value.doctor.firstName.$error && !v$.value.doctor.lastName.$error
             && !v$.value.doctor.surname.$error && !v$.value.doctor.experience.$error
-            && !v$.value.doctor.categoryId.$error
+            && !v$.value.doctor.categoryId.$error && !v$.value.doctor.specialties.$error
     }
 
     return {
@@ -85,6 +99,7 @@ export default function (v$, isObj = false) {
         surnameErrors,
         experienceErrors,
         categoryIdErrors,
+        specialtiesErrors,
         isValid
     }
 }
