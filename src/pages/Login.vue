@@ -48,7 +48,10 @@
                                 {{ passwordErrors[0] }}
                             </div>
                         </div>
-                        <div class="login__button" @click="">
+                        <div
+                            class="login__button"
+                            @click="loginUser"
+                        >
                             <button>Sign In</button>
                         </div>
                     </form>
@@ -80,6 +83,7 @@ import LogoSVG from "../components/svg/LogoSVG.vue";
 import {useVuelidate} from "@vuelidate/core";
 import initState from "../hooks/auth/initStateAndRules";
 import computedErrors from "../hooks/computedErrors";
+import login from "../hooks/auth/login";
 
 export default {
     name: "Login",
@@ -91,10 +95,13 @@ export default {
         const v$ = useVuelidate(rule, userCredentials)
 
         const {phoneErrors, passwordErrors} = computedErrors(v$)
+        const {loginUser} = login(v$, userCredentials)
+
         return {
             v$,
             userCredentials,
-            phoneErrors, passwordErrors
+            phoneErrors, passwordErrors,
+            loginUser
         }
     },
     computed: {

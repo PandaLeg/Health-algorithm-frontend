@@ -45,7 +45,7 @@ import initUserStateAndRules from "../../hooks/registration/initUserStateAndRule
 import {useVuelidate} from "@vuelidate/core";
 import computedErrors from "../../hooks/computedErrors";
 import computedDoctorErrors from "../../hooks/registration/doctor/computedDoctorErrors";
-import registration from "../../hooks/registration";
+import registration from "../../hooks/registration/registration";
 import initStateAndRules from "../../hooks/registration/doctor/initStateAndRules";
 
 export default {

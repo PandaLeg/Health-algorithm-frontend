@@ -33,7 +33,7 @@ import RegistrationUserForm from "../../components/registration/RegistrationUser
 import RegistrationPatientForm from "../../components/registration/RegistrationPatientForm.vue";
 import initUserStateAndRules from "../../hooks/registration/initUserStateAndRules";
 import {useVuelidate} from "@vuelidate/core";
-import registration from "../../hooks/registration";
+import registration from "../../hooks/registration/registration";
 import computedErrors from "../../hooks/computedErrors";
 import computedPatientErrors from "../../hooks/registration/patient/computedPatientErrors";
 import initStateAndRules from "../../hooks/registration/patient/initStateAndRules";
