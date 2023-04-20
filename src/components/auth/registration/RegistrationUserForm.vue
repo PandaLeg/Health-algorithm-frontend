@@ -67,7 +67,7 @@
             </div>
         </div>
         <slot></slot>
-        <div class="registration__reg-button" @click="$emit('registration')">
+        <div class="registration__button" @click="$emit('registration')">
             <button>Sign Up</button>
         </div>
     </form>
@@ -158,7 +158,7 @@ export default {
     gap: 20px;
   }
 
-  &__reg-button {
+  &__button {
     background: $golden;
     text-align: center;
     position: relative;

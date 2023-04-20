@@ -1,0 +1,185 @@
+<template>
+    <div class="login">
+        <div class="container">
+            <div class="login__body">
+                <div class="login__item">
+                    <div class="login__logo">
+                        <router-link :to="{ name: routesNames.home.name }">
+                            <LogoSVG/>
+                        </router-link>
+                    </div>
+                    <div class="login__title">
+                        <h1>Welcome</h1>
+                    </div>
+                    <form
+                            @submit.prevent
+                            class="login__form"
+                    >
+                        <div class="login__phone">
+                            <label>Phone *</label>
+                            <input
+                                    placeholder="Enter phone"
+                                    required
+                            >
+                        </div>
+                        <div class="login__password">
+                            <label>Password *</label>
+                            <input
+                                    type="password"
+                                    placeholder="Enter password"
+                                    required
+                            >
+                        </div>
+                        <div class="login__button" @click="">
+                            <button>Sign In</button>
+                        </div>
+                    </form>
+                    <div class="login__forgot-password">
+                        <router-link
+                                :to="{name: routesNames.registration.name}"
+                                class="login__link"
+                        >
+                            Forgot password?
+                        </router-link>
+                    </div>
+                    <div class="login__href-registration">
+                        <router-link
+                                :to="{name: routesNames.registration.name}"
+                                class="login__link"
+                        >
+                            Don't have an account?
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import routesNames from "../../router/routesNames";
+import LogoSVG from "../../components/svg/LogoSVG.vue";
+
+export default {
+    name: "Login",
+    components: {
+        LogoSVG,
+    },
+    computed: {
+        routesNames() {
+            return routesNames
+        }
+    }
+}
+</script>
+
+<style scoped lang="scss">
+@import "src/assets/scss/variables";
+@import "src/assets/scss/ui";
+
+.login {
+  height: 100%;
+  background-color: $grayLighten2;
+
+  &__body {
+    max-width: 600px;
+    padding: 80px 0;
+    margin: 0 auto;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 50px;
+    background-color: $white;
+    border-radius: 50px;
+    gap: 25px;
+  }
+
+  &__logo {
+    align-self: center;
+
+    a {
+      text-decoration: none;
+      width: 108px;
+      height: 108px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: $darkTeal;
+      border-radius: 50%;
+      margin: -34px auto 0;
+      overflow: hidden;
+    }
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 1.875rem;
+    font-weight: 700;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 60px;
+    margin: 30px 0;
+
+    input {
+      @extend %fieldReg;
+    }
+  }
+
+  &__button {
+    background: $golden;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    padding: 1px 0;
+    border-radius: 5px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transition: all 0.2s;
+      opacity: 0;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+
+    button {
+      border: none;
+      background-color: transparent;
+      font-size: 16px;
+      width: 100%;
+      padding: 12px 30px;
+    }
+  }
+
+  &__forgot-password, &__href-registration {
+    text-align: center;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $grayDarken1;
+    transition: all 0.2s;
+
+    &:hover {
+      color: $darkTeal;
+    }
+  }
+}
+
+label {
+  @extend %labelReg;
+}
+</style>

@@ -75,7 +75,7 @@ export default {
 
 .registration-patient {
   height: 100%;
-  padding: 40px 0 40px 0;
+  padding: 40px 0;
   background: linear-gradient(240deg, $golden, $darkTeal);
 
   &__body {

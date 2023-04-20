@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/scss/variables.scss";
-@import "src/assets/scss/icons.scss";
-@import "src/assets/scss/footer.scss";
+@import "src/assets/scss/variables";
+@import "src/assets/scss/icons";
+@import "src/assets/scss/footer";
 </style>
