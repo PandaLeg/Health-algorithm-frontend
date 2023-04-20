@@ -78,8 +78,7 @@
 import routesNames from "../router/routesNames";
 import LogoSVG from "../components/svg/LogoSVG.vue";
 import {useVuelidate} from "@vuelidate/core";
-import initState from "../hooks/auth/initState";
-import initValidationRules from "../hooks/auth/initValidationRules";
+import initState from "../hooks/auth/initStateAndRules";
 import computedErrors from "../hooks/computedErrors";
 
 export default {
@@ -88,9 +87,8 @@ export default {
         LogoSVG,
     },
     setup() {
-        const {userCredentials} = initState()
-        const {rules} = initValidationRules()
-        const v$ = useVuelidate(rules, userCredentials)
+        const {userCredentials, rule} = initState()
+        const v$ = useVuelidate(rule, userCredentials)
 
         const {phoneErrors, passwordErrors} = computedErrors(v$)
         return {

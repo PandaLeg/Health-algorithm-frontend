@@ -31,12 +31,12 @@
 <script>
 import RegistrationUserForm from "../../components/registration/RegistrationUserForm.vue";
 import RegistrationPatientForm from "../../components/registration/RegistrationPatientForm.vue";
-import initStateAndRules from "../../hooks/registration/initStateAndRules";
+import initUserStateAndRules from "../../hooks/registration/initUserStateAndRules";
 import {useVuelidate} from "@vuelidate/core";
 import registration from "../../hooks/registration";
 import computedErrors from "../../hooks/computedErrors";
 import computedPatientErrors from "../../hooks/registration/patient/computedPatientErrors";
-import initPatientStateAndRules from "../../hooks/registration/patient/initPatientStateAndRules";
+import initStateAndRules from "../../hooks/registration/patient/initStateAndRules";
 
 export default {
     name: "RegistrationPatient",
@@ -45,8 +45,8 @@ export default {
         RegistrationPatientForm
     },
     setup() {
-        const {entity, rule} = initPatientStateAndRules();
-        const {user, rules} = initStateAndRules(entity, rule);
+        const {entity, rule} = initStateAndRules();
+        const {user, rules} = initUserStateAndRules(entity, rule);
         const v$ = useVuelidate(rules, user)
 
         const {

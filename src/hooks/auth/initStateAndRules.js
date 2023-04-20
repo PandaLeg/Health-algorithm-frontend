@@ -1,7 +1,13 @@
+import {reactive} from "vue";
 import {maxLength, minLength, required} from "@vuelidate/validators";
 
 export default function () {
-    const rules = {
+    const userCredentials = reactive({
+        phone: '',
+        password: ''
+    })
+
+    const rule = {
         phone: {
             required
         },
@@ -13,6 +19,7 @@ export default function () {
     }
 
     return {
-        rules
+        userCredentials,
+        rule
     }
 }

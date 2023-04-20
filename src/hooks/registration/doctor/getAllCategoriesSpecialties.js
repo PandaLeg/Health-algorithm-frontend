@@ -1,10 +1,8 @@
 import axios from "axios";
 import {config} from "../../../util/config";
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 
-export default function () {
-    let specialtiesFromDb = ref([])
-    let categories = ref([])
+export default function (specialtiesFromDb, categories) {
 
     onMounted(async () => {
         try {
@@ -19,8 +17,4 @@ export default function () {
         }
     })
 
-    return {
-        specialtiesFromDb,
-        categories
-    }
 }

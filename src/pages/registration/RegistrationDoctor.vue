@@ -41,13 +41,12 @@
 <script>
 import RegistrationUserForm from "../../components/registration/RegistrationUserForm.vue";
 import RegistrationDoctorForm from "../../components/registration/RegistrationDoctorForm.vue";
-import initStateAndRules from "../../hooks/registration/initStateAndRules";
+import initUserStateAndRules from "../../hooks/registration/initUserStateAndRules";
 import {useVuelidate} from "@vuelidate/core";
 import computedErrors from "../../hooks/computedErrors";
-import initDoctorStateAndRules from "../../hooks/registration/doctor/initDoctorStateAndRules";
 import computedDoctorErrors from "../../hooks/registration/doctor/computedDoctorErrors";
 import registration from "../../hooks/registration";
-import getAllCategoriesSpecialties from "../../hooks/registration/doctor/getAllCategoriesSpecialties";
+import initStateAndRules from "../../hooks/registration/doctor/initStateAndRules";
 
 export default {
     name: "RegistrationDoctor",
@@ -56,10 +55,9 @@ export default {
         RegistrationDoctorForm
     },
     setup() {
-        const {specialtiesFromDb, categories} = getAllCategoriesSpecialties()
+        const {entity, specialtiesFromDb, categories, rule} = initStateAndRules()
+        const {user, rules} = initUserStateAndRules(entity, rule);
 
-        const {entity, rule} = initDoctorStateAndRules();
-        const {user, rules} = initStateAndRules(entity, rule);
         const v$ = useVuelidate(rules, user)
 
         const {emailErrors, passwordErrors, phoneErrors, cityErrors} = computedErrors(v$)
