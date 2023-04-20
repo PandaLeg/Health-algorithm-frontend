@@ -58,6 +58,15 @@
                                 Log in
                             </router-link>
                         </li>
+                        <li>
+                            <router-link
+                                :to="{name: routesNames.registration.name}"
+                                class="menu__link"
+                                @click="changeStateBurger"
+                            >
+                                Registration
+                            </router-link>
+                        </li>
                     </ul>
                 </div>
             </nav>

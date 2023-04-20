@@ -10,6 +10,9 @@
     "serve": "cross-env NODE_ENV=development webpack serve --mode development"
   },
   "dependencies": {
+    "@vuelidate/core": "^2.0.2",
+    "@vuelidate/validators": "^2.0.2",
+    "axios": "^1.3.5",
     "vue": "^3.2.40",
     "vue-router": "^4.1.5",
     "vuetify": "^3.1.13",
@@ -18,6 +21,7 @@
   "devDependencies": {
     "@babel/core": "^7.19.1",
     "@babel/preset-env": "^7.19.1",
+    "@mdi/font": "^7.2.96",
     "@vue/compiler-sfc": "^3.2.40",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",

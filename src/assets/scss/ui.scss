@@ -1,0 +1,30 @@
+
+/* Errors styles */
+.input-error {
+  color: #f57f6c;
+  margin-top: 10px;
+}
+
+.form-error {
+  input, select {
+    border-color: #f57f6c !important;
+    outline: #f57f6c !important;
+  }
+}
+
+%fieldReg {
+    padding: 12px;
+    width: 100%;
+    border: 2px solid #000;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #21243D;
+    font-size: 18px;
+}
+
+%labelReg {
+  font-size: 16px;
+  display: block;
+  margin-bottom: 10px;
+  color: #21243D;
+}
