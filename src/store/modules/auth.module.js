@@ -12,7 +12,7 @@ export const authModule = {
     actions: {
         async [vuexTypes.REGISTER_USER] ({}, user) {
             try {
-                const url = config.apiUrl + '/auth/registration'
+                const url = config.apiUrl + '/registration/registration'
 
                 return await axios.post(url, user)
             } catch (err) {

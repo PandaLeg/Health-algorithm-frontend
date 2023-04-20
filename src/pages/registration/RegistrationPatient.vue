@@ -29,11 +29,11 @@
 </template>
 
 <script>
-import RegistrationUserForm from "../../components/auth/registration/RegistrationUserForm.vue";
-import RegistrationPatientForm from "../../components/auth/registration/RegistrationPatientForm.vue";
+import RegistrationUserForm from "../../components/registration/RegistrationUserForm.vue";
+import RegistrationPatientForm from "../../components/registration/RegistrationPatientForm.vue";
 import initStateAndRules from "../../hooks/registration/initStateAndRules";
 import {useVuelidate} from "@vuelidate/core";
-import registration from "../../hooks/registration/registration";
+import registration from "../../hooks/registration";
 import computedErrors from "../../hooks/computedErrors";
 import computedPatientErrors from "../../hooks/registration/patient/computedPatientErrors";
 import initPatientStateAndRules from "../../hooks/registration/patient/initPatientStateAndRules";

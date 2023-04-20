@@ -15,20 +15,38 @@
                             @submit.prevent
                             class="login__form"
                     >
-                        <div class="login__phone">
+                        <div
+                                class="login__phone"
+                                :class="{'form-error': v$.phone.$error}"
+                        >
                             <label>Phone *</label>
                             <input
+                                    v-model="userCredentials.phone"
                                     placeholder="Enter phone"
                                     required
+                                    @blur="v$.phone.$touch"
+                                    @input="v$.phone.$touch"
                             >
+                            <div class="input-error">
+                                {{ phoneErrors[0] }}
+                            </div>
                         </div>
-                        <div class="login__password">
+                        <div
+                                class="login__password"
+                                :class="{'form-error': v$.password.$error}"
+                        >
                             <label>Password *</label>
                             <input
+                                    v-model="userCredentials.password"
                                     type="password"
                                     placeholder="Enter password"
                                     required
+                                    @blur="v$.password.$touch"
+                                    @input="v$.password.$touch"
                             >
+                            <div class="input-error">
+                                {{ passwordErrors[0] }}
+                            </div>
                         </div>
                         <div class="login__button" @click="">
                             <button>Sign In</button>
@@ -57,13 +75,29 @@
 </template>
 
 <script>
-import routesNames from "../../router/routesNames";
-import LogoSVG from "../../components/svg/LogoSVG.vue";
+import routesNames from "../router/routesNames";
+import LogoSVG from "../components/svg/LogoSVG.vue";
+import {useVuelidate} from "@vuelidate/core";
+import initState from "../hooks/auth/initState";
+import initValidationRules from "../hooks/auth/initValidationRules";
+import computedErrors from "../hooks/computedErrors";
 
 export default {
     name: "Login",
     components: {
         LogoSVG,
+    },
+    setup() {
+        const {userCredentials} = initState()
+        const {rules} = initValidationRules()
+        const v$ = useVuelidate(rules, userCredentials)
+
+        const {phoneErrors, passwordErrors} = computedErrors(v$)
+        return {
+            v$,
+            userCredentials,
+            phoneErrors, passwordErrors
+        }
     },
     computed: {
         routesNames() {
