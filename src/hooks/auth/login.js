@@ -15,9 +15,9 @@ export default function (v$, user) {
 
         if (!v$.value.$invalid && isValid()) {
             try {
-                await store.dispatch(vuexTypes.LOGIN_USER, user)
+                await store.dispatch(vuexTypes.LOGIN, user)
 
-                router.push(routesNames.home.name)
+                router.push({name: routesNames.home.name})
             } catch (err) {
                 console.log(err)
             }

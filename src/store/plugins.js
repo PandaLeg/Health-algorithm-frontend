@@ -7,7 +7,6 @@ const localStoragePlugin = store => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
 
         if (mutation.type === vuexTypes.CLEAR_ALL_DATA) {
-            console.log('CLEAR ALL DATA')
             localStorage.removeItem(STORAGE_KEY)
         }
     })

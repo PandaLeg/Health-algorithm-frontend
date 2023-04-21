@@ -6,7 +6,8 @@ const mutations = {
 
 const actions = {
     REGISTER_USER: 'REGISTER_USER',
-    LOGIN_USER: 'LOGIN_USER',
+    LOGIN: 'LOGIN',
+    LOGOUT: 'LOGOUT',
 }
 
 const getters = {

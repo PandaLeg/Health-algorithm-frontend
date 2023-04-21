@@ -1,6 +1,7 @@
 import {vuexTypes} from "../vuexTypes";
 import axios from "axios";
 import {config} from "../../util/config";
+import authAxios from "../../http";
 
 export const defaultState = () => ({
     isLoggedIn: false,
@@ -26,7 +27,7 @@ export const authModule = {
             }
         },
 
-        async [vuexTypes.LOGIN_USER]({commit}, user) {
+        async [vuexTypes.LOGIN]({commit}, user) {
             try {
                 const url = config.apiUrl + '/auth/login'
 
@@ -39,6 +40,20 @@ export const authModule = {
                 return Promise.resolve()
             } catch (err) {
                 return Promise.reject(err)
+            }
+        },
+
+        async [vuexTypes.LOGOUT]({commit}) {
+            try {
+                const url = config.apiUrl + '/auth/logout'
+
+                await authAxios.delete(url);
+
+                commit(vuexTypes.CLEAR_ALL_DATA)
+
+                return Promise.resolve()
+            } catch (err) {
+                return Promise.reject();
             }
         }
     },

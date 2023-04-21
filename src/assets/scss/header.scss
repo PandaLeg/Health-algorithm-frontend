@@ -81,6 +81,7 @@
     font-weight: 700;
     color: $white;
     text-transform: uppercase;
+    cursor: pointer;
     transition: color 0.2s ease;
 
     @media (min-width: $md2+px) {
