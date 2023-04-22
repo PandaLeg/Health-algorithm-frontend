@@ -1,10 +1,11 @@
 import {useStore} from "vuex";
 import {vuexTypes} from "../../store/vuexTypes";
-import router from "../../router";
 import routesNames from "../../router/routesNames";
+import {useRouter} from "vue-router";
 
 export default function (v$, user) {
     const store = useStore()
+    const router = useRouter()
 
     const isValid = () => {
         return !v$.value.phone.$error && !v$.value.password.$error

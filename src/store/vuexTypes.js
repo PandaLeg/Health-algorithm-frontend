@@ -8,6 +8,7 @@ const actions = {
     REGISTER_USER: 'REGISTER_USER',
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
+    SEND_CONFIRMATION: 'SEND_CONFIRMATION'
 }
 
 const getters = {

@@ -45,7 +45,7 @@ export const authModule = {
 
         async [vuexTypes.LOGOUT]({commit}) {
             try {
-                const url = config.apiUrl + '/auth/logout'
+                const url = '/auth/logout'
 
                 await authAxios.delete(url);
 
@@ -53,7 +53,19 @@ export const authModule = {
 
                 return Promise.resolve()
             } catch (err) {
-                return Promise.reject();
+                return Promise.reject(err);
+            }
+        },
+
+        async [vuexTypes.SEND_CONFIRMATION]({commit}, email) {
+            try {
+                const url = config.apiUrl + '/auth/send-confirmation-by-email'
+
+                await axios.patch(url, {email});
+
+                return Promise.resolve()
+            } catch (err) {
+                return Promise.reject(err);
             }
         }
     },

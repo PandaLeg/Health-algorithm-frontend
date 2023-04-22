@@ -13,6 +13,9 @@ const routesNames = Object.freeze({
     },
     login: {
         name: 'Login'
+    },
+    verifyEmail: {
+        name: 'VerifyEmail'
     }
 })
 

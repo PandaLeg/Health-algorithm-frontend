@@ -1,10 +1,11 @@
 import {useStore} from "vuex";
 import {vuexTypes} from "../../store/vuexTypes";
-import router from "../../router";
 import routesNames from "../../router/routesNames";
+import {useRouter} from "vue-router";
 
 export default function (isActive, changeStateBurger) {
     const store = useStore()
+    const router = useRouter()
 
     const logoutUser = async () => {
         try {

@@ -13,7 +13,6 @@ const authAxios = axios.create({
 authAxios.interceptors.request.use((config) => {
     const accessToken = store.getters[vuexTypes.token]
 
-    console.log(store.getters)
     config.headers['Authorization'] = 'Bearer ' + accessToken
     return config
 })

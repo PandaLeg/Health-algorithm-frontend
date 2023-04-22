@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import routesNames from "./routesNames";
 import store from "../store";
 import {vuexTypes} from "../store/vuexTypes";
+import {errorCodes} from "../http/errorCodes";
 
 const routes = [
     {
@@ -30,8 +31,14 @@ const routes = [
     {
         path: '/login',
         name: routesNames.login.name,
-        component: () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue'),
+        component: () => import(/* webpackChunkName: "Login" */ '../pages/auth/Login.vue'),
         beforeEnter: guardUnLogIn
+    },
+    {
+        path: '/verify-email',
+        name: routesNames.verifyEmail.name,
+        component: () => import(/* webpackChunkName: "VerifyEmail" */ '../pages/auth/VerifyEmail.vue'),
+        beforeEnter: checkVerifyParams
     }
 ]
 
@@ -45,6 +52,21 @@ function guardUnLogIn(to, from, next) {
         })
     } else {
         next()
+    }
+}
+
+function checkVerifyParams(to, from, next) {
+    const errorCode = to.query.code
+    const email = to.query.email
+    const paramsExists = Object.keys(to.query).length !== 0
+    const isValidParams = paramsExists && email && errorCode && errorCodes[errorCode]
+
+    if (isValidParams || !paramsExists) {
+        next()
+    } else {
+        next({
+            name: routesNames.home.name
+        })
     }
 }
 

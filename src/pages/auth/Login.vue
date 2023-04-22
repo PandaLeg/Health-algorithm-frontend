@@ -78,12 +78,12 @@
 </template>
 
 <script>
-import routesNames from "../router/routesNames";
-import LogoSVG from "../components/svg/LogoSVG.vue";
+import routesNames from "../../router/routesNames";
+import LogoSVG from "../../components/svg/LogoSVG.vue";
 import {useVuelidate} from "@vuelidate/core";
-import initState from "../hooks/auth/initStateAndRules";
-import computedErrors from "../hooks/computedErrors";
-import login from "../hooks/auth/login";
+import initState from "../../hooks/auth/initStateAndRules";
+import computedErrors from "../../hooks/computedErrors";
+import login from "../../hooks/auth/login";
 
 export default {
     name: "Login",
