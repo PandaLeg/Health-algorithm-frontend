@@ -10,7 +10,7 @@
                         <h2 class="content-success__title">Great! Email has been verified!</h2>
                         <p class="content-success__subtitle">Thank you</p>
                         <router-link
-                                :to="routesNames.login.name"
+                                :to="{name: routesNames.login.name}"
                                 class="content-success__link"
                         >
                             Login

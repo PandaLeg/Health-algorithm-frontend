@@ -23,7 +23,7 @@ export const authModule = {
 
                 return await axios.post(url, user)
             } catch (err) {
-                return Promise.reject(err)
+                return Promise.reject(err.response)
             }
         },
 
@@ -39,7 +39,7 @@ export const authModule = {
 
                 return Promise.resolve()
             } catch (err) {
-                return Promise.reject(err)
+                return Promise.reject(err.response)
             }
         },
 
@@ -53,7 +53,7 @@ export const authModule = {
 
                 return Promise.resolve()
             } catch (err) {
-                return Promise.reject(err);
+                return Promise.reject(err.response);
             }
         },
 
@@ -65,7 +65,7 @@ export const authModule = {
 
                 return Promise.resolve()
             } catch (err) {
-                return Promise.reject(err);
+                return Promise.reject(err.response);
             }
         }
     },

@@ -1,21 +1,21 @@
 const routesNames = Object.freeze({
     home: {
-        name: 'Home'
+        name: 'HomePage'
     },
     registration: {
-        name: 'Registration'
+        name: 'RegistrationPage'
     },
     registrationPatient: {
-        name: 'RegistrationPatient'
+        name: 'RegistrationPatientPage'
     },
     registrationDoctor: {
-        name: 'RegistrationDoctor'
+        name: 'RegistrationDoctorPage'
     },
     login: {
-        name: 'Login'
+        name: 'LoginPage'
     },
     verifyEmail: {
-        name: 'VerifyEmail'
+        name: 'VerifyEmailPage'
     }
 })
 

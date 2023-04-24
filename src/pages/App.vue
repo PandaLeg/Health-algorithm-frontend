@@ -2,6 +2,7 @@
     <div class="wrapper">
         <TheNavbar/>
         <main class="page">
+            <VNotification />
             <router-view></router-view>
         </main>
         <TheFooter/>
@@ -11,12 +12,14 @@
 <script>
 import TheNavbar from "../components/navigation/TheNavbar.vue";
 import TheFooter from "../components/navigation/TheFooter.vue";
+import VNotification from "../components/custom/VNotification.vue";
 
 export default {
     name: "App",
     components: {
         TheNavbar,
-        TheFooter
+        TheFooter,
+        VNotification
     }
 }
 </script>

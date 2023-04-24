@@ -86,7 +86,7 @@ import computedErrors from "../../hooks/computedErrors";
 import login from "../../hooks/auth/login";
 
 export default {
-    name: "Login",
+    name: "LoginPage",
     components: {
         LogoSVG,
     },

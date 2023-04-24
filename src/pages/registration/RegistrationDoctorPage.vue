@@ -49,7 +49,7 @@ import registration from "../../hooks/registration/registration";
 import initStateAndRules from "../../hooks/registration/doctor/initStateAndRules";
 
 export default {
-    name: "RegistrationDoctor",
+    name: "RegistrationDoctorPage",
     components: {
         RegistrationUserForm,
         RegistrationDoctorForm

@@ -8,36 +8,36 @@ const routes = [
     {
         path: '/',
         name: routesNames.home.name,
-        component: () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
+        component: () => import(/* webpackChunkName: "HomePage" */ '../pages/HomePage.vue')
     },
     {
         path: '/registration',
         name: routesNames.registration.name,
-        component: () => import(/* webpackChunkName: "Registration" */ '../pages/registration/Registration.vue'),
+        component: () => import(/* webpackChunkName: "RegistrationPage" */ '../pages/registration/RegistrationPage.vue'),
         beforeEnter: guardUnLogIn
     },
     {
         path: '/registration-patient',
         name: routesNames.registrationPatient.name,
-        component: () => import(/* webpackChunkName: "RegistrationPatient" */ '../pages/registration/RegistrationPatient.vue'),
+        component: () => import(/* webpackChunkName: "RegistrationPatientPage" */ '../pages/registration/RegistrationPatientPage.vue'),
         beforeEnter: guardUnLogIn
     },
     {
         path: '/registration-doctor',
         name: routesNames.registrationDoctor.name,
-        component: () => import(/* webpackChunkName: "RegistrationDoctor" */ '../pages/registration/RegistrationDoctor.vue'),
+        component: () => import(/* webpackChunkName: "RegistrationDoctorPage" */ '../pages/registration/RegistrationDoctorPage.vue'),
         beforeEnter: guardUnLogIn
     },
     {
         path: '/login',
         name: routesNames.login.name,
-        component: () => import(/* webpackChunkName: "Login" */ '../pages/auth/Login.vue'),
+        component: () => import(/* webpackChunkName: "Login" */ '../pages/auth/LoginPage.vue'),
         beforeEnter: guardUnLogIn
     },
     {
         path: '/verify-email',
         name: routesNames.verifyEmail.name,
-        component: () => import(/* webpackChunkName: "VerifyEmail" */ '../pages/auth/VerifyEmail.vue'),
+        component: () => import(/* webpackChunkName: "VerifyEmailPage" */ '../pages/auth/VerifyEmailPage.vue'),
         beforeEnter: checkVerifyParams
     }
 ]

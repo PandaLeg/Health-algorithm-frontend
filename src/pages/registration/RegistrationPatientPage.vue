@@ -39,7 +39,7 @@ import computedPatientErrors from "../../hooks/registration/patient/computedPati
 import initStateAndRules from "../../hooks/registration/patient/initStateAndRules";
 
 export default {
-    name: "RegistrationPatient",
+    name: "RegistrationPatientPage",
     components: {
         RegistrationUserForm,
         RegistrationPatientForm
