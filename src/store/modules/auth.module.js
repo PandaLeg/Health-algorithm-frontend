@@ -2,18 +2,21 @@ import {vuexTypes} from "../vuexTypes";
 import axios from "axios";
 import {config} from "../../util/config";
 import authAxios from "../../http";
+import handleAuthInfo from "../../http/handleAuthInfo";
 
 export const defaultState = () => ({
     isLoggedIn: false,
     token: '',
+    isAdmin: false
 })
 
 export const authModule = {
     state: defaultState,
     mutations: {
-        [vuexTypes.UPDATE_USER_AUTH](state, accessToken) {
+        [vuexTypes.UPDATE_USER_AUTH](state, authInfo) {
             state.isLoggedIn = true
-            state.token = accessToken
+            state.token = authInfo.accessToken
+            state.isAdmin = authInfo.isAdmin
         }
     },
     actions: {
@@ -34,8 +37,7 @@ export const authModule = {
                 const response = await axios.post(url, user, {withCredentials: true})
                 const data = response.data
 
-                commit(vuexTypes.UPDATE_USER_AUTH, data.accessToken)
-                commit(vuexTypes.UPDATE_USER_INFO, data.user)
+                handleAuthInfo(data)
 
                 return Promise.resolve()
             } catch (err) {
@@ -71,6 +73,7 @@ export const authModule = {
     },
     getters: {
         [vuexTypes.isLoggedIn]: (state) => state.isLoggedIn,
+        [vuexTypes.isAdmin]: (state) => state.isAdmin,
         [vuexTypes.token]: (state) => state.token
     }
 }

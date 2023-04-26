@@ -23,7 +23,8 @@
 [class^="_icon-"], [class*=" _icon-"] {
   &::before {
     @extend %ic;
-    display: block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -41,4 +42,28 @@
 
 ._icon-facebook:before {
   content: "\e903";
+}
+
+._icon-chevron-right-solid:before {
+  content: "\e904";
+}
+
+._icon-logout:before {
+  content: "\e908";
+}
+
+._icon-doctor:before {
+  content: "\e906";
+}
+
+._icon-clinic:before {
+  content: "\e907";
+}
+
+._icon-home:before {
+  content: "\e905";
+}
+
+._icon-search:before {
+  content: "\e909";
 }

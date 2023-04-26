@@ -49,10 +49,14 @@
                             </div>
                         </div>
                         <div
-                            class="login__button"
-                            @click="loginUser"
+                                class="login__button"
+                                @click="loginUser"
                         >
-                            <button>Sign In</button>
+                            <button>
+                                <span>
+                                    Sign In
+                                </span>
+                            </button>
                         </div>
                     </form>
                     <div class="login__forgot-password">
@@ -153,9 +157,10 @@ export default {
   }
 
   &__title {
-    text-align: center;
+    font-family: "MyRoboto", sans-serif;
     font-size: 1.875rem;
     font-weight: 700;
+    text-align: center;
   }
 
   &__form {
@@ -197,9 +202,13 @@ export default {
     button {
       border: none;
       background-color: transparent;
-      font-size: 16px;
       width: 100%;
       padding: 12px 30px;
+
+      span {
+        font-family: 'MyRoboto', sans-serif;
+        font-size: 16px;
+      }
     }
   }
 

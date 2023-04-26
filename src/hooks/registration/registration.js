@@ -16,7 +16,7 @@ export default function (v$, user, isValid, type) {
 
                 router.push(routesNames.home.name)
             } catch (err) {
-                console.log(err)
+                store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data.message)
             }
         }
     }

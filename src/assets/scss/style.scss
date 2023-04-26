@@ -5,12 +5,13 @@
 /* Connecting fonts */
 
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
+@import "fonts";
 
 /* Icon fonts */
 
 /* Default Font */
 
-$fontFamily: "Lato", sans-serif;
+$fontFamily: "MyMontserrat", sans-serif;
 
 /* Variables */
 @import "variables";
@@ -58,11 +59,17 @@ body {
 }
 
 /* CONNECTING UI FILES OF PAGE STYLES AND ELEMENTS */
-//@import "src/assets/scss/header.scss";
 
 /* MAIN UNIT */
 
 .page {
-  padding: 82px 0 0;
+  padding: $heightHeader + px 0 0;
   flex: 1 1 auto;
+}
+
+.admin-page {
+  flex: 1 1 auto;
+  padding: 0 0 0 $widthOpenSidebar + px;
+  background: $grayLighten1;
+  transition: $transition04;
 }

@@ -61,7 +61,7 @@ export default {
   position: fixed;
   right: 0;
   margin: 10px 10px 0;
-  //animation: SnackbarAnimation 0.4s ease-in-out;
+  animation: SnackbarAnimation 0.4s ease-in-out;
 
   &__body {
     display: flex;

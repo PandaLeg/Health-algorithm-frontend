@@ -14,6 +14,7 @@ const actions = {
 
 const getters = {
     isLoggedIn: 'isLoggedIn',
+    isAdmin: 'isAdmin',
     token: 'token',
     notification: 'notification'
 }

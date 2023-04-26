@@ -1,9 +1,10 @@
 import axios from "axios";
 import {config} from "../util/config";
-import store from "../store";
 import {vuexTypes} from "../store/vuexTypes";
-import router from "../router";
 import routesNames from "../router/routesNames";
+import handleAuthInfo from "./handleAuthInfo";
+import store from "../store";
+import router from "../router";
 
 const authAxios = axios.create({
     withCredentials: true,
@@ -29,12 +30,12 @@ authAxios.interceptors.response.use((config) => {
             const response = await axios.put(url, {}, {withCredentials: true})
             const data = response.data
 
-            store.commit(vuexTypes.UPDATE_USER_AUTH, data.accessToken)
+            handleAuthInfo(data)
 
             return authAxios.request(originalRequest)
         } catch (err) {
             store.commit(vuexTypes.CLEAR_ALL_DATA)
-            await router.push({name: routesNames.login.name})
+            router.push({name: routesNames.login.name})
         }
     }
 })
