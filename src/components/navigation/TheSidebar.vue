@@ -154,7 +154,7 @@ export default {
   }
 
   &.close {
-    width: 88px;
+    width: $widthCloseSidebar + px;
 
     .sidebar__text {
       opacity: 0;

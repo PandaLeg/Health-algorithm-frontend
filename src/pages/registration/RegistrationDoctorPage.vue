@@ -13,6 +13,7 @@
                         v-model:password="user.password"
                         v-model:email="user.email"
                         v-model:phone="user.phone"
+                        v-model:image="image"
                         @registration="registrationUser"
                 >
                     <registration-doctor-form
@@ -56,7 +57,7 @@ export default {
     },
     setup() {
         const {entity, specialtiesFromDb, categories, rule} = initStateAndRules()
-        const {user, rules} = initUserStateAndRules(entity, rule);
+        const {user, rules, image} = initUserStateAndRules(entity, rule);
 
         const v$ = useVuelidate(rules, user)
 
@@ -72,15 +73,15 @@ export default {
         } = computedDoctorErrors(v$)
 
         const type = 'doctor'
-        const {registrationUser} = registration(v$, user, isValid, type)
+        const {registrationUser} = registration(v$, user, isValid, type, image)
 
         return {
-            user, v$, categories, specialtiesFromDb,
+            user, v$, image, categories, specialtiesFromDb,
             emailErrors, passwordErrors, phoneErrors, cityErrors,
             firstNameErrors, lastNameErrors, surnameErrors, experienceErrors, categoryIdErrors, specialtiesErrors,
             registrationUser
         }
-    }
+    },
 }
 </script>
 

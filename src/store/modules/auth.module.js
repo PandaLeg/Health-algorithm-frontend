@@ -24,7 +24,11 @@ export const authModule = {
             try {
                 const url = config.apiUrl + '/auth/registration'
 
-                return await axios.post(url, user)
+                return await axios.post(url, user, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
             } catch (err) {
                 return Promise.reject(err.response)
             }

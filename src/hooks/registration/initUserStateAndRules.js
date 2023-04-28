@@ -1,4 +1,4 @@
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 import {email, maxLength, minLength, required} from "@vuelidate/validators";
 
 export default function (entity, rule) {
@@ -9,6 +9,7 @@ export default function (entity, rule) {
         city: '',
         ...entity
     })
+    const image = ref(null)
 
     const rules = {
         phone: {
@@ -31,6 +32,7 @@ export default function (entity, rule) {
 
     return {
         user,
+        image,
         rules
     }
 }
