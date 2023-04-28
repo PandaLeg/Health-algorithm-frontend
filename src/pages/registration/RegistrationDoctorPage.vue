@@ -13,6 +13,7 @@
                         v-model:password="user.password"
                         v-model:email="user.email"
                         v-model:phone="user.phone"
+                        v-model:image="image"
                         @registration="registrationUser"
                 >
                     <registration-doctor-form
@@ -39,27 +40,25 @@
 </template>
 
 <script>
-import RegistrationUserForm from "../../components/auth/registration/RegistrationUserForm.vue";
-import RegistrationDoctorForm from "../../components/auth/registration/RegistrationDoctorForm.vue";
-import initStateAndRules from "../../hooks/registration/initStateAndRules";
+import RegistrationUserForm from "../../components/registration/RegistrationUserForm.vue";
+import RegistrationDoctorForm from "../../components/registration/RegistrationDoctorForm.vue";
+import initUserStateAndRules from "../../hooks/registration/initUserStateAndRules";
 import {useVuelidate} from "@vuelidate/core";
 import computedErrors from "../../hooks/computedErrors";
-import initDoctorStateAndRules from "../../hooks/registration/doctor/initDoctorStateAndRules";
 import computedDoctorErrors from "../../hooks/registration/doctor/computedDoctorErrors";
 import registration from "../../hooks/registration/registration";
-import getAllCategoriesSpecialties from "../../hooks/registration/doctor/getAllCategoriesSpecialties";
+import initStateAndRules from "../../hooks/registration/doctor/initStateAndRules";
 
 export default {
-    name: "RegistrationDoctor",
+    name: "RegistrationDoctorPage",
     components: {
         RegistrationUserForm,
         RegistrationDoctorForm
     },
     setup() {
-        const {specialtiesFromDb, categories} = getAllCategoriesSpecialties()
+        const {entity, specialtiesFromDb, categories, rule} = initStateAndRules()
+        const {user, rules, image} = initUserStateAndRules(entity, rule);
 
-        const {entity, rule} = initDoctorStateAndRules();
-        const {user, rules} = initStateAndRules(entity, rule);
         const v$ = useVuelidate(rules, user)
 
         const {emailErrors, passwordErrors, phoneErrors, cityErrors} = computedErrors(v$)
@@ -74,15 +73,15 @@ export default {
         } = computedDoctorErrors(v$)
 
         const type = 'doctor'
-        const {registrationUser} = registration(v$, user, isValid, type)
+        const {registrationUser} = registration(v$, user, isValid, type, image)
 
         return {
-            user, v$, categories, specialtiesFromDb,
+            user, v$, image, categories, specialtiesFromDb,
             emailErrors, passwordErrors, phoneErrors, cityErrors,
             firstNameErrors, lastNameErrors, surnameErrors, experienceErrors, categoryIdErrors, specialtiesErrors,
             registrationUser
         }
-    }
+    },
 }
 </script>
 
@@ -91,7 +90,7 @@ export default {
 
 .registration-doctor {
   height: 100%;
-  padding: 40px 0 40px 0;
+  padding: 40px 0;
   background: linear-gradient(240deg, $golden, $darkTeal);
 
   &__body {

@@ -14,7 +14,7 @@
 
   &__menu {
     display: inline-flex;
-    height: 82px;
+    height: $heightHeader + px;
     justify-content: flex-end;
     align-items: center;
     padding: 10px 0;
@@ -81,6 +81,7 @@
     font-weight: 700;
     color: $white;
     text-transform: uppercase;
+    cursor: pointer;
     transition: color 0.2s ease;
 
     @media (min-width: $md2+px) {

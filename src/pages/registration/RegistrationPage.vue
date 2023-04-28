@@ -23,7 +23,7 @@
 import routesNames from "../../router/routesNames";
 
 export default {
-    name: "Registration",
+    name: "RegistrationPage",
     computed: {
         routesNames() {
             return routesNames
