@@ -108,6 +108,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/scss/variables";
 @import "src/assets/scss/header";
 </style>

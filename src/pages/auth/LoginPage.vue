@@ -171,7 +171,7 @@ export default {
     margin: 30px 0;
 
     input {
-      @extend %fieldReg;
+      @extend %field-reg;
     }
   }
 
@@ -227,7 +227,17 @@ export default {
   }
 }
 
+.input-error {
+    @extend %input-error;
+}
+
+.form-error {
+    input {
+        @extend %form-error;
+    }
+}
+
 label {
-  @extend %labelReg;
+  @extend %label-reg;
 }
 </style>

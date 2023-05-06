@@ -214,19 +214,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/scss/variables";
-@import "src/assets/scss/ui";
-
-input {
-  @extend %fieldReg;
-}
-
-label {
-  @extend %labelReg;
-}
-
-::placeholder {
-  color: $darkBlue;
-  font-size: 16px;
-}
 </style>

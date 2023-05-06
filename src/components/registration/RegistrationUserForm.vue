@@ -185,7 +185,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
 
@@ -231,7 +231,7 @@ export default {
 
   &__title {
     span {
-      @extend %labelReg;
+      @extend %label-reg;
     }
   }
 
@@ -284,16 +284,26 @@ export default {
   }
 }
 
+.input-error {
+    @extend %input-error;
+}
+
+.form-error {
+    input, select {
+        @extend %form-error;
+    }
+}
+
 input {
-  @extend %fieldReg;
+    @extend %field-reg;
 }
 
 label {
-  @extend %labelReg;
+    @extend %label-reg;
 }
 
 ::placeholder {
-  color: $darkBlue;
-  font-size: 16px;
+    color: $darkBlue;
+    font-size: 16px;
 }
 </style>

@@ -44,11 +44,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
 
 select {
-  @extend %fieldReg;
+  @extend %field-reg;
   font-size: 16px;
 }
 

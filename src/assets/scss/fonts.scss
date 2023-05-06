@@ -1,53 +1,30 @@
-@font-face {
-  font-family: 'EBGaramond';
-  src: url('@fonts/EBGaramond-Regular.ttf') format('truetype');
-  font-weight: 400;
+@mixin initFont($family, $url, $weight) {
+  font-family: $family;
+  font-display: swap;
+  src: url($url) format('woff2');
+  font-weight: $weight;
 }
 
 @font-face {
-  font-family: 'EBGaramond';
-  src: url('@fonts/EBGaramond-Medium.ttf') format('truetype');
-  font-weight: 500;
+  @include initFont('MyRoboto', '@fonts/Roboto-Regular.woff2', 400);
 }
 
 @font-face {
-  font-family: 'EBGaramond';
-  src: url('@fonts/EBGaramond-Bold.ttf') format('truetype');
-  font-weight: 700;
+  @include initFont('MyRoboto', '@fonts/Roboto-Medium.woff2', 500);
 }
 
 @font-face {
-  font-family: 'MyRoboto';
-  src: url('@fonts/Roboto-Regular.ttf') format('truetype');
-  font-weight: 400;
+  @include initFont('MyRoboto', '@fonts/Roboto-Bold.woff2', 700);
 }
 
 @font-face {
-  font-family: 'MyRoboto';
-  src: url('@fonts/Roboto-Medium.ttf') format('truetype');
-  font-weight: 500;
+  @include initFont('MyMontserrat', '@fonts/Montserrat-Regular.woff2', 400);
 }
 
 @font-face {
-  font-family: 'MyRoboto';
-  src: url('@fonts/Roboto-Bold.ttf') format('truetype');
-  font-weight: 700;
+  @include initFont('MyMontserrat', '@fonts/Montserrat-Medium.woff2', 500);
 }
 
 @font-face {
-  font-family: 'MyMontserrat';
-  src: url('@fonts/Montserrat-Regular.ttf') format('truetype');
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: 'MyMontserrat';
-  src: url('@fonts/Montserrat-Medium.ttf') format('truetype');
-  font-weight: 500;
-}
-
-@font-face {
-  font-family: 'MyMontserrat';
-  src: url('@fonts/Montserrat-Bold.ttf') format('truetype');
-  font-weight: 700;
+  @include initFont('MyMontserrat', '@fonts/Montserrat-Bold.woff2', 700);
 }

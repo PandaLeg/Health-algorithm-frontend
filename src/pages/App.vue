@@ -15,9 +15,9 @@
                 v-else
                 class="wrapper"
         >
-            <TheSidebar />
+            <TheSidebar/>
             <main
-                class="admin-page"
+                    class="admin-page"
             >
                 <VNotification/>
                 <router-view></router-view>
@@ -27,20 +27,22 @@
 </template>
 
 <script>
-import TheNavbar from "../components/navigation/TheNavbar.vue";
-import TheSidebar from "../components/navigation/TheSidebar.vue";
-import TheFooter from "../components/navigation/TheFooter.vue";
-import VNotification from "../components/custom/VNotification.vue";
 import {mapGetters} from "vuex";
 import {vuexTypes} from "../store/vuexTypes";
+import {defineAsyncComponent} from "vue";
+import TheNavbar from "../components/navigation/TheNavbar.vue";
+import TheFooter from "../components/navigation/TheFooter.vue";
+import VNotification from "../components/custom/VNotification.vue";
 
 export default {
     name: "App",
     components: {
         TheNavbar,
-        TheSidebar,
         TheFooter,
-        VNotification
+        TheSidebar: defineAsyncComponent(() =>
+            import('../components/navigation/TheSidebar.vue')
+        ),
+        VNotification,
     },
     computed: {
         ...mapGetters({isAdmin: vuexTypes.isAdmin})
@@ -49,7 +51,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "src/assets/scss/variables.scss";
 @import "/src/assets/scss/style.scss";
 
 #app {
