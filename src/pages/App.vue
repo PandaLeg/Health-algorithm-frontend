@@ -16,9 +16,7 @@
                 class="wrapper"
         >
             <TheSidebar/>
-            <main
-                    class="admin-page"
-            >
+            <main class="admin-page">
                 <VNotification/>
                 <router-view></router-view>
             </main>
