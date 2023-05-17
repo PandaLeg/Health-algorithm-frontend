@@ -1,5 +1,6 @@
 export const defaultState = () => ({
-    notification: ''
+    notification: '',
+    isMounted: false,
 })
 
 export const state = defaultState

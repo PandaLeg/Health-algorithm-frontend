@@ -1,11 +1,12 @@
 @import "variables";
 
 .footer {
-  padding: 70px 0;
   background-color: $white;
+  width: 100%;
+  padding: 30px;
 
   @media screen and (max-width: $md3 + px) {
-    padding: 30px 0;
+    padding: 20px;
   }
 
   &__row {
@@ -16,17 +17,24 @@
     @media screen and (max-width: $md3 + px) {
       text-align: center;
       flex-direction: column;
+      justify-content: center;
     }
   }
 
   &__social {
-    @media screen and (max-width: $md3 + px) {
-      margin: 15px 0;
-    }
   }
 
   &__column {
     flex: 0 1 33.333%;
+
+    @media screen and (max-width: $md3 + px) {
+      flex: 1;
+      padding: 0 10px;
+
+      &:not(&:first-child) {
+        margin-top: 10px;
+      }
+    }
   }
 
   &__address {
@@ -72,11 +80,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+  text-align: end;
   line-height: 18px;
+  color: #000;
 
-  &__text {
-  }
+  @media screen and (max-width: $md3 + px) {
+    display: block;
+    text-align: center;
 
-  &__copy {
+    &__text, &__copy {
+      display: block;
+    }
   }
 }

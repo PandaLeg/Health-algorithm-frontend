@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const {VueLoaderPlugin} = require('vue-loader')
-const TerserPlugin = require("terser-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const {GenerateSW} = require('workbox-webpack-plugin');
@@ -26,10 +25,8 @@ const optimization = () => {
     if (isProd) {
         config.minimize = true
         config.minimizer = [
-            new TerserPlugin({
-                parallel: 4,
-            }),
-            new CssMinimizerPlugin()
+            '...',
+            new CssMinimizerPlugin(),
         ]
         config.moduleIds = 'deterministic'
         config.runtimeChunk = 'single'
@@ -54,11 +51,11 @@ const prodPlugins = () => {
         arr.push(new GenerateSW({
             clientsClaim: true,
             skipWaiting: true,
-            exclude: [/\.(?:png|jpg|jpeg|webp|svg)$/], // from precaching
+            exclude: [/\.(?:png|jpg|jpeg|webp|svg|json)$/], // from precaching
             runtimeCaching: [
                 { // runtime cache for images
-                    urlPattern: /\.(?:png|jpg|jpeg|webp|svg)$/,
-                    handler: 'CacheFirst',
+                    urlPattern: /\.(?:png|jpg|jpeg|svg|webp|json)$/,
+                    handler: 'StaleWhileRevalidate',
                     options: {
                         expiration: {maxEntries: 50},
                         cacheName: 'images',

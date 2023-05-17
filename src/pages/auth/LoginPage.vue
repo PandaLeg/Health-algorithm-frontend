@@ -88,6 +88,7 @@ import {useVuelidate} from "@vuelidate/core";
 import initState from "../../hooks/auth/initStateAndRules";
 import computedErrors from "../../hooks/computedErrors";
 import login from "../../hooks/auth/login";
+import regMountedState from "../../hooks/regMountedState";
 
 export default {
     name: "LoginPage",
@@ -100,6 +101,7 @@ export default {
 
         const {phoneErrors, passwordErrors} = computedErrors(v$)
         const {loginUser} = login(v$, userCredentials)
+        regMountedState()
 
         return {
             v$,
@@ -122,7 +124,6 @@ export default {
 
 .login {
   height: 100%;
-  background-color: $grayLighten2;
 
   &__body {
     max-width: 600px;

@@ -37,6 +37,7 @@ import registration from "../../hooks/registration/registration";
 import computedErrors from "../../hooks/computedErrors";
 import computedPatientErrors from "../../hooks/registration/patient/computedPatientErrors";
 import initStateAndRules from "../../hooks/registration/patient/initStateAndRules";
+import regMountedState from "../../hooks/regMountedState";
 
 export default {
     name: "RegistrationPatientPage",
@@ -59,6 +60,8 @@ export default {
 
         const type = 'patient'
         const {registrationUser} = registration(v$, user, isValid, type)
+
+        regMountedState()
 
         return {
             v$,

@@ -21,9 +21,13 @@
 
 <script>
 import routesNames from "../../router/routesNames";
+import regMountedState from "../../hooks/regMountedState";
 
 export default {
     name: "RegistrationPage",
+    setup() {
+        regMountedState()
+    },
     computed: {
         routesNames() {
             return routesNames

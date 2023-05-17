@@ -1,21 +1,22 @@
 <template>
-    <nav class="navigation">
+    <div class="navigation">
         <div class="v-pagination">
             <button
                     class="v-pagination__navigation"
                     :disabled="isDisabledLeft"
+                    aria-label="prev"
                     @click="prev"
             >
                 <ArrowLeftSVG/>
             </button>
             <div
-                v-for="page in totalPages"
-                :key="`p${page}`"
+                    v-for="page in totalPages"
+                    :key="`p${page}`"
             >
                 <button
-                    class="v-pagination__item"
-                    :class="{'active' : page === value}"
-                    @click="pageChange(page)"
+                        class="v-pagination__item"
+                        :class="{'active' : page === currentPage}"
+                        @click="pageChange(page)"
                 >
                     <span>{{ page }}</span>
                 </button>
@@ -23,12 +24,13 @@
             <button
                     class="v-pagination__navigation"
                     :disabled="isDisabledRight"
+                    aria-label="next"
                     @click="next"
             >
                 <ArrowRightSVG/>
             </button>
         </div>
-    </nav>
+    </div>
 </template>
 
 <script>
@@ -40,20 +42,19 @@ export default {
     components: {ArrowLeftSVG, ArrowRightSVG},
     props: {
         totalPages: {
-            type: Number,
-            default: 1
+            required: true
         },
-        value: {
-            type: Number
+        currentPage: {
+            required: true
         }
     },
     emits: ['nextPage'],
     computed: {
         isDisabledRight() {
-            return this.value === this.totalPages
+            return this.currentPage === this.totalPages
         },
         isDisabledLeft() {
-            return this.value === 1
+            return this.currentPage === 1
         }
     },
     methods: {
@@ -62,12 +63,12 @@ export default {
         },
         next() {
             if (!this.isDisabledRight) {
-                this.pageChange(this.value + 1)
+                this.pageChange(this.currentPage + 1)
             }
         },
         prev() {
             if (!this.isDisabledLeft) {
-                this.pageChange(this.value - 1)
+                this.pageChange(this.currentPage - 1)
             }
         }
     }
@@ -110,13 +111,15 @@ export default {
 
 .navigation {
   width: 100%;
+  min-height: 42px;
+  max-height: 42px;
+  margin-bottom: 10px;
 }
 
 .v-pagination {
   display: flex;
   justify-content: center;
   list-style-type: none;
-  padding-left: 0;
   margin: 0;
   width: 100%;
   max-width: 100%;

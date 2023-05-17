@@ -8,5 +8,9 @@ export const mutations = {
 
     [vuexTypes.UPDATE_NOTIFICATION] (state, message) {
         state.notification = message;
+    },
+
+    [vuexTypes.SET_MOUNTED_STATE] (state, isMounted) {
+        state.isMounted = isMounted;
     }
 }
