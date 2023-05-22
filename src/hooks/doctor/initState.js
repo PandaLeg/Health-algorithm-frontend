@@ -19,15 +19,15 @@ export default function () {
     const slotsDays = ref([
         {
             day: 'Sat',
-            date: '06 May'
+            date: '19 May'
         },
         {
             day: 'Sun',
-            date: '07 May'
+            date: '20 May'
         },
         {
             day: 'Mon',
-            date: '08 May'
+            date: '21 May'
         }
     ])
 
@@ -44,6 +44,6 @@ export default function () {
         isLoading,
         staticDoctorInfo,
         slotsDays,
-        visitTimes
+        visitTimes,
     }
 }

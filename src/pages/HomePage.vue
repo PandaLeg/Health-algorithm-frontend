@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <h1>Welcome to the App!</h1>
+    <div class="home">
+        Welcome!
     </div>
 </template>
 
@@ -16,5 +16,7 @@ export default {
 </script>
 
 <style scoped>
-
+.home {
+    height: 100%;
+}
 </style>

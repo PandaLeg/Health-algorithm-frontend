@@ -93,7 +93,6 @@ export default {
 .registration-doctor {
   height: 100%;
   padding: 40px 0;
-  background: linear-gradient(240deg, $golden, $darkTeal);
 
   &__body {
     max-width: 600px;

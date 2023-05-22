@@ -58,7 +58,7 @@
                             class="doctor-card__price"
                             :class="{'skeleton': isLoading}"
                     >
-                        <span>1600 hryvnia</span>
+                        <span>250$</span>
                     </div>
                 </div>
             </div>

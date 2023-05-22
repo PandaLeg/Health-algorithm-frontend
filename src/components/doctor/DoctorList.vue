@@ -22,7 +22,7 @@
                 class="doctor__list doctor-list"
         >
             <div
-                    v-for="item in 5"
+                    v-for="item in perPage"
                     :key="`k-${item}`"
                     class="doctor-list__card doctor-card"
             >
@@ -52,13 +52,13 @@ import {config} from "../../util/config";
 export default defineComponent({
     name: "DoctorList",
     components: {
-        DoctorListItem
+        DoctorListItem,
     },
     props: {
         doctors: {
             default: () => []
         },
-        totalPages: {
+        perPage: {
             required: true
         },
         isLoading: {
@@ -341,8 +341,8 @@ export default defineComponent({
 
   @media screen and (max-width: $md4 + px) {
     &, &.skeleton {
-        justify-content: center;
-        margin-bottom: 10px;
+      justify-content: center;
+      margin-bottom: 10px;
     }
   }
 

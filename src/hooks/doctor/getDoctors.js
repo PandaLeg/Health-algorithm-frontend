@@ -28,4 +28,13 @@ export default function (page, perPage, totalPages, doctors, isLoading) {
     }
 
     onMounted(getDoctors)
+
+    const nextPage = async (currentPage) => {
+        page.value = currentPage
+        await getDoctors()
+    }
+
+    return {
+        nextPage
+    }
 }

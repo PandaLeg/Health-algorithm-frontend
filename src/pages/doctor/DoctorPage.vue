@@ -3,7 +3,7 @@
         <div class="container">
             <DoctorList
                     :doctors="doctors"
-                    :total-pages="totalPages"
+                    :per-page="perPage"
                     :is-loading="isLoading"
                     :static-doctor-info="staticDoctorInfo"
                     :slots-days="slotsDays"
@@ -12,7 +12,7 @@
             <VPagination
                     :current-page="currentPage"
                     :total-pages="totalPages"
-                    @next-page="() => {console.log('KEK')}"
+                    @next-page="nextPage"
             />
         </div>
     </div>
@@ -36,17 +36,19 @@ export default {
             currentPage, perPage, totalPages, doctors, isLoading, staticDoctorInfo, slotsDays, visitTimes
         } = initState()
 
-        getDoctors(currentPage, perPage, totalPages, doctors, isLoading)
+        const {nextPage} = getDoctors(currentPage, perPage, totalPages, doctors, isLoading)
         regMountedState()
 
         return {
             currentPage,
             totalPages,
+            perPage,
             doctors,
             isLoading,
             staticDoctorInfo,
             slotsDays,
-            visitTimes
+            visitTimes,
+            nextPage
         }
     }
 }
