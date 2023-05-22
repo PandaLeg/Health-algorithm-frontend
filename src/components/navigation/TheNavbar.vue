@@ -33,7 +33,7 @@
                         </li>
                         <li>
                             <router-link
-                                    :to="{name: routes.home.name}"
+                                    :to="{name: routes.doctor.name}"
                                     class="menu__link"
                                     @click="changeStateBurger"
                             >
@@ -108,6 +108,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/scss/variables";
 @import "src/assets/scss/header";
 </style>

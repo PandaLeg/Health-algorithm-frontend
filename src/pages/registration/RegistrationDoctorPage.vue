@@ -48,6 +48,7 @@ import computedErrors from "../../hooks/computedErrors";
 import computedDoctorErrors from "../../hooks/registration/doctor/computedDoctorErrors";
 import registration from "../../hooks/registration/registration";
 import initStateAndRules from "../../hooks/registration/doctor/initStateAndRules";
+import regMountedState from "../../hooks/regMountedState";
 
 export default {
     name: "RegistrationDoctorPage",
@@ -74,6 +75,7 @@ export default {
 
         const type = 'doctor'
         const {registrationUser} = registration(v$, user, isValid, type, image)
+        regMountedState()
 
         return {
             user, v$, image, categories, specialtiesFromDb,
@@ -91,7 +93,6 @@ export default {
 .registration-doctor {
   height: 100%;
   padding: 40px 0;
-  background: linear-gradient(240deg, $golden, $darkTeal);
 
   &__body {
     max-width: 600px;

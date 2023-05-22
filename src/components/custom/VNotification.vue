@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import VSnackBar from "./VSnackBar.vue";
 import {mapGetters, mapMutations} from "vuex";
 import {vuexTypes} from "../../store/vuexTypes";
+import VSnackBar from "./VSnackBar.vue";
 
 export default {
     name: "VNotification",

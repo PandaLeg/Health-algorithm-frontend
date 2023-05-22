@@ -56,6 +56,7 @@ import routesNames from "../../router/routesNames";
 import initState from "../../hooks/auth/verify-email/initState";
 import checkParams from "../../hooks/auth/verify-email/checkParams";
 import sendConfirmationEmail from "../../hooks/auth/verify-email/sendConfirmationEmail";
+import regMountedState from "../../hooks/regMountedState";
 
 export default {
     name: "VerifyEmail",
@@ -65,6 +66,8 @@ export default {
         checkParams(activationTokenError, email)
 
         const {sendConfirmation} = sendConfirmationEmail(email)
+
+        regMountedState()
 
         return {
             activationTokenError,

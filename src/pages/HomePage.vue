@@ -1,15 +1,22 @@
 <template>
-  <div>
-      <h1>Welcome to the App!</h1>
-  </div>
+    <div class="home">
+        Welcome!
+    </div>
 </template>
 
 <script>
+import regMountedState from "../hooks/regMountedState";
+
 export default {
-    name: "HomePage"
+    name: "HomePage",
+    setup() {
+        regMountedState()
+    }
 }
 </script>
 
 <style scoped>
-
+.home {
+    height: 100%;
+}
 </style>

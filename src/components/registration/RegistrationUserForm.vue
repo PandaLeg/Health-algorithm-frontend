@@ -20,37 +20,39 @@
                 </template>
             </div>
         </div>
-        <div
-                class="registration__phone"
-                :class="{'form-error': v$.phone.$error}"
-        >
-            <label>Phone *</label>
-            <input
-                    v-model="modelPhone"
-                    placeholder="Enter phone"
-                    required
-                    @input="v$.phone.$touch"
-                    @blur="v$.phone.$touch"
-            />
-            <div class="input-error">
-                {{ phoneErrors[0] }}
+        <div class="registration__contact-group">
+            <div
+                    class="registration__phone"
+                    :class="{'form-error': v$.phone.$error}"
+            >
+                <label>Phone *</label>
+                <input
+                        v-model="modelPhone"
+                        placeholder="Enter phone"
+                        required
+                        @input="v$.phone.$touch"
+                        @blur="v$.phone.$touch"
+                />
+                <div class="input-error">
+                    {{ phoneErrors[0] }}
+                </div>
             </div>
-        </div>
-        <div
-                class="registration__email"
-                :class="{'form-error': v$.email.$error}"
-        >
-            <label>Email *</label>
-            <input
-                    v-model="modelEmail"
-                    type="email"
-                    placeholder="Enter email"
-                    required
-                    @input="v$.email.$touch"
-                    @blur="v$.email.$touch"
-            />
-            <div class="input-error">
-                {{ emailErrors[0] }}
+            <div
+                    class="registration__email"
+                    :class="{'form-error': v$.email.$error}"
+            >
+                <label>Email *</label>
+                <input
+                        v-model="modelEmail"
+                        type="email"
+                        placeholder="Enter email"
+                        required
+                        @input="v$.email.$touch"
+                        @blur="v$.email.$touch"
+                />
+                <div class="input-error">
+                    {{ emailErrors[0] }}
+                </div>
             </div>
         </div>
         <div
@@ -185,7 +187,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
 
@@ -231,7 +233,7 @@ export default {
 
   &__title {
     span {
-      @extend %labelReg;
+      @extend %label-reg;
     }
   }
 
@@ -282,14 +284,33 @@ export default {
       object-fit: contain;
     }
   }
+
+  &__contact-group {
+    display: flex;
+    gap: 15px;
+  }
+
+  &__phone, &__email {
+    flex: 1 1 50%;
+  }
+}
+
+.input-error {
+  @extend %input-error;
+}
+
+.form-error {
+  input, select {
+    @extend %form-error;
+  }
 }
 
 input {
-  @extend %fieldReg;
+  @extend %field-reg;
 }
 
 label {
-  @extend %labelReg;
+  @extend %label-reg;
 }
 
 ::placeholder {

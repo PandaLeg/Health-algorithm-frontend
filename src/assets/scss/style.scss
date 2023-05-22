@@ -4,7 +4,6 @@
 
 /* Connecting fonts */
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
 @import "fonts";
 
 /* Icon fonts */
@@ -32,7 +31,7 @@ body {
   position: absolute;
   left: 0;
   top: 0;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -43,7 +42,7 @@ body {
 .container {
   max-width: $maxWidthContainer + px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0 10px;
 
   @media (max-width: $md1+px) {
     max-width: 980px;
@@ -65,6 +64,8 @@ body {
 .page {
   padding: $heightHeader + px 0 0;
   flex: 1 1 auto;
+  background: $LightenBlue1;
+  overflow-y: auto;
 }
 
 .admin-page {

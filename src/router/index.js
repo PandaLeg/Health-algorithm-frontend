@@ -31,7 +31,7 @@ const routes = [
     {
         path: '/login',
         name: routesNames.login.name,
-        component: () => import(/* webpackChunkName: "Login" */ '../pages/auth/LoginPage.vue'),
+        component: () => import(/* webpackChunkName: "LoginPage" */ '../pages/auth/LoginPage.vue'),
         beforeEnter: guardUnLogIn
     },
     {
@@ -39,6 +39,11 @@ const routes = [
         name: routesNames.verifyEmail.name,
         component: () => import(/* webpackChunkName: "VerifyEmailPage" */ '../pages/auth/VerifyEmailPage.vue'),
         beforeEnter: checkVerifyParams
+    },
+    {
+        path: '/doctors',
+        name: routesNames.doctor.name,
+        component: () => import(/* webpackChunkName: "DoctorPage" */ '../pages/doctor/DoctorPage.vue')
     }
 ]
 
@@ -74,6 +79,5 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
-
 
 export default router

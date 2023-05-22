@@ -37,6 +37,7 @@ import registration from "../../hooks/registration/registration";
 import computedErrors from "../../hooks/computedErrors";
 import computedPatientErrors from "../../hooks/registration/patient/computedPatientErrors";
 import initStateAndRules from "../../hooks/registration/patient/initStateAndRules";
+import regMountedState from "../../hooks/regMountedState";
 
 export default {
     name: "RegistrationPatientPage",
@@ -60,6 +61,8 @@ export default {
         const type = 'patient'
         const {registrationUser} = registration(v$, user, isValid, type)
 
+        regMountedState()
+
         return {
             v$,
             user,
@@ -76,7 +79,6 @@ export default {
 .registration-patient {
   height: 100%;
   padding: 40px 0;
-  background: linear-gradient(240deg, $golden, $darkTeal);
 
   &__body {
     max-width: 600px;

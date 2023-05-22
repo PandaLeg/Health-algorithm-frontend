@@ -1,34 +1,36 @@
 <template>
-    <div
-            class="registration-patient__firstName"
-            :class="{'form-error': v$.patient.firstName.$error}"
-    >
-        <label>First Name *</label>
-        <input
-                v-model="modelFirstName"
-                placeholder="Enter first name"
-                required
-                @input="v$.patient.firstName.$touch"
-                @blur="v$.patient.firstName.$touch"
-        />
-        <div class="input-error">
-            {{ firstNameErrors[0] }}
+    <div class="registration-patient__name">
+        <div
+                class="registration-patient__firstName"
+                :class="{'form-error': v$.patient.firstName.$error}"
+        >
+            <label>First Name *</label>
+            <input
+                    v-model="modelFirstName"
+                    placeholder="Enter first name"
+                    required
+                    @input="v$.patient.firstName.$touch"
+                    @blur="v$.patient.firstName.$touch"
+            />
+            <div class="input-error">
+                {{ firstNameErrors[0] }}
+            </div>
         </div>
-    </div>
-    <div
-            class="registration-patient__lastName"
-            :class="{'form-error': v$.patient.lastName.$error}"
-    >
-        <label>Last Name *</label>
-        <input
-                v-model="modelLastName"
-                placeholder="Enter last name"
-                required
-                @input="v$.patient.lastName.$touch"
-                @blur="v$.patient.lastName.$touch"
-        />
-        <div class="input-error">
-            {{ lastNameErrors[0] }}
+        <div
+                class="registration-patient__lastName"
+                :class="{'form-error': v$.patient.lastName.$error}"
+        >
+            <label>Last Name *</label>
+            <input
+                    v-model="modelLastName"
+                    placeholder="Enter last name"
+                    required
+                    @input="v$.patient.lastName.$touch"
+                    @blur="v$.patient.lastName.$touch"
+            />
+            <div class="input-error">
+                {{ lastNameErrors[0] }}
+            </div>
         </div>
     </div>
 </template>
@@ -78,19 +80,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/scss/variables";
-@import "src/assets/scss/ui";
+.registration-patient {
+  &__name {
+    display: flex;
+    gap: 10px;
+  }
 
-input {
-  @extend %fieldReg;
-}
-
-label {
-  @extend %labelReg;
-}
-
-::placeholder {
-  color: $darkBlue;
-  font-size: 16px;
+  &__firstName, &__lastName {
+    flex: 1 1 50%;
+  }
 }
 </style>

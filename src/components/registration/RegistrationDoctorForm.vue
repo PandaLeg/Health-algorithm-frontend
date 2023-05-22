@@ -1,80 +1,84 @@
 <template>
-    <div
-            class="registration-doctor__firstName"
-            :class="{'form-error': v$.doctor.firstName.$error}"
-    >
-        <label>First Name *</label>
-        <input
-                v-model="modelFirstName"
-                placeholder="Enter first name"
-                required
-                @input="v$.doctor.firstName.$touch"
-                @blur="v$.doctor.firstName.$touch"
-        />
-        <div class="input-error">
-            {{ firstNameErrors[0] }}
+    <div class="registration-doctor__name">
+        <div
+                class="registration-doctor__firstName"
+                :class="{'form-error': v$.doctor.firstName.$error}"
+        >
+            <label>First Name *</label>
+            <input
+                    v-model="modelFirstName"
+                    placeholder="Enter first name"
+                    required
+                    @input="v$.doctor.firstName.$touch"
+                    @blur="v$.doctor.firstName.$touch"
+            />
+            <div class="input-error">
+                {{ firstNameErrors[0] }}
+            </div>
+        </div>
+        <div
+                class="registration-doctor__lastName"
+                :class="{'form-error': v$.doctor.lastName.$error}"
+        >
+            <label>Last Name *</label>
+            <input
+                    v-model="modelLastName"
+                    placeholder="Enter last name"
+                    required
+                    @input="v$.doctor.lastName.$touch"
+                    @blur="v$.doctor.lastName.$touch"
+            />
+            <div class="input-error">
+                {{ lastNameErrors[0] }}
+            </div>
+        </div>
+        <div
+                class="registration-doctor__surname"
+                :class="{'form-error': v$.doctor.surname.$error}"
+        >
+            <label>Surname *</label>
+            <input
+                    v-model="modelSurname"
+                    placeholder="Enter surname"
+                    required
+                    @input="v$.doctor.surname.$touch"
+                    @blur="v$.doctor.surname.$touch"
+            />
+            <div class="input-error">
+                {{ surnameErrors[0] }}
+            </div>
         </div>
     </div>
-    <div
-            class="registration-doctor__lastName"
-            :class="{'form-error': v$.doctor.lastName.$error}"
-    >
-        <label>Last Name *</label>
-        <input
-                v-model="modelLastName"
-                placeholder="Enter last name"
-                required
-                @input="v$.doctor.lastName.$touch"
-                @blur="v$.doctor.lastName.$touch"
-        />
-        <div class="input-error">
-            {{ lastNameErrors[0] }}
+    <div class="registration-doctor__spec-info">
+        <div
+                class="registration-doctor__experience"
+                :class="{'form-error': v$.doctor.experience.$error}"
+        >
+            <label>Experience *</label>
+            <input
+                    v-model="modelExperience"
+                    placeholder="Enter experience"
+                    type="number"
+                    required
+                    @input="v$.doctor.experience.$touch"
+                    @blur="v$.doctor.experience.$touch"
+            />
+            <div class="input-error">
+                {{ experienceErrors[0] }}
+            </div>
         </div>
-    </div>
-    <div
-            class="registration-doctor__surname"
-            :class="{'form-error': v$.doctor.surname.$error}"
-    >
-        <label>Surname *</label>
-        <input
-                v-model="modelSurname"
-                placeholder="Enter surname"
-                required
-                @input="v$.doctor.surname.$touch"
-                @blur="v$.doctor.surname.$touch"
-        />
-        <div class="input-error">
-            {{ surnameErrors[0] }}
-        </div>
-    </div>
-    <div
-            class="registration-doctor__experience"
-            :class="{'form-error': v$.doctor.experience.$error}"
-    >
-        <label>Experience *</label>
-        <input
-                v-model="modelExperience"
-                placeholder="Enter experience"
-                type="number"
-                required
-                @input="v$.doctor.experience.$touch"
-                @blur="v$.doctor.experience.$touch"
-        />
-        <div class="input-error">
-            {{ experienceErrors[0] }}
-        </div>
-    </div>
-    <div
-            class="registration-doctor__category"
-            :class="{'form-error': v$.doctor.categoryId.$error}"
-    >
-        <label>Category *</label>
-        <VSelect
-            v-model="modelCategory"
-            :options="categories"
-        />
-        <div class="input-error">
-            {{ categoryIdErrors[0] }}
+        <div
+                class="registration-doctor__category"
+                :class="{'form-error': v$.doctor.categoryId.$error}"
+        >
+            <label>Category *</label>
+            <VSelect
+                    v-model="modelCategory"
+                    :options="categories"
+            />
+            <div class="input-error">
+                {{ categoryIdErrors[0] }}
+            </div>
         </div>
     </div>
     <div
@@ -84,12 +88,12 @@
     >
         <label>Specialties *</label>
         <VAutocomplete
-            v-model="modelSpecialties"
-            :items="specialtiesFromDb"
-            item-title="name"
-            item-value="id"
-            label="Select the specialty"
-            multiple
+                v-model="modelSpecialties"
+                :items="specialtiesFromDb"
+                item-title="name"
+                item-value="id"
+                label="Select the specialty"
+                multiple
         />
         <div class="input-error">
             {{ specialtyErrors[0] }}
@@ -215,18 +219,32 @@ export default {
 
 <style scoped lang="scss">
 @import "src/assets/scss/variables";
-@import "src/assets/scss/ui";
 
-input {
-  @extend %fieldReg;
-}
+.registration-doctor {
+  &__name {
+    display: flex;
+    gap: 10px;
 
-label {
-  @extend %labelReg;
-}
+    @media screen and (max-width: $md4 + px) {
+      flex-direction: column;
+    }
+  }
 
-::placeholder {
-  color: $darkBlue;
-  font-size: 16px;
+  &__firstName, &__lastName, &__surname {
+    flex: 1 1 33.333%;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-basis: 100%;
+    }
+  }
+
+  &__spec-info {
+    display: flex;
+    gap: 15px;
+  }
+
+  &__experience, &__category {
+    flex: 1 1 50%;
+  }
 }
 </style>
