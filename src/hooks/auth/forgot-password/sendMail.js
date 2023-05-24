@@ -1,7 +1,7 @@
 import {useStore} from "vuex";
 import {vuexTypes} from "../../../store/vuexTypes";
 
-export default function (v$, email) {
+export default function (v$, email, isSuccessfullySent) {
     const store = useStore()
 
     const isValid = () => {
@@ -14,8 +14,10 @@ export default function (v$, email) {
         if (!v$.value.$invalid && isValid()) {
             try {
                 await store.dispatch(vuexTypes.SEND_RESET_CODE, email.value)
+                isSuccessfullySent.value = true
             } catch (err) {
                 store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data.message)
+                isSuccessfullySent.value = false
             }
         }
     }

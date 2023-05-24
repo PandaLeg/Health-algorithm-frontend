@@ -1,56 +1,59 @@
 <template>
   <div class="forgot-password">
     <div class="container">
-      <div class="forgot-password__body">
-        <div class="forgot-password__icon icon-password">
-          <div class="icon-password__block">
-            <i class="icon-password__key _icon-key"></i>
-          </div>
-        </div>
-        <div class="forgot-password__title">
-          <h1>Forgot password?</h1>
-        </div>
-        <div class="forgot-password__subtitle">
-          <span>No worries, we'll send you reset instruction.</span>
-        </div>
-        <form
-            @submit.prevent
-            class="forgot-password__form"
-        >
-          <div
-              class="forgot-password__email"
-              :class="{'form-error': v$.email.$error}"
-          >
-            <label>Email</label>
-            <input
-                v-model="email"
-                placeholder="Enter your email"
-                type="email"
-                required
-                @input="v$.email.$touch"
+      <template v-if="!isSuccessfullySent">
+        <ForgotPasswordBody :body="body">
+          <template v-slot:form>
+            <form
+                @submit.prevent
+                class="forgot-password__form"
             >
-            <div class="input-error">
-              {{ emailErrors[0] }}
-            </div>
-          </div>
-          <div
-              class="forgot-password__reset-btn"
-              @click="sendResetCode"
-          >
-            <button>
+              <div
+                  class="forgot-password__email"
+                  :class="{'form-error': v$.email.$error}"
+              >
+                <label>Email</label>
+                <input
+                    v-model="email"
+                    placeholder="Enter your email"
+                    type="email"
+                    required
+                    @input="v$.email.$touch"
+                >
+                <div class="input-error">
+                  {{ emailErrors[0] }}
+                </div>
+              </div>
+              <div
+                  class="forgot-password__reset-btn"
+                  @click="sendResetCode"
+              >
+                <button>
               <span>
                 Reset password
               </span>
-            </button>
-          </div>
-        </form>
-      </div>
+                </button>
+              </div>
+            </form>
+          </template>
+        </ForgotPasswordBody>
+      </template>
+      <template v-else>
+        <ForgotPasswordBody :body="body">
+          <template v-slot:receive>
+            <div class="forgot-password__receive">
+              <span> Didn't receive the email? </span>
+              <a href="#" @click="sendResetCode"> Click to resend </a>
+            </div>
+          </template>
+        </ForgotPasswordBody>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
-
+import ForgotPasswordBody from "../../components/auth/ForgotPasswordBody.vue";
 import regMountedState from "../../hooks/regMountedState";
 import initState from "../../hooks/auth/forgot-password/initState";
 import {useVuelidate} from "@vuelidate/core";
@@ -59,12 +62,15 @@ import sendMail from "../../hooks/auth/forgot-password/sendMail";
 
 export default {
   name: 'ForgotPasswordPage',
+  components: {
+    ForgotPasswordBody
+  },
   setup() {
-    const {email, rule} = initState()
-    const v$ = useVuelidate(rule, { email })
+    const {email, isSuccessfullySent, rule, body} = initState()
+    const v$ = useVuelidate(rule, {email})
 
     const {emailErrors} = computedErrors(v$)
-    const {sendResetCode} = sendMail(v$, email)
+    const {sendResetCode} = sendMail(v$, email, isSuccessfullySent)
 
     regMountedState()
 
@@ -72,14 +78,15 @@ export default {
       v$,
       email,
       emailErrors,
+      isSuccessfullySent,
+      body,
       sendResetCode
     }
   }
 }
 </script>
 
-
-<style scoped lang="scss">
+<style lang="scss">
 @import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
 @import "src/assets/scss/icons";
@@ -110,6 +117,7 @@ export default {
     margin-bottom: 20px;
     font-weight: 500;
     font-size: 16px;
+    line-height: 23px;
     color: $grayDarken1;
   }
 
@@ -169,6 +177,11 @@ export default {
         color: $white;
       }
     }
+  }
+
+  &__receive {
+    font-size: 13px;
+    text-align: center;
   }
 }
 
