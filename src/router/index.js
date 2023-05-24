@@ -41,6 +41,12 @@ const routes = [
         beforeEnter: checkVerifyParams
     },
     {
+        path: '/forgot-password',
+        name: routesNames.forgotPassword.name,
+        component: () => import(/* webpackChunkName: "ForgotPasswordPage" */ '../pages/auth/ForgotPasswordPage.vue'),
+        beforeEnter: guardUnLogIn
+    },
+    {
         path: '/doctors',
         name: routesNames.doctor.name,
         component: () => import(/* webpackChunkName: "DoctorPage" */ '../pages/doctor/DoctorPage.vue')

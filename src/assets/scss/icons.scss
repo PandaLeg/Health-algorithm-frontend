@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'icons';
-  src: url('@fonts/icons.ttf') format('truetype');
+  src: url('@fonts/icons.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -36,34 +36,46 @@
   content: "\e901";
 }
 
-._icon-instagram:before {
+._icon-search:before {
   content: "\e902";
 }
 
-._icon-facebook:before {
+._icon-mail:before {
   content: "\e903";
 }
 
-._icon-chevron-right-solid:before {
+._icon-logout:before {
   content: "\e904";
 }
 
-._icon-logout:before {
-  content: "\e908";
-}
-
-._icon-doctor:before {
-  content: "\e906";
-}
-
-._icon-clinic:before {
-  content: "\e907";
-}
-
-._icon-home:before {
+._icon-key:before {
   content: "\e905";
 }
 
-._icon-search:before {
+._icon-instagram:before {
+  content: "\e906";
+}
+
+._icon-home:before {
+  content: "\e907";
+}
+
+._icon-facebook:before {
+  content: "\e908";
+}
+
+._icon-done:before {
   content: "\e909";
+}
+
+._icon-doctor:before {
+  content: "\e90a";
+}
+
+._icon-clinic:before {
+  content: "\e90b";
+}
+
+._icon-chevron-right-solid:before {
+  content: "\e90c";
 }

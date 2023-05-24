@@ -61,7 +61,7 @@
                     </form>
                     <div class="login__forgot-password">
                         <router-link
-                                :to="{name: routesNames.registration.name}"
+                                :to="{name: routesNames.forgotPassword.name}"
                                 class="login__link"
                         >
                             Forgot password?
