@@ -47,6 +47,13 @@ const routes = [
         beforeEnter: guardUnLogIn
     },
     {
+        path: '/reset-password/:id',
+        name: routesNames.resetPassword.name,
+        component: () => import(/* webpackChunkName: "ResetPasswordPage" */ '../pages/auth/ResetPasswordPage.vue'),
+        beforeEnter: checkResetCode,
+        params: true
+    },
+    {
         path: '/doctors',
         name: routesNames.doctor.name,
         component: () => import(/* webpackChunkName: "DoctorPage" */ '../pages/doctor/DoctorPage.vue')
@@ -66,13 +73,27 @@ function guardUnLogIn(to, from, next) {
     }
 }
 
+function checkResetCode(to, from, next) {
+    const code = to.query?.code
+    const paramExists = Object.keys(to.query).length !== 0
+    const isValidParam = paramExists && code
+
+    if (isValidParam) {
+        guardUnLogIn(to, from, next)
+    } else {
+        next({
+            name: routesNames.home.name
+        })
+    }
+}
+
 function checkVerifyParams(to, from, next) {
-    const errorCode = to.query.code
-    const email = to.query.email
+    const errorCode = to.query?.code
+    const email = to.query?.email
     const paramsExists = Object.keys(to.query).length !== 0
     const isValidParams = paramsExists && email && errorCode && errorCodes[errorCode]
 
-    if (isValidParams || !paramsExists) {
+    if (isValidParams) {
         next()
     } else {
         next({

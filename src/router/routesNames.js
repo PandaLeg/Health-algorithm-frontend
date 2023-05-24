@@ -20,6 +20,9 @@ const routesNames = Object.freeze({
     forgotPassword: {
         name: 'ForgotPasswordPage'
     },
+    resetPassword: {
+        name: 'ResetPasswordPage'
+    },
     doctor: {
         name: 'DoctorPage'
     }

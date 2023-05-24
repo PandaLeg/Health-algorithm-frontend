@@ -63,10 +63,25 @@ export default function (v$, isObj = false) {
         return errors
     })
 
+    const confirmPasswordErrors = computed(() => {
+        const errors = []
+
+        const dirty = isObj ? v$.value.user.confirmPassword.$dirty : v$.value.confirmPassword.$dirty
+
+        if (!dirty) return errors
+
+        const sameAsRule = isObj ? v$.value.user.confirmPassword.sameAs : v$.value.confirmPassword.sameAs
+
+        sameAsRule.$invalid && errors.push('Passwords are different')
+
+        return errors
+    })
+
     return {
         emailErrors,
         phoneErrors,
         passwordErrors,
+        confirmPasswordErrors,
         cityErrors
     }
 }

@@ -185,15 +185,7 @@ export default {
     border-radius: 5px;
 
     &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      transition: all 0.2s;
-      opacity: 0;
-      background-color: rgba(0, 0, 0, 0.2);
+      @extend %after-effect-btn;
     }
 
     &:hover::after {
