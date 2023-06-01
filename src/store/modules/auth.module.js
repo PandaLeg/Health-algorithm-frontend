@@ -73,6 +73,30 @@ export const authModule = {
             } catch (err) {
                 return Promise.reject(err.response);
             }
+        },
+
+        async [vuexTypes.SEND_RESET_CODE]({commit}, email) {
+            try {
+                const url = config.apiUrl + '/auth/send-reset-code'
+
+                await axios.patch(url, {email});
+
+                return Promise.resolve()
+            } catch (err) {
+                return Promise.reject(err.response);
+            }
+        },
+
+        async [vuexTypes.RESET_PASSWORD]({commit}, data) {
+            try {
+                const url = config.apiUrl + '/auth/reset-password'
+
+                await axios.patch(url, data);
+
+                return Promise.resolve()
+            } catch (err) {
+                return Promise.reject(err.response);
+            }
         }
     },
     getters: {
