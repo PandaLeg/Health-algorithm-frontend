@@ -1,0 +1,95 @@
+@import "variables";
+
+.footer {
+  background-color: $white;
+  width: 100%;
+  padding: 30px;
+
+  @media screen and (max-width: $md3 + px) {
+    padding: 20px;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media screen and (max-width: $md3 + px) {
+      text-align: center;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  &__social {
+  }
+
+  &__column {
+    flex: 0 1 33.333%;
+
+    @media screen and (max-width: $md3 + px) {
+      flex: 1;
+      padding: 0 10px;
+
+      &:not(&:first-child) {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  &__address {
+    color: $grayDarken1;
+    font-size: 14px;
+    line-height: 18px;
+    font-style: italic;
+
+    p {
+      &:first-child {
+        font-size: 16px;
+        font-weight: 700;
+        font-style: normal;
+      }
+    }
+  }
+}
+
+.social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__item {
+    margin: 0 15px;
+    font-size: 30px;
+    color: $darkBlue;
+
+    &::before {
+      transition: color 0.3s ease;
+    }
+
+    @media screen and (min-width: $md2 + px) {
+      &:hover::before {
+        color: $darkTeal;
+      }
+    }
+  }
+}
+
+.dev {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: end;
+  line-height: 18px;
+  color: #000;
+
+  @media screen and (max-width: $md3 + px) {
+    display: block;
+    text-align: center;
+
+    &__text, &__copy {
+      display: block;
+    }
+  }
+}

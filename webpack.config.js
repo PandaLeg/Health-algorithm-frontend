@@ -4,46 +4,98 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const {VueLoaderPlugin} = require('vue-loader')
+const CompressionPlugin = require("compression-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const {GenerateSW} = require('workbox-webpack-plugin');
+const Critters = require('critters-webpack-plugin');
 const webpack = require('webpack');
 
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = !isDev
 
-const filename = ext => process.env.NODE_ENV === 'development' ? `[name].${ext}` : `[name].[fullhash].${ext}`
+const filename = ext => isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`
 
 const optimization = () => {
-    console.log(path.join(__dirname))
     const config = {
         splitChunks: {
             chunks: 'all'
-        }
+        },
     }
 
     if (isProd) {
+        config.minimize = true
         config.minimizer = [
             '...',
-            new CssMinimizerPlugin()
+            new CssMinimizerPlugin(),
         ]
+        config.moduleIds = 'deterministic'
+        config.runtimeChunk = 'single'
+        Object.assign(config.splitChunks, {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                }
+            },
+        })
     }
 
     return config
 }
 
+const prodPlugins = () => {
+    const arr = []
+
+    if (isProd) {
+        arr.push(new GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
+            exclude: [/\.(?:png|jpg|jpeg|webp|svg|json)$/], // from precaching
+            runtimeCaching: [
+                { // runtime cache for images
+                    urlPattern: /\.(?:png|jpg|jpeg|svg|webp|json)$/,
+                    handler: 'StaleWhileRevalidate',
+                    options: {
+                        expiration: {maxEntries: 50},
+                        cacheName: 'images',
+                    },
+                },
+            ],
+        }))
+        arr.push(new CompressionPlugin({
+            filename: "[path][base].gz",
+            algorithm: "gzip",
+            test: /\.js(\?.*)?$/i,
+            threshold: 10240,
+            minRatio: 0.8
+        }))
+        arr.push(new Critters({
+            path: path.resolve(__dirname, 'dist'),
+            publicPath: './',
+            preload: 'swap'
+        }))
+    }
+
+    return arr
+}
+
 module.exports = {
-    mode: 'development',
+    mode: isDev ? 'development' : 'production',
     entry: {
         main: path.resolve(__dirname, 'src', 'main.js')
     },
     output: {
         filename: filename('js'),
-        path: path.resolve(__dirname, './dist'),
+        path: path.resolve(__dirname, 'dist'),
         chunkFilename: filename('js'),
-        publicPath: (isDev ? '' : './')
+        publicPath: isDev ? '/' : './',
+        clean: true
     },
     devServer: {
         port: '9090',
         hot: isDev,
-        historyApiFallback: true
+        historyApiFallback: true,
     },
     devtool: isDev ? 'source-map' : undefined,
     resolve: {
@@ -76,8 +128,14 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpe?g|svg|gif)/,
-                type: 'asset/resource'
+                test: /\.(png|jpe?g|svg|gif|webp)/,
+                type: 'asset/resource',
+                parser: {
+                    // Conditions for converting to base64
+                    dataUrlCondition: {
+                        maxSize: 25 * 1024, // 25kb
+                    }
+                },
             },
             {
                 test: /\.(woff|woff2|ttf|eot|otf)/,
@@ -91,7 +149,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src', 'index.html')
+            template: path.resolve(__dirname, 'public', 'index.html')
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
@@ -101,7 +159,9 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env': {},
             __VUE_PROD_DEVTOOLS__: false,
-            __VUE_OPTIONS_API__: false
-        })
+            __VUE_OPTIONS_API__: true
+        }),
+        // new BundleAnalyzerPlugin(),
+        ...prodPlugins()
     ]
 }

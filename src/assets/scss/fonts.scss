@@ -1,0 +1,30 @@
+@mixin initFont($family, $url, $weight) {
+  font-family: $family;
+  font-display: swap;
+  src: url($url) format('woff2');
+  font-weight: $weight;
+}
+
+@font-face {
+  @include initFont('MyRoboto', '@fonts/Roboto-Regular.woff2', 400);
+}
+
+@font-face {
+  @include initFont('MyRoboto', '@fonts/Roboto-Medium.woff2', 500);
+}
+
+@font-face {
+  @include initFont('MyRoboto', '@fonts/Roboto-Bold.woff2', 700);
+}
+
+@font-face {
+  @include initFont('MyMontserrat', '@fonts/Montserrat-Regular.woff2', 400);
+}
+
+@font-face {
+  @include initFont('MyMontserrat', '@fonts/Montserrat-Medium.woff2', 500);
+}
+
+@font-face {
+  @include initFont('MyMontserrat', '@fonts/Montserrat-Bold.woff2', 700);
+}
