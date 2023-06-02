@@ -102,8 +102,8 @@
 </template>
 
 <script>
-import VSelect from "../custom/VSelect.vue";
-import VAutocomplete from "../custom/VAutocomplete.vue";
+import VSelect from "../../custom/VSelect.vue";
+import VAutocomplete from "../../custom/VAutocomplete.vue";
 
 export default {
     name: "RegistrationDoctorForm",

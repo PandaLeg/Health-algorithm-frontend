@@ -5,6 +5,10 @@ import {required} from "@vuelidate/validators";
 export default function () {
     const specialtiesFromDb = ref([])
     const categories = ref([])
+    const isGeneralActive = ref(true)
+    const isGeneralSuccess = ref(false)
+    const isSpecialtyActive = ref(false)
+    const isSpecialtySuccess = ref(false)
 
     const entity = {
         doctor: {
@@ -46,6 +50,10 @@ export default function () {
         entity,
         specialtiesFromDb,
         categories,
-        rule
+        rule,
+        isGeneralActive,
+        isGeneralSuccess,
+        isSpecialtyActive,
+        isSpecialtySuccess
     }
 }
