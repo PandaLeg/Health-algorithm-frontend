@@ -85,12 +85,45 @@ export default function (v$, isObj = false) {
         return errors
     })
 
-    const isValid = () => {
+    const aboutErrors = computed(() => {
+        const errors = []
+
+        const dirty = isObj ? v$.value.user.doctor.description.about.$dirty : v$.value.doctor.description.about.$dirty
+
+        if (!dirty) return errors
+
+        const requiredRule = isObj ? v$.user.doctor.description.about.required : v$.value.doctor.description.about.required
+
+        requiredRule.$invalid && errors.push('Write about yourself')
+
+        return errors
+    })
+
+    const educationErrors = computed(() => {
+        const errors = []
+
+        const dirty = isObj ? v$.value.user.doctor.description.education.$dirty : v$.value.doctor.description.education.$dirty
+
+        if (!dirty) return errors
+
+        const requiredRule = isObj ? v$.user.doctor.description.education.required : v$.value.doctor.description.education.required
+
+        requiredRule.$invalid && errors.push('Describe your education')
+
+        return errors
+    })
+
+    const isValidGeneral = () => {
         return !v$.value.email.$error && !v$.value.password.$error
             && !v$.value.phone.$error && !v$.value.city.$error
             && !v$.value.doctor.firstName.$error && !v$.value.doctor.lastName.$error
-            && !v$.value.doctor.surname.$error && !v$.value.doctor.experience.$error
-            && !v$.value.doctor.categoryId.$error && !v$.value.doctor.specialties.$error
+            && !v$.value.doctor.surname.$error
+    }
+
+    const isValidSpecialty = () => {
+        return !v$.value.doctor.experience.$error && !v$.value.doctor.categoryId.$error
+            && !v$.value.doctor.specialties.$error && !v$.value.doctor.description.about.$error
+            && !v$.value.doctor.description.education.$error
     }
 
     return {
@@ -100,6 +133,9 @@ export default function (v$, isObj = false) {
         experienceErrors,
         categoryIdErrors,
         specialtiesErrors,
-        isValid
+        aboutErrors,
+        educationErrors,
+        isValidGeneral,
+        isValidSpecialty
     }
 }

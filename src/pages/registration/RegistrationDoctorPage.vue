@@ -3,13 +3,13 @@
     <div class="container">
       <div class="registration-doctor__body">
         <registration-stepper
-            :is-specialty-success="isSpecialtySuccess"
-            :is-specialty-active="isSpecialtyActive"
-            :is-general-success="isGeneralSuccess"
-            :is-general-active="isGeneralActive"
+            :is-specialty-success="step.isSpecialtySuccess"
+            :is-specialty-active="step.isSpecialtyActive"
+            :is-general-success="step.isGeneralSuccess"
+            :is-general-active="step.isGeneralActive"
         />
         <div
-            v-if="isGeneralActive"
+            v-if="step.isGeneralActive"
             class="registration-doctor__content"
         >
           <h1 class="registration-doctor__title">General Information</h1>
@@ -28,20 +28,12 @@
           >
             <registration-general-form
                 :v$="v$"
-                :category-id-errors="categoryIdErrors"
-                :experience-errors="experienceErrors"
                 :surname-errors="surnameErrors"
                 :last-name-errors="lastNameErrors"
                 :first-name-errors="firstNameErrors"
-                :specialty-errors="specialtiesErrors"
-                :categories="categories"
-                :specialties-from-db="specialtiesFromDb"
-                v-model:category-id="user.doctor.categoryId"
-                v-model:experience="user.doctor.experience"
                 v-model:surname=user.doctor.surname
                 v-model:last-name="user.doctor.lastName"
                 v-model:first-name="user.doctor.firstName"
-                v-model:specialties="user.doctor.specialties"
             />
             <template v-slot:continue>
               <div class="registration__button" @click="nextStep">
@@ -51,11 +43,27 @@
           </registration-user-form>
         </div>
         <div
-            v-else-if="isSpecialtyActive"
+            v-else-if="step.isSpecialtyActive"
             class="registration-doctor__content"
         >
           <h1 class="registration-doctor__title">Specialty Information</h1>
-          <registration-specialty-form/>
+          <registration-specialty-form
+              :specialty-errors="specialtiesErrors"
+              :category-id-errors="categoryIdErrors"
+              :experience-errors="experienceErrors"
+              :about-errors="aboutErrors"
+              :education-errors="educationErrors"
+              :specialties-from-db="specialtiesFromDb"
+              :categories="categories"
+              v-model:specialties="user.doctor.specialties"
+              v-model:category-id="user.doctor.categoryId"
+              v-model:experience="user.doctor.experience"
+              v-model:about="user.doctor.description.about"
+              v-model:education="user.doctor.description.education"
+              v-model:course="user.doctor.description.course"
+              :v$="v$"
+              @next-step="nextStep"
+          />
         </div>
       </div>
     </div>
@@ -74,6 +82,7 @@ import computedDoctorErrors from "../../hooks/registration/doctor/computedDoctor
 import registration from "../../hooks/registration/registration";
 import initStateAndRules from "../../hooks/registration/doctor/initStateAndRules";
 import regMountedState from "../../hooks/regMountedState";
+import nextStepHook from "../../hooks/registration/doctor/next-step.hook";
 
 export default {
   name: "RegistrationDoctorPage",
@@ -89,10 +98,7 @@ export default {
       specialtiesFromDb,
       categories,
       rule,
-      isGeneralActive,
-      isGeneralSuccess,
-      isSpecialtyActive,
-      isSpecialtySuccess
+      step
     } = initStateAndRules()
     const {user, rules, image} = initUserStateAndRules(entity, rule);
 
@@ -106,21 +112,15 @@ export default {
       experienceErrors,
       categoryIdErrors,
       specialtiesErrors,
-      isValid
+      aboutErrors,
+      educationErrors,
+      isValidGeneral,
+      isValidSpecialty
     } = computedDoctorErrors(v$)
 
     const type = 'doctor'
-    const {registrationUser} = registration(v$, user, isValid, type, image)
-
-    const nextStep = () => {
-      v$.value.$touch()
-
-      if (isGeneralActive.value && isValid()) {
-        isSpecialtyActive.value = true
-        isGeneralSuccess.value = true
-        isGeneralActive.value = !isGeneralActive.value
-      }
-    }
+    const {registrationUser} = registration(v$, user, isValidGeneral, type, image)
+    const {nextStep} = nextStepHook(v$, step, isValidGeneral, isValidSpecialty)
 
     regMountedState()
 
@@ -130,10 +130,7 @@ export default {
       image,
       categories,
       specialtiesFromDb,
-      isGeneralActive,
-      isSpecialtyActive,
-      isGeneralSuccess,
-      isSpecialtySuccess,
+      step,
       emailErrors,
       passwordErrors,
       phoneErrors,
@@ -144,6 +141,8 @@ export default {
       experienceErrors,
       categoryIdErrors,
       specialtiesErrors,
+      aboutErrors,
+      educationErrors,
       registrationUser,
       nextStep
     }

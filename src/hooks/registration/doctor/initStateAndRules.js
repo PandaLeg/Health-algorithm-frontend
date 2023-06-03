@@ -1,14 +1,16 @@
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import getAllCategoriesSpecialties from "./getAllCategoriesSpecialties";
 import {required} from "@vuelidate/validators";
 
 export default function () {
     const specialtiesFromDb = ref([])
     const categories = ref([])
-    const isGeneralActive = ref(true)
-    const isGeneralSuccess = ref(false)
-    const isSpecialtyActive = ref(false)
-    const isSpecialtySuccess = ref(false)
+    const step = reactive({
+        isGeneralActive: true,
+        isGeneralSuccess: false,
+        isSpecialtyActive: false,
+        isSpecialtySuccess: false,
+    })
 
     const entity = {
         doctor: {
@@ -17,7 +19,12 @@ export default function () {
             surname: '',
             experience: null,
             categoryId: '',
-            specialties: []
+            specialties: [],
+            description: {
+                about: '',
+                education: '',
+                course: ''
+            }
         }
     }
 
@@ -42,6 +49,14 @@ export default function () {
             },
             specialties: {
                 required
+            },
+            description: {
+                about: {
+                    required
+                },
+                education: {
+                    required
+                }
             }
         }
     }
@@ -51,9 +66,6 @@ export default function () {
         specialtiesFromDb,
         categories,
         rule,
-        isGeneralActive,
-        isGeneralSuccess,
-        isSpecialtyActive,
-        isSpecialtySuccess
+        step
     }
 }
