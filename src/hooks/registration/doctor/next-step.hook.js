@@ -10,6 +10,9 @@ export default function (v$, step, isValidGeneral, isValidSpecialty) {
             step.isGeneralSuccess = true
             step.isGeneralActive = !step.isGeneralActive
         } else if (step.isSpecialtyActive && isValidSpecialty()) {
+            v$.value.$reset()
+
+            step.isPlaceActive = true
             step.isSpecialtySuccess = true
             step.isSpecialtyActive = !step.isSpecialtyActive
         }

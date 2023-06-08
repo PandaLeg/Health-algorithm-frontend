@@ -40,8 +40,6 @@ export default function (v$, user, isValid, type, image = null) {
 }
 
 function parseObjToFormData(obj, formData, namespace) {
-    const formKey = ''
-
     for (const prop in obj) {
         if (obj.hasOwnProperty(prop)) {
             const formKey = namespace + '[' + prop + ']'

@@ -10,7 +10,13 @@ export default function () {
         isGeneralSuccess: false,
         isSpecialtyActive: false,
         isSpecialtySuccess: false,
+        isPlaceActive: false,
     })
+    const contentFields = ref([
+        {id: 1, city: null, searchCity: '', searchClinic: '', cities: [], clinics: []},
+    ])
+    const citiesFromDb = ref([])
+    const clinicsFromDb = ref([])
 
     const entity = {
         doctor: {
@@ -24,7 +30,8 @@ export default function () {
                 about: '',
                 education: '',
                 course: ''
-            }
+            },
+            places: []
         }
     }
 
@@ -57,6 +64,9 @@ export default function () {
                 education: {
                     required
                 }
+            },
+            places: {
+                required
             }
         }
     }
@@ -66,6 +76,9 @@ export default function () {
         specialtiesFromDb,
         categories,
         rule,
-        step
+        step,
+        contentFields,
+        citiesFromDb,
+        clinicsFromDb,
     }
 }

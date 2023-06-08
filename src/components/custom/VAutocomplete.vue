@@ -1,213 +1,229 @@
 <template>
-    <div class="autocomplete">
-        <input
-                v-model="modelInput"
-                type="text"
-                :placeholder="label"
-                @blur="toggle = false"
-                @focus="toggle = true"
-                @keydown.delete="del"
-        >
-        <ul
-                v-if="toggle"
-                class="autocomplete__box"
-        >
-            <li
-                    v-for="item in filteredItems"
-                    :key="`k-${item[itemTitle]}`"
-                    :class="[item.highlight ? activateElement : deactivateElement]"
-                    @mousedown.prevent
-                    @click="selectResult(item)"
-            >
-                {{ item[itemTitle] }}
-            </li>
-        </ul>
-    </div>
+  <div class="autocomplete">
+    <input
+        v-model="modelInput"
+        type="text"
+        :placeholder="label"
+        @blur="toggle = false"
+        @focus="toggle = true"
+        @keydown.delete="del"
+    >
+    <ul
+        v-if="toggle"
+        class="autocomplete__box"
+    >
+      <li
+          v-for="item in filteredItems"
+          :key="`k-${item[itemTitle]}`"
+          :class="[item.highlight ? activateElement : deactivateElement]"
+          @mousedown.prevent
+          @click="selectResult(item)"
+      >
+        {{ item[itemTitle] }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'VAutocomplete',
-    props: {
-        items: {
-            type: Array,
-            required: true
-        },
-        itemTitle: {
-            type: String,
-            required: true
-        },
-        itemValue: {
-            type: String,
-            required: true
-        },
-        multiple: {
-            type: Boolean,
-            default: false
-        },
-        modelValue: {
-            required: true,
-            validator: p => typeof p === 'object' || p === null,
-        },
-        label: {
-            type: String,
-            default: ''
-        }
+  name: 'VAutocomplete',
+  props: {
+    items: {
+      type: Array,
+      required: true
     },
-    data() {
-        return {
-            modelInput: '',
-            filteredItems: [],
-            savedItems: [],
-            toggle: false,
-            isDelete: false,
-            tempSavedItem: ''
-        }
+    itemTitle: {
+      type: String,
+      required: true
     },
-    computed: {
-        activateElement() {
-            const activeLink = 'active-link'
-            return activeLink
-        },
-        deactivateElement() {
-            const inactiveLink = 'inactive-link'
-            return inactiveLink
-        },
+    itemValue: {
+      type: String,
+      required: true
     },
-    watch: {
-        modelInput(val) {
-            if (this.multiple) {
-                const items = val.split(', ')
-                const item = items[items.length - 1]
-
-                this.filteredItems = this.items.filter(i => i[this.itemTitle].toLowerCase().includes(item.toLowerCase()))
-            } else {
-                this.filteredItems = this.savedItems.length > 0 ? this.items :
-                    this.items.filter(i => i[this.itemTitle].toLowerCase().includes(val.toLowerCase()))
-            }
-
-            if (this.isDelete) {
-                this.multiple ? this.searchSavedItemToDelete(val) : this.deleteItem(val)
-            }
-        },
-        toggle(val) {
-            if (!this.multiple && !val && !!this.modelInput) {
-                if (this.tempSavedItem !== this.modelInput) {
-                    this.modelInput = this.tempSavedItem
-                }
-            }
-        }
+    multiple: {
+      type: Boolean,
+      default: false
     },
-    created() {
-        this.initializeValues()
+    modelValue: {
+      required: true,
+      validator: p => typeof p === 'object' || typeof p === 'number' || typeof p === 'string'
     },
-    methods: {
-        initializeValues() {
-            if (this.multiple) {
-                this.savedItems = this.items.filter(item => this.modelValue?.some(el => el === item[this.itemValue]))
-
-                if (this.savedItems.length > 0) {
-                    this.modelInput = this.savedItems.map(savedItem => savedItem[this.itemTitle]).join() + ', '
-
-                    this.savedItems.forEach(savedItem => {
-                        this.activeLink(true, savedItem)
-                    })
-                }
-            }
-
-            this.filteredItems = this.items
-        },
-        selectResult(selectedItem) {
-            if (selectedItem) {
-                let item = this.savedItems.find(item => item[this.itemValue] === selectedItem[this.itemValue])
-
-                if (this.multiple) {
-                    if (!item) {
-                        this.savedItems.push(selectedItem)
-                        this.modelInput = this.savedItems.map(savedItem => savedItem[this.itemTitle]).join() + ', '
-
-                        this.$emit('update:modelValue', this.savedItems.map(savedItem => savedItem[this.itemValue]))
-
-                        this.activeLink(true, selectedItem)
-                    } else {
-                        this.deleteSavedItem(selectedItem)
-                    }
-                } else {
-                    if (!item) {
-                        if (this.savedItems.length > 0) delete this.savedItems[0].highlight
-                        this.savedItems = []
-
-                        this.modelInput = this.tempSavedItem = selectedItem[this.itemTitle]
-
-                        this.savedItems.push(selectedItem)
-
-                        this.$emit('update:modelValue', this.savedItems[0][this.itemValue])
-
-                        this.activeLink(true, this.savedItems[0])
-                    } else {
-                        this.activeLink(false, this.savedItems[0])
-
-                        this.modelInput = ''
-                        this.tempSavedItem = ''
-                        this.savedItems = []
-
-                        this.$emit('update:modelValue', null)
-                    }
-                }
-
-            }
-        },
-        del() {
-            this.isDelete = true
-        },
-        searchSavedItemToDelete(val) {
-            const splitArray = val.split(',')
-
-            for (let i = 0; i < this.savedItems.length; i++) {
-                if (this.savedItems[i][this.itemTitle] !== splitArray[i]) {
-                    this.deleteSavedItem(this.savedItems[i])
-                }
-            }
-
-            this.isDelete = false
-        },
-        deleteSavedItem(savedItem) {
-            const item = this.savedItems.findIndex(i => i[this.itemValue] === savedItem[this.itemValue])
-            this.savedItems.splice(item, 1)
-
-            if (this.savedItems.length > 0) {
-                this.modelInput = this.savedItems.map(i => i[this.itemTitle]).join() + ', '
-            } else {
-                this.modelInput = this.savedItems.map(i => i[this.itemTitle]).join()
-            }
-
-            this.$emit('update:modelValue', this.savedItems.length > 0
-                ? this.savedItems.map(i => i[this.itemValue]) : this.savedItems
-            )
-            this.activeLink(false, savedItem)
-        },
-        deleteItem(val) {
-            if (val !== this.tempSavedItem && this.savedItems.length > 0) {
-                this.activeLink(false, this.savedItems[0])
-
-                this.modelInput = ''
-                this.tempSavedItem = ''
-                this.savedItems = []
-
-                this.$emit('update:modelValue', null)
-
-                this.isDelete = false
-            }
-        },
-        activeLink(active, savedItem) {
-            const item = this.items.find(i => i[this.itemValue] === savedItem[this.itemValue])
-            const index = this.items.findIndex(i => i[this.itemValue] === savedItem[this.itemValue])
-
-            item.highlight = active
-
-            this.filteredItems.splice(index, 1, item)
-        },
+    search: {
+      default: ''
+    },
+    label: {
+      type: String,
+      default: ''
+    },
+    dynamic: {
+      type: Boolean,
+      default: false
     }
+  },
+  data() {
+    return {
+      modelInput: '',
+      filteredItems: [],
+      savedItems: [],
+      toggle: false,
+      isDelete: false,
+      tempSavedItem: ''
+    }
+  },
+  computed: {
+    activateElement() {
+      const activeLink = 'active-link'
+      return activeLink
+    },
+    deactivateElement() {
+      const inactiveLink = 'inactive-link'
+      return inactiveLink
+    },
+  },
+  watch: {
+    modelInput(val) {
+      if (this.multiple) {
+        const items = val.split(', ')
+        const item = items[items.length - 1]
+
+        this.filteredItems = this.items.filter(i => i[this.itemTitle].toLowerCase().includes(item.toLowerCase()))
+      } else {
+        if (this.dynamic) {
+          this.filteredItems = this.items
+
+          if (!this.savedItems.length && val) {
+            this.$emit('update:search', val)
+          }
+        } else {
+          this.filteredItems = this.savedItems.length > 0 ? this.items :
+              this.items.filter(i => i[this.itemTitle].toLowerCase().includes(val.toLowerCase()))
+        }
+      }
+
+      if (this.isDelete) {
+        this.multiple ? this.searchSavedItemToDelete(val) : this.deleteItem(val)
+      }
+    },
+    toggle(val) {
+      if (!this.multiple && !val && !!this.modelInput) {
+        if (this.tempSavedItem !== this.modelInput) {
+          this.modelInput = this.tempSavedItem
+        }
+      }
+    }
+  },
+  created() {
+    this.initializeValues()
+  },
+  methods: {
+    initializeValues() {
+      if (this.multiple) {
+        this.savedItems = this.items.filter(item => this.modelValue?.some(el => el === item[this.itemValue]))
+
+        if (this.savedItems.length > 0) {
+          this.modelInput = this.savedItems.map(savedItem => savedItem[this.itemTitle]).join() + ', '
+
+          this.savedItems.forEach(savedItem => {
+            this.activeLink(true, savedItem)
+          })
+        }
+      }
+
+      this.filteredItems = this.items
+    },
+    selectResult(selectedItem) {
+      if (selectedItem) {
+        let item = this.savedItems.find(item => item[this.itemValue] === selectedItem[this.itemValue])
+
+        if (this.multiple) {
+          if (!item) {
+            this.savedItems.push(selectedItem)
+            this.modelInput = this.savedItems.map(savedItem => savedItem[this.itemTitle]).join() + ', '
+
+            this.$emit('update:modelValue', this.savedItems.map(savedItem => savedItem[this.itemValue]))
+
+            this.activeLink(true, selectedItem)
+          } else {
+            this.deleteSavedItem(selectedItem)
+          }
+        } else {
+          if (!item) {
+            if (this.savedItems.length > 0) this.activeLink(false, this.savedItems[0])
+
+            this.savedItems = []
+
+            this.modelInput = this.tempSavedItem = selectedItem[this.itemTitle]
+
+            this.savedItems.push(selectedItem)
+
+            this.$emit('update:modelValue', this.savedItems[0][this.itemValue])
+
+            this.activeLink(true, this.savedItems[0])
+          } else {
+            this.activeLink(false, this.savedItems[0])
+
+            this.modelInput = ''
+            this.tempSavedItem = ''
+            this.savedItems = []
+
+            this.$emit('update:modelValue', null)
+          }
+        }
+
+      }
+    },
+    del() {
+      this.isDelete = true
+    },
+    searchSavedItemToDelete(val) {
+      const splitArray = val.split(',')
+
+      for (let i = 0; i < this.savedItems.length; i++) {
+        if (this.savedItems[i][this.itemTitle] !== splitArray[i]) {
+          this.deleteSavedItem(this.savedItems[i])
+        }
+      }
+
+      this.isDelete = false
+    },
+    deleteSavedItem(savedItem) {
+      const item = this.savedItems.findIndex(i => i[this.itemValue] === savedItem[this.itemValue])
+      this.savedItems.splice(item, 1)
+
+      if (this.savedItems.length > 0) {
+        this.modelInput = this.savedItems.map(i => i[this.itemTitle]).join() + ', '
+      } else {
+        this.modelInput = this.savedItems.map(i => i[this.itemTitle]).join()
+      }
+
+      this.$emit('update:modelValue', this.savedItems.length > 0
+          ? this.savedItems.map(i => i[this.itemValue]) : this.savedItems
+      )
+      this.activeLink(false, savedItem)
+    },
+    deleteItem(val) {
+      if (val !== this.tempSavedItem && this.savedItems.length > 0) {
+        this.activeLink(false, this.savedItems[0])
+
+        this.modelInput = ''
+        this.tempSavedItem = ''
+        this.savedItems = []
+
+        this.$emit('update:modelValue', null)
+
+        this.isDelete = false
+      }
+    },
+    activeLink(active, savedItem) {
+      const item = this.items.find(i => i[this.itemValue] === savedItem[this.itemValue])
+      const index = this.items.findIndex(i => i[this.itemValue] === savedItem[this.itemValue])
+
+      item.highlight = active
+
+      this.filteredItems.splice(index, 1, item)
+    },
+  }
 }
 </script>
 

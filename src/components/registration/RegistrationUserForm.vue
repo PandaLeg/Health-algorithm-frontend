@@ -200,35 +200,26 @@ export default {
   }
 
   &__button {
-    background: $golden;
     text-align: center;
-    position: relative;
-    cursor: pointer;
     padding: 1px 0;
-    border-radius: 5px;
-
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      transition: all 0.2s;
-      opacity: 0;
-      background-color: rgba(0, 0, 0, 0.2);
-    }
-
-    &:hover::after {
-      opacity: 1;
-    }
 
     button {
+      position: relative;
+      z-index: 1;
       border: none;
-      background-color: transparent;
+      border-radius: 5px;
+      background: $golden;
       font-size: 16px;
       width: 100%;
       padding: 12px 30px;
+
+      &::after {
+        @extend %after-effect-btn;
+      }
+
+      &:hover::after {
+        opacity: 1;
+      }
     }
   }
 

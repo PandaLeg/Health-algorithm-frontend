@@ -113,6 +113,20 @@ export default function (v$, isObj = false) {
         return errors
     })
 
+    const placesErrors = computed(() => {
+        const errors = []
+
+        const dirty = isObj ? v$.value.user.doctor.places.$dirty : v$.value.doctor.places.$dirty
+
+        if (!dirty) return errors
+
+        const requiredRule = isObj ? v$.user.doctor.places.required : v$.value.doctor.places.required
+
+        requiredRule.$invalid && errors.push('Select clinic')
+
+        return errors
+    })
+
     const isValidGeneral = () => {
         return !v$.value.email.$error && !v$.value.password.$error
             && !v$.value.phone.$error && !v$.value.city.$error
@@ -126,6 +140,14 @@ export default function (v$, isObj = false) {
             && !v$.value.doctor.description.education.$error
     }
 
+    const isValidPlace = () => {
+        return !v$.value.doctor.places.$error
+    }
+
+    const isValid = () => {
+        return isValidGeneral() && isValidSpecialty() && isValidPlace()
+    }
+
     return {
         firstNameErrors,
         lastNameErrors,
@@ -135,7 +157,9 @@ export default function (v$, isObj = false) {
         specialtiesErrors,
         aboutErrors,
         educationErrors,
+        placesErrors,
         isValidGeneral,
-        isValidSpecialty
+        isValidSpecialty,
+        isValid
     }
 }
