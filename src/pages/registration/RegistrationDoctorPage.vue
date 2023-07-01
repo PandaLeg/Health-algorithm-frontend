@@ -96,7 +96,7 @@
           </form>
 
           <div class="registration__button">
-            <button @click="registrationUser">Registration</button>
+            <button @click="reg">Registration</button>
           </div>
         </div>
       </div>
@@ -168,6 +168,10 @@ export default {
     const {nextStep} = nextStepHook(v$, step, isValidGeneral, isValidSpecialty)
     const {addPlace, deletePlace} = managePlaceHook(contentFields, user)
 
+    const reg = () => {
+      v$.value.$touch()
+    }
+
     return {
       user,
       v$,
@@ -195,6 +199,7 @@ export default {
       nextStep,
       addPlace,
       deletePlace,
+      reg
     }
   },
 }

@@ -1,6 +1,7 @@
 import {computed, watch} from "vue";
 import axios from "axios";
 import {config} from "../../../util/config";
+import login from "../../auth/login";
 
 export default function (props, emit) {
     const searchCity = computed(() => props.item.searchCity)
@@ -27,8 +28,8 @@ export default function (props, emit) {
         }
     })
 
-    watch(searchCity, async (value) => {
-        if (!value) {
+    watch(searchCity,  async (value) => {
+        if (!value && props.places) {
             const places = props.places
 
             const placeIndex = places.findIndex(el => el.id === props.item.id)

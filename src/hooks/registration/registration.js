@@ -3,26 +3,30 @@ import {vuexTypes} from "../../store/vuexTypes";
 import routesNames from "../../router/routesNames";
 import {useRouter} from "vue-router";
 
-export default function (v$, user, isValid, type, image = null) {
+export default function (v$, user, isValid, type, image = null, locations = [], isValidLocation) {
     const store = useStore()
     const router = useRouter()
 
     const registrationUser = async () => {
         v$.value.$touch()
 
-        if (!v$.value.$invalid && isValid()) {
+        if (!v$.value.$invalid && isValid() && (type === 'clinic' ? isValidLocation() : true)) {
             try {
                 const formData = new FormData();
                 formData.append('phone', user.phone);
                 formData.append('email', user.email);
                 formData.append('password', user.password);
-                formData.append('city', user.city);
                 formData.append('type', type);
-                parseObjToFormData(user[type], formData, type)
+
+                if (type === 'clinic') {
+                    user.clinic.locations = formLocations(locations)
+                }
 
                 if (image) {
                     formData.append('image', image.value);
                 }
+
+                formData.append(type, JSON.stringify(user[type]))
 
                 await store.dispatch(vuexTypes.REGISTER_USER, formData)
 
@@ -39,12 +43,35 @@ export default function (v$, user, isValid, type, image = null) {
     }
 }
 
-function parseObjToFormData(obj, formData, namespace) {
-    for (const prop in obj) {
-        if (obj.hasOwnProperty(prop)) {
-            const formKey = namespace + '[' + prop + ']'
+function formLocations(locations) {
+    const clinicLocations = []
 
-            formData.append(formKey, obj[prop])
+    locations.value.forEach(location => {
+        const addresses = []
+
+        const clinicLocation = clinicLocations.find(el => el.city === location.city)
+
+        if (clinicLocation) {
+            const newLocation = {
+                city: location.city,
+                addresses: [...clinicLocation.addresses, location.address]
+            }
+
+            const locationIndex = clinicLocations.findIndex(el => el.city === location.city)
+
+            clinicLocations.splice(locationIndex, 1, newLocation)
+        } else {
+            addresses.push(location.address)
+
+            const newLocation = {
+                city: location.city,
+                addresses
+            }
+
+            clinicLocations.push(newLocation)
         }
-    }
+
+    })
+
+    return clinicLocations
 }

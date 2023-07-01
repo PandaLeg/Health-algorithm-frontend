@@ -79,7 +79,7 @@ export default {
     deactivateElement() {
       const inactiveLink = 'inactive-link'
       return inactiveLink
-    },
+    }
   },
   watch: {
     modelInput(val) {
@@ -90,8 +90,6 @@ export default {
         this.filteredItems = this.items.filter(i => i[this.itemTitle].toLowerCase().includes(item.toLowerCase()))
       } else {
         if (this.dynamic) {
-          this.filteredItems = this.items
-
           if (!this.savedItems.length && val) {
             this.$emit('update:search', val)
           }
@@ -110,6 +108,11 @@ export default {
         if (this.tempSavedItem !== this.modelInput) {
           this.modelInput = this.tempSavedItem
         }
+      }
+    },
+    items(val) {
+      if (this.dynamic) {
+        this.filteredItems = val
       }
     }
   },

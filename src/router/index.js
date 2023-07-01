@@ -29,6 +29,12 @@ const routes = [
         beforeEnter: guardUnLogIn
     },
     {
+        path: '/registration-clinic',
+        name: routesNames.registrationClinic.name,
+        component: () => import(/* webpackChunkName: "RegistrationClinicPage" */ '../pages/registration/RegistrationClinicPage.vue'),
+        beforeEnter: guardUnLogIn
+    },
+    {
         path: '/login',
         name: routesNames.login.name,
         component: () => import(/* webpackChunkName: "LoginPage" */ '../pages/auth/LoginPage.vue'),
