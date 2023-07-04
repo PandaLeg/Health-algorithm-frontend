@@ -49,6 +49,14 @@
       </div>
     </div>
   </div>
+  <div class="registration-doctor__birth">
+    <label>Date of birth *</label>
+    <input
+        v-model="modelDateOfBirth"
+        type="date"
+        placeholder="Select date"
+    />
+  </div>
 </template>
 
 <script>
@@ -60,6 +68,7 @@ export default {
     firstName: {required: true,},
     lastName: {required: true,},
     surname: {required: true,},
+    dateOfBirth: {required: true,},
     firstNameErrors: {required: true},
     lastNameErrors: {required: true},
     surnameErrors: {required: true}
@@ -90,6 +99,15 @@ export default {
 
       set(value) {
         this.$emit('update:surname', value)
+      }
+    },
+    modelDateOfBirth: {
+      get() {
+        return this.dateOfBirth
+      },
+
+      set(value) {
+        this.$emit('update:dateOfBirth', value)
       }
     }
   }

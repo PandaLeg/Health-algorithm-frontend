@@ -34,6 +34,7 @@
                 v-model:surname=user.doctor.surname
                 v-model:last-name="user.doctor.lastName"
                 v-model:first-name="user.doctor.firstName"
+                v-model:date-of-birth="user.doctor.dateOfBirth"
             />
             <template v-slot:continue>
               <div class="registration__button" @click="nextStep">
@@ -72,32 +73,35 @@
           <h1 class="registration-doctor__title">Work place</h1>
 
           <form @submit.prevent class="registration-doctor__place-form">
-            <div
-                v-for="item in contentFields"
-                :key="`k${item.id}`"
-                class="registration-doctor__place"
+            <validate-each
+                v-for="(item, index) in workPlaces"
+                :key="index"
+                :state="item"
+                :rules="workPlaceRule"
             >
-              <work-place-item
-                  v-model:places="user.doctor.places"
-                  :item="item"
-                  :v$="v$"
-                  :places-errors="placesErrors"
-              />
-              <div
-                  v-if="item.id !== 1"
-                  class="registration-doctor__del"
-              >
-                <button @click="deletePlace(item)">Delete place</button>
-              </div>
-            </div>
+              <template #default="{ v }">
+                <work-place-item
+                    :item="item"
+                    :index="index"
+                    :v="v"
+                    v-model:work-place-vuelidate="workPlaceVuelidate"
+                />
+                <div
+                    v-if="item.id !== 1"
+                    class="registration-doctor__del"
+                >
+                  <button @click="deletePlace(item)">Delete place</button>
+                </div>
+              </template>
+            </validate-each>
             <div class="registration-doctor__add">
               <button @click="addPlace">Add place of work</button>
             </div>
-          </form>
 
-          <div class="registration__button">
-            <button @click="reg">Registration</button>
-          </div>
+            <div class="registration__button">
+              <button @click="registrationUser">Registration</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -119,10 +123,14 @@ import initStateAndRules from "../../hooks/registration/doctor/init-state-rules.
 import regMountedState from "../../hooks/regMountedState";
 import nextStepHook from "../../hooks/registration/doctor/next-step.hook";
 import managePlaceHook from "../../hooks/registration/doctor/manage-place.hook";
+import {ValidateEach} from "@vuelidate/components";
+import LocationItem from "../../components/registration/clinic/LocationItem.vue";
 
 export default {
   name: "RegistrationDoctorPage",
   components: {
+    LocationItem,
+    ValidateEach,
     RegistrationStepper,
     RegistrationUserForm,
     GeneralForm,
@@ -137,10 +145,10 @@ export default {
       specialtiesFromDb,
       categories,
       rule,
+      workPlaceRule,
       step,
-      citiesFromDb,
-      contentFields,
-      clinicsFromDb,
+      workPlaces,
+      workPlaceVuelidate
     } = initStateAndRules()
     const {user, rules, image} = initUserStateAndRules(entity, rule);
 
@@ -156,21 +164,17 @@ export default {
       specialtiesErrors,
       aboutErrors,
       educationErrors,
-      placesErrors,
       isValidGeneral,
       isValidSpecialty,
-      isValid
-    } = computedDoctorErrors(v$)
+      isValid,
+      isValidLocation
+    } = computedDoctorErrors(v$, workPlaceVuelidate)
 
     const type = 'doctor'
 
-    const {registrationUser} = registration(v$, user, isValid, type, image)
+    const {registrationUser} = registration(v$, user, isValid, type, image, workPlaces, isValidLocation)
     const {nextStep} = nextStepHook(v$, step, isValidGeneral, isValidSpecialty)
-    const {addPlace, deletePlace} = managePlaceHook(contentFields, user)
-
-    const reg = () => {
-      v$.value.$touch()
-    }
+    const {addPlace, deletePlace} = managePlaceHook(workPlaces, workPlaceVuelidate)
 
     return {
       user,
@@ -178,9 +182,9 @@ export default {
       image,
       categories,
       specialtiesFromDb,
-      citiesFromDb,
-      clinicsFromDb,
-      contentFields,
+      workPlaces,
+      workPlaceRule,
+      workPlaceVuelidate,
       step,
       emailErrors,
       passwordErrors,
@@ -194,12 +198,10 @@ export default {
       specialtiesErrors,
       aboutErrors,
       educationErrors,
-      placesErrors,
       registrationUser,
       nextStep,
       addPlace,
-      deletePlace,
-      reg
+      deletePlace
     }
   },
 }

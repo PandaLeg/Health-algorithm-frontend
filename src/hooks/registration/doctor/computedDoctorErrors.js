@@ -1,6 +1,6 @@
 import {computed} from "vue";
 
-export default function (v$, isObj = false) {
+export default function (v$, locationVuelidate, isObj = false) {
     const firstNameErrors = computed(() => {
         const errors = []
 
@@ -113,20 +113,6 @@ export default function (v$, isObj = false) {
         return errors
     })
 
-    const placesErrors = computed(() => {
-        const errors = []
-
-        const dirty = isObj ? v$.value.user.doctor.places.$dirty : v$.value.doctor.places.$dirty
-
-        if (!dirty) return errors
-
-        const requiredRule = isObj ? v$.user.doctor.places.required : v$.value.doctor.places.required
-
-        requiredRule.$invalid && errors.push('Select clinic')
-
-        return errors
-    })
-
     const isValidGeneral = () => {
         return !v$.value.email.$error && !v$.value.password.$error
             && !v$.value.phone.$error && !v$.value.city.$error
@@ -140,12 +126,25 @@ export default function (v$, isObj = false) {
             && !v$.value.doctor.description.education.$error
     }
 
-    const isValidPlace = () => {
-        return !v$.value.doctor.places.$error
+    const isValid = () => {
+        return isValidGeneral() && isValidSpecialty()
     }
 
-    const isValid = () => {
-        return isValidGeneral() && isValidSpecialty() && isValidPlace()
+    const isValidLocation = () => {
+        let isValidLocation = true
+
+        for (let i = 0; i < locationVuelidate.value.length; i++) {
+            const v = locationVuelidate.value[i]
+            v.$touch()
+
+            if (!isValidLocation) {
+                continue
+            }
+
+            isValidLocation = !v.city.$error && !v.name.$error && !v.address.$error
+        }
+
+        return isValidLocation
     }
 
     return {
@@ -157,9 +156,9 @@ export default function (v$, isObj = false) {
         specialtiesErrors,
         aboutErrors,
         educationErrors,
-        placesErrors,
         isValidGeneral,
         isValidSpecialty,
-        isValid
+        isValid,
+        isValidLocation
     }
 }

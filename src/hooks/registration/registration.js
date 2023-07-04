@@ -10,7 +10,9 @@ export default function (v$, user, isValid, type, image = null, locations = [], 
     const registrationUser = async () => {
         v$.value.$touch()
 
-        if (!v$.value.$invalid && isValid() && (type === 'clinic' ? isValidLocation() : true)) {
+        const isValidType = type === 'clinic' || type === 'doctor'
+
+        if (!v$.value.$invalid && isValid() && (isValidType ? isValidLocation() : true)) {
             try {
                 const formData = new FormData();
                 formData.append('phone', user.phone);
@@ -20,6 +22,10 @@ export default function (v$, user, isValid, type, image = null, locations = [], 
 
                 if (type === 'clinic') {
                     user.clinic.locations = formLocations(locations)
+                }
+
+                if (type === 'doctor') {
+                    user.doctor.locations = formAddresses(locations)
                 }
 
                 if (image) {
@@ -74,4 +80,37 @@ function formLocations(locations) {
     })
 
     return clinicLocations
+}
+
+function formAddresses(locations) {
+    const workPlaces = []
+
+    locations.value.forEach(location => {
+        const addresses = []
+
+        const workPlace = workPlaces.find(el => el.clinicId === location.name)
+
+        if (workPlace) {
+            const newLocation = {
+                clinicId: location.name,
+                addresses: [...workPlace.addresses, location.address]
+            }
+
+            const locationIndex = workPlaces.findIndex(el => el.clinicId === location.name)
+
+            workPlaces.splice(locationIndex, 1, newLocation)
+        } else {
+            addresses.push(location.address)
+
+            const newLocation = {
+                clinicId: location.name,
+                addresses
+            }
+
+            workPlaces.push(newLocation)
+        }
+
+    })
+
+    return workPlaces
 }

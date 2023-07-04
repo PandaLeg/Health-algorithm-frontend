@@ -1,45 +1,13 @@
-import {computed, watch} from "vue";
+import {computed, toRef, toRefs, watch} from "vue";
 import axios from "axios";
 import {config} from "../../../util/config";
-import login from "../../auth/login";
 
 export default function (props, emit) {
     const searchCity = computed(() => props.item.searchCity)
     const searchClinic = computed(() => props.item.searchClinic)
-    const modelPlaces = computed({
-        get() {
-            return props.places
-        },
+    const name = toRef(props.item, 'name')
 
-        set(value) {
-            const place = {id: props.item.id, name: value}
-
-            const places = props.places
-
-            const placeIndex = places.findIndex(el => el.id === props.item.id)
-
-            if (placeIndex !== -1) {
-                places.splice(placeIndex, 1)
-                emit('update:places', places)
-            } else {
-                const newPlaces = [...props.places, place]
-                emit('update:places', newPlaces)
-            }
-        }
-    })
-
-    watch(searchCity,  async (value) => {
-        if (!value && props.places) {
-            const places = props.places
-
-            const placeIndex = places.findIndex(el => el.id === props.item.id)
-
-            if (placeIndex !== -1) {
-                places.splice(placeIndex, 1)
-                emit('update:places', places)
-            }
-        }
-
+    watch(searchCity, async (value) => {
         const query = value + ' ' + 'UA'
         const url = config.geoNameApiUrl + `/?dataset=geonames-all-cities-with-a-population-1000&q=${query}&sort=name&facet=feature_code&facet=cou_name_en&facet=timezone`
         const response = await axios.get(url)
@@ -51,7 +19,7 @@ export default function (props, emit) {
     })
 
     watch(searchClinic, async (value) => {
-        const url = config.apiUrl + '/clinics/by-query'
+        const url = config.apiUrl + '/clinics/by-city'
         const response = await axios.get(url, {
             params: {
                 name: value,
@@ -59,11 +27,20 @@ export default function (props, emit) {
             }
         })
 
-        const clinics = response.data
-        props.item.clinics = clinics
+        props.item.clinics = response.data
     })
 
-    return {
-        modelPlaces
-    }
+    watch(name, async (value) => {
+        if (!value) return
+
+        const url = config.apiUrl + '/clinics/addresses'
+        const response = await axios.get(url, {
+            params: {
+                clinicId: value,
+                city: props.item.city
+            }
+        })
+
+        props.item.addresses = response.data
+    })
 }

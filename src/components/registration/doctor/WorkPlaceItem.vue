@@ -1,11 +1,11 @@
 <template>
   <div
       class="registration-doctor__clinic-city"
-      :class="{'form-error': v$.doctor.places.$error && item.id === 1}"
+      :class="{'form-error': v.city.$error}"
   >
     <label>City *</label>
     <VAutocomplete
-        v-model="item.city"
+        v-model="v.city.$model"
         v-model:search="item.searchCity"
         :items="item.cities"
         item-title="name"
@@ -13,27 +13,56 @@
         label="Write the name of city"
         dynamic
     />
+    <div
+        v-for="error in v.city.$errors"
+        :key="error.$uid"
+        class="input-error"
+    >
+      {{ error.$message }}
+    </div>
   </div>
   <div
       v-if="item.city"
       class="registration-doctor__clinic-name"
-      :class="{'form-error': v$.doctor.places.$error && item.id === 1}"
+      :class="{'form-error': v.name.$error}"
   >
     <label>Clinic *</label>
     <VAutocomplete
-        v-model="modelPlaces"
+        v-model="v.name.$model"
         v-model:search="item.searchClinic"
         :items="item.clinics"
         item-title="name"
-        item-value="id"
+        item-value="clinicId"
         label="Write the name of clinic"
         dynamic
     />
     <div
-        v-if="item.id === 1"
+        v-for="error in v.name.$errors"
+        :key="error.$uid"
         class="input-error"
     >
-      {{ placesErrors[0] }}
+      {{ error.$message }}
+    </div>
+  </div>
+  <div
+      v-if="item.city && item.name && item.addresses.length"
+      class="registration-doctor__clinic-address"
+      :class="{'form-error': v.address.$error}"
+  >
+    <label>Address *</label>
+    <VSelect
+        v-model="v.address.$model"
+        :options="item.addresses"
+        item-title="address"
+        item-value="id"
+        label="Select address"
+    />
+    <div
+        v-for="error in v.address.$errors"
+        :key="error.$uid"
+        class="input-error"
+    >
+      {{ error.$message }}
     </div>
   </div>
 </template>
@@ -41,29 +70,30 @@
 <script>
 import VAutocomplete from "../../custom/VAutocomplete.vue";
 import getCitiesClinicHook from "../../../hooks/registration/doctor/get-cities-clinic.hook";
+import {onMounted} from "vue";
+import VSelect from "../../custom/VSelect.vue";
 
 export default {
   name: "WorkPlaceForm",
-  components: {VAutocomplete},
+  components: {VSelect, VAutocomplete},
   props: {
     item: {required: true},
-    places: {required: true},
-    v$: {required: true},
-    placesErrors: {required: true},
+    index: {required: true},
+    v: {required: true},
+    workPlaceVuelidate: {default: false},
   },
   setup(props, {emit}) {
-    const {modelPlaces} = getCitiesClinicHook(props, emit)
-
-    return {
-      modelPlaces
-    }
+    getCitiesClinicHook(props, emit)
+    onMounted(() => {
+      props.workPlaceVuelidate.push(props.v)
+    })
   },
 }
 </script>
 
 <style scoped lang="scss">
 .registration-doctor {
-  &__clinic-city, &__clinic-name {
+  &__clinic-city, &__clinic-name, &__clinic-address {
     margin-bottom: 15px;
   }
 }

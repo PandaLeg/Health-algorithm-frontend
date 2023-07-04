@@ -26,6 +26,8 @@
         <VSelect
             v-model="modelCategory"
             :options="categories"
+            item-title="name"
+            item-value="id"
         />
         <div class="input-error">
           {{ categoryIdErrors[0] }}
@@ -119,7 +121,6 @@ export default {
     aboutErrors: {required: true},
     educationErrors: {required: true},
   },
-  emits: ['nextStep'],
   computed: {
     modelExperience: {
       get() {

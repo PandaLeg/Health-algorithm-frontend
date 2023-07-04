@@ -46,8 +46,7 @@ export default {
       default: false
     },
     modelValue: {
-      required: true,
-      validator: p => typeof p === 'object' || typeof p === 'number' || typeof p === 'string'
+      required: true
     },
     search: {
       default: ''
@@ -242,7 +241,7 @@ export default {
   input {
     width: 100%;
     display: block;
-    padding: 12px;
+    padding: 13px 16px;
     cursor: pointer;
     overflow: hidden;
     z-index: 2;
