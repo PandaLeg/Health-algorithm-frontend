@@ -12,8 +12,12 @@
           @input="v$.doctor.firstName.$touch"
           @blur="v$.doctor.firstName.$touch"
       />
-      <div class="input-error">
-        {{ firstNameErrors[0] }}
+      <div
+          v-for="error in v$.doctor.firstName.$errors"
+          :key="error.$uid"
+          class="input-error"
+      >
+        {{ error.$message }}
       </div>
     </div>
     <div
@@ -28,8 +32,12 @@
           @input="v$.doctor.lastName.$touch"
           @blur="v$.doctor.lastName.$touch"
       />
-      <div class="input-error">
-        {{ lastNameErrors[0] }}
+      <div
+          v-for="error in v$.doctor.lastName.$errors"
+          :key="error.$uid"
+          class="input-error"
+      >
+        {{ error.$message }}
       </div>
     </div>
     <div
@@ -44,8 +52,12 @@
           @input="v$.doctor.surname.$touch"
           @blur="v$.doctor.surname.$touch"
       />
-      <div class="input-error">
-        {{ surnameErrors[0] }}
+      <div
+          v-for="error in v$.doctor.surname.$errors"
+          :key="error.$uid"
+          class="input-error"
+      >
+        {{ error.$message }}
       </div>
     </div>
   </div>
@@ -69,9 +81,6 @@ export default {
     lastName: {required: true,},
     surname: {required: true,},
     dateOfBirth: {required: true,},
-    firstNameErrors: {required: true},
-    lastNameErrors: {required: true},
-    surnameErrors: {required: true}
   },
   computed: {
     modelFirstName: {

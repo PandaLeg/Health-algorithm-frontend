@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import regMountedState from "../hooks/regMountedState";
+import regMountedState from "../hooks/reg-mounted-state.hook";
 
 export default {
     name: "HomePage",

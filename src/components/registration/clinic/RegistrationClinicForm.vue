@@ -11,8 +11,12 @@
         @input="v$.clinic.name.$touch"
         @blur="v$.clinic.name.$touch"
     />
-    <div class="input-error">
-      {{ nameErrors[0] }}
+    <div
+        v-for="error in v$.clinic.name.$errors"
+        :key="error.$uid"
+        class="input-error"
+    >
+      {{ error.$message }}
     </div>
   </div>
   <slot></slot>
@@ -24,7 +28,6 @@ export default {
   props: {
     v$: {required: true},
     name: {required: true},
-    nameErrors: {required: true},
   },
   computed: {
     modelName: {

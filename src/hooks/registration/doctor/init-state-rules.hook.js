@@ -1,5 +1,5 @@
 import {reactive, ref} from "vue";
-import getAllCategoriesSpecialties from "./getAllCategoriesSpecialties";
+import getAllCategoriesSpecialties from "./get-categories-specialties.hook";
 import {helpers, required} from "@vuelidate/validators";
 
 export default function () {
@@ -50,29 +50,29 @@ export default function () {
     const rule = {
         doctor: {
             firstName: {
-                required
+                required: helpers.withMessage('Enter first name', required)
             },
             lastName: {
-                required
+                required: helpers.withMessage('Enter last name', required)
             },
             surname: {
-                required
+                required: helpers.withMessage('Enter surname', required)
             },
             experience: {
-                required
+                required: helpers.withMessage('Enter experience', required)
             },
             categoryId: {
-                required
+                required: helpers.withMessage('Select category', required)
             },
             specialties: {
-                required
+                required: helpers.withMessage('Select specialties', required)
             },
             description: {
                 about: {
-                    required
+                    required: helpers.withMessage('Write about yourself', required)
                 },
                 education: {
-                    required
+                    required: helpers.withMessage('Describe your education', required)
                 }
             }
         }

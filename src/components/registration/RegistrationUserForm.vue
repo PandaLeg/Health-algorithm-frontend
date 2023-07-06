@@ -33,8 +33,12 @@
             @input="v$.phone.$touch"
             @blur="v$.phone.$touch"
         />
-        <div class="input-error">
-          {{ phoneErrors[0] }}
+        <div
+            v-for="error in v$.phone.$errors"
+            :key="error.$uid"
+            class="input-error"
+        >
+          {{ error.$message }}
         </div>
       </div>
       <div
@@ -50,8 +54,12 @@
             @input="v$.email.$touch"
             @blur="v$.email.$touch"
         />
-        <div class="input-error">
-          {{ emailErrors[0] }}
+        <div
+            v-for="error in v$.email.$errors"
+            :key="error.$uid"
+            class="input-error"
+        >
+          {{ error.$message }}
         </div>
       </div>
     </div>
@@ -68,31 +76,16 @@
           @input="v$.password.$touch"
           @blur="v$.password.$touch"
       />
-      <div class="input-error">
-        {{ passwordErrors[0] }}
-      </div>
-    </div>
-    <div
-        class="registration__city"
-        :class="{'form-error': v$.city.$error}"
-    >
-      <label>City *</label>
-      <input
-          v-model="modelCity"
-          placeholder="Enter city"
-          required
-          @input="v$.city.$touch"
-          @blur="v$.city.$touch"
-      />
-      <div class="input-error">
-        {{ cityErrors[0] }}
+      <div
+          v-for="error in v$.password.$errors"
+          :key="error.$uid"
+          class="input-error"
+      >
+        {{ error.$message }}
       </div>
     </div>
     <slot></slot>
     <slot name="continue"></slot>
-    <div class="registration__button" @click="$emit('registration')">
-      <button>Sign Up</button>
-    </div>
   </form>
 </template>
 
@@ -105,12 +98,7 @@ export default {
     phone: {required: true},
     email: {required: true},
     password: {required: true},
-    city: {required: true},
     image: {default: null},
-    phoneErrors: {required: true},
-    emailErrors: {required: true},
-    passwordErrors: {required: true},
-    cityErrors: {required: true}
   },
   data() {
     return {
@@ -143,15 +131,6 @@ export default {
 
       set(value) {
         this.$emit('update:password', value)
-      }
-    },
-    modelCity: {
-      get() {
-        return this.city
-      },
-
-      set(value) {
-        this.$emit('update:city', value)
       }
     },
     modelImage: {

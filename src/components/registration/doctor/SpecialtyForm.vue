@@ -14,8 +14,12 @@
             @input="v$.doctor.experience.$touch"
             @blur="v$.doctor.experience.$touch"
         />
-        <div class="input-error">
-          {{ experienceErrors[0] }}
+        <div
+            v-for="error in v$.doctor.experience.$errors"
+            :key="error.$uid"
+            class="input-error"
+        >
+          {{ error.$message }}
         </div>
       </div>
       <div
@@ -29,8 +33,12 @@
             item-title="name"
             item-value="id"
         />
-        <div class="input-error">
-          {{ categoryIdErrors[0] }}
+        <div
+            v-for="error in v$.doctor.categoryId.$errors"
+            :key="error.$uid"
+            class="input-error"
+        >
+          {{ error.$message }}
         </div>
       </div>
     </div>
@@ -48,8 +56,12 @@
           label="Select the specialty"
           multiple
       />
-      <div class="input-error">
-        {{ specialtyErrors[0] }}
+      <div
+          v-for="error in v$.doctor.specialties.$errors"
+          :key="error.$uid"
+          class="input-error"
+      >
+        {{ error.$message }}
       </div>
     </div>
     <div
@@ -64,8 +76,12 @@
           @input="v$.doctor.description.about.$touch"
           @blur="v$.doctor.description.about.$touch"
       />
-      <div class="input-error">
-        {{ aboutErrors[0] }}
+      <div
+          v-for="error in v$.doctor.description.about.$errors"
+          :key="error.$uid"
+          class="input-error"
+      >
+        {{ error.$message }}
       </div>
     </div>
     <div
@@ -80,8 +96,12 @@
           @input="v$.doctor.description.education.$touch"
           @blur="v$.doctor.description.education.$touch"
       />
-      <div class="input-error">
-        {{ educationErrors[0] }}
+      <div
+          v-for="error in v$.doctor.description.education.$errors"
+          :key="error.$uid"
+          class="input-error"
+      >
+        {{ error.$message }}
       </div>
     </div>
     <div class="registration-doctor__course">
@@ -115,11 +135,6 @@ export default {
     education: {required: true},
     course: {required: true},
     specialtiesFromDb: {required: true},
-    experienceErrors: {required: true},
-    categoryIdErrors: {required: true},
-    specialtyErrors: {required: true},
-    aboutErrors: {required: true},
-    educationErrors: {required: true},
   },
   computed: {
     modelExperience: {

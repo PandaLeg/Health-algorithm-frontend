@@ -15,22 +15,13 @@
           <h1 class="registration-doctor__title">General</h1>
           <registration-user-form
               :v$="v$"
-              :city-errors="cityErrors"
-              :password-errors="passwordErrors"
-              :email-errors="emailErrors"
-              :phone-errors="phoneErrors"
-              v-model:city="user.city"
               v-model:password="user.password"
               v-model:email="user.email"
               v-model:phone="user.phone"
               v-model:image="image"
-              @registration="registrationUser"
           >
             <general-form
                 :v$="v$"
-                :surname-errors="surnameErrors"
-                :last-name-errors="lastNameErrors"
-                :first-name-errors="firstNameErrors"
                 v-model:surname=user.doctor.surname
                 v-model:last-name="user.doctor.lastName"
                 v-model:first-name="user.doctor.firstName"
@@ -49,11 +40,6 @@
         >
           <h1 class="registration-doctor__title">Specialty</h1>
           <specialty-form
-              :specialty-errors="specialtiesErrors"
-              :category-id-errors="categoryIdErrors"
-              :experience-errors="experienceErrors"
-              :about-errors="aboutErrors"
-              :education-errors="educationErrors"
               :specialties-from-db="specialtiesFromDb"
               :categories="categories"
               v-model:specialties="user.doctor.specialties"
@@ -114,13 +100,12 @@ import GeneralForm from "../../components/registration/doctor/GeneralForm.vue";
 import SpecialtyForm from "../../components/registration/doctor/SpecialtyForm.vue";
 import WorkPlaceItem from "../../components/registration/doctor/WorkPlaceItem.vue";
 import RegistrationStepper from "../../components/registration/doctor/RegistrationStepper.vue";
-import initUserStateAndRules from "../../hooks/registration/initUserStateAndRules";
+import initUserStateAndRules from "../../hooks/registration/init-user-state-rules.hook";
 import {useVuelidate} from "@vuelidate/core";
-import computedErrors from "../../hooks/computedErrors";
-import computedDoctorErrors from "../../hooks/registration/doctor/computedDoctorErrors";
+import computedDoctorErrorsHook from "../../hooks/registration/doctor/computed-doctor-errors.hook";
 import registration from "../../hooks/registration/registration";
 import initStateAndRules from "../../hooks/registration/doctor/init-state-rules.hook";
-import regMountedState from "../../hooks/regMountedState";
+import regMountedState from "../../hooks/reg-mounted-state.hook";
 import nextStepHook from "../../hooks/registration/doctor/next-step.hook";
 import managePlaceHook from "../../hooks/registration/doctor/manage-place.hook";
 import {ValidateEach} from "@vuelidate/components";
@@ -154,21 +139,12 @@ export default {
 
     const v$ = useVuelidate(rules, user)
 
-    const {emailErrors, passwordErrors, phoneErrors, cityErrors} = computedErrors(v$)
     const {
-      firstNameErrors,
-      lastNameErrors,
-      surnameErrors,
-      experienceErrors,
-      categoryIdErrors,
-      specialtiesErrors,
-      aboutErrors,
-      educationErrors,
       isValidGeneral,
       isValidSpecialty,
       isValid,
       isValidLocation
-    } = computedDoctorErrors(v$, workPlaceVuelidate)
+    } = computedDoctorErrorsHook(v$, workPlaceVuelidate)
 
     const type = 'doctor'
 
@@ -186,18 +162,6 @@ export default {
       workPlaceRule,
       workPlaceVuelidate,
       step,
-      emailErrors,
-      passwordErrors,
-      phoneErrors,
-      cityErrors,
-      firstNameErrors,
-      lastNameErrors,
-      surnameErrors,
-      experienceErrors,
-      categoryIdErrors,
-      specialtiesErrors,
-      aboutErrors,
-      educationErrors,
       registrationUser,
       nextStep,
       addPlace,
@@ -275,7 +239,7 @@ export default {
     }
   }
 
-  &__del {
+  &__del, &__add {
     margin-bottom: 20px;
   }
 }

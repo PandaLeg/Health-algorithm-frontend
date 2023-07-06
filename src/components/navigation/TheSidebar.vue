@@ -76,7 +76,7 @@
 <script>
 
 import routesNames from "../../router/routesNames";
-import logout from "../../hooks/auth/logout";
+import logout from "../../hooks/auth/logout.hook";
 import {ref} from "vue";
 
 export default {

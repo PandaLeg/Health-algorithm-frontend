@@ -44,8 +44,8 @@
 
 <script>
 import VAutocomplete from "../../custom/VAutocomplete.vue";
-import getCitiesClinicHook from "../../../hooks/registration/doctor/get-cities-clinic.hook";
-import {onMounted, toRefs} from "vue";
+import {watchAndGetCities} from "../../../hooks/registration/doctor/get-cities-clinic.hook";
+import {onMounted} from "vue";
 
 export default {
   name: "LocationItem",
@@ -56,8 +56,8 @@ export default {
     v: {required: true},
     index: {required: true},
   },
-  setup(props, {emit}) {
-    getCitiesClinicHook(props, emit)
+  setup(props) {
+    watchAndGetCities(props)
 
     onMounted(() => {
       props.locationVuelidate.push(props.v)

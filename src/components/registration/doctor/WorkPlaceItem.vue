@@ -69,7 +69,11 @@
 
 <script>
 import VAutocomplete from "../../custom/VAutocomplete.vue";
-import getCitiesClinicHook from "../../../hooks/registration/doctor/get-cities-clinic.hook";
+import {
+  watchAndGetCities,
+  watchAndGetClinics,
+  watchAndGetAddresses
+} from "../../../hooks/registration/doctor/get-cities-clinic.hook";
 import {onMounted} from "vue";
 import VSelect from "../../custom/VSelect.vue";
 
@@ -82,8 +86,11 @@ export default {
     v: {required: true},
     workPlaceVuelidate: {default: false},
   },
-  setup(props, {emit}) {
-    getCitiesClinicHook(props, emit)
+  setup(props) {
+    watchAndGetCities(props)
+    watchAndGetClinics(props)
+    watchAndGetAddresses(props)
+
     onMounted(() => {
       props.workPlaceVuelidate.push(props.v)
     })

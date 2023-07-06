@@ -15,7 +15,9 @@ export default function () {
 
     const rule = {
         clinic: {
-            name: { required }
+            name: {
+                required: helpers.withMessage('Enter clinic name', required)
+            }
         }
     }
 

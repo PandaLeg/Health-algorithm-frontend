@@ -54,9 +54,9 @@
 
 <script>
 import ForgotPasswordBody from "../../components/auth/ResetPasswordBody.vue";
-import initState from "../../hooks/auth/forgot-password/initState";
+import initState from "../../hooks/auth/forgot-password/init-state.hook";
 import {useVuelidate} from "@vuelidate/core";
-import computedErrors from "../../hooks/computedErrors";
+import computedErrors from "../../hooks/computed-errors.hook";
 import sendResetCodeHook from "../../hooks/auth/forgot-password/send-reset-code.hook";
 
 export default {
