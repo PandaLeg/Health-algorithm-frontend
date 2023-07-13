@@ -1,78 +1,102 @@
 <template>
-    <div class="registration-page">
-        <div class="container">
-            <div class="registration-page__body">
-                <div class="registration-page__title">
-                    <h1>Doctor / Patient Registration</h1>
-                </div>
-                <div class="registration-page__subtitle">
-                    <p>Hover or click on the card to go to the registration of the selected user type</p>
-                </div>
-                <div class="registration-page__cards">
-                    <div class="card-registration">
-                        <div class="card-registration__front">
-                            <img :src="images.doctor"
-                                 alt="Photo">
-                        </div>
-                        <div class="card-registration__back">
-                            <div class="card-registration__icon ">
-                                <span aria-label="Doctor-icon" class="_icon-doctor"></span>
-                            </div>
-                            <div class="card-registration__content">
-                                <router-link
-                                        :to="{name: routesNames.registrationDoctor.name}"
-                                        class="card-registration__link"
-                                >
-                                    <h1>Doctor</h1>
-                                </router-link>
-                                <span>Registration</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-registration">
-                        <div class="card-registration__front">
-                            <img :src="images.patient"
-                                 alt="Photo">
-                        </div>
-                        <div class="card-registration__back">
-                            <div class="card-registration__content">
-                                <router-link
-                                        :to="{name: routesNames.registrationPatient.name}"
-                                        class="card-registration__link"
-                                >
-                                    <h1>Patient</h1>
-                                </router-link>
-                                <span>Registration</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="registration-page">
+    <div class="container">
+      <div class="registration-page__body">
+        <div class="registration-page__title">
+          <h1>Doctor / Patient Registration</h1>
         </div>
+        <div class="registration-page__subtitle">
+          <p>Hover or click on the card to go to the registration of the selected user type</p>
+        </div>
+        <div class="registration-page__cards">
+          <div class="card-registration">
+            <div class="card-registration__front">
+              <img
+                  :src="images.doctor"
+                  alt="Photo"
+              >
+            </div>
+            <div class="card-registration__back">
+              <div class="card-registration__icon ">
+                <span aria-label="Doctor-icon" class="_icon-doctor"></span>
+              </div>
+              <div class="card-registration__content">
+                <router-link
+                    :to="{name: routesNames.registrationDoctor.name}"
+                    class="card-registration__link"
+                >
+                  <h1>Doctor</h1>
+                </router-link>
+                <span>Registration</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-registration">
+            <div class="card-registration__front">
+              <img
+                  :src="images.patient"
+                  alt="Photo"
+              >
+            </div>
+            <div class="card-registration__back">
+              <div class="card-registration__content">
+                <router-link
+                    :to="{name: routesNames.registrationPatient.name}"
+                    class="card-registration__link"
+                >
+                  <h1>Patient</h1>
+                </router-link>
+                <span>Registration</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-registration">
+            <div class="card-registration__front">
+              <img
+                  :src="images.patient"
+                  alt="Photo"
+              >
+            </div>
+            <div class="card-registration__back">
+              <div class="card-registration__content">
+                <router-link
+                    :to="{name: routesNames.registrationClinic.name}"
+                    class="card-registration__link"
+                >
+                  <h1>Clinic</h1>
+                </router-link>
+                <span>Registration</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import routesNames from "../../router/routesNames";
-import regMountedState from "../../hooks/regMountedState";
+import regMountedState from "../../hooks/reg-mounted-state.hook";
 
 export default {
-    name: "RegistrationPage",
-    setup() {
-        regMountedState()
+  name: "RegistrationPage",
+  setup() {
+    regMountedState()
+  },
+  computed: {
+    routesNames() {
+      return routesNames
     },
-    computed: {
-        routesNames() {
-            return routesNames
-        },
-        images() {
-            return {
-                doctor: require('../../assets/images/doctor.webp'),
-                patient: require('../../assets/images/patient.webp'),
-            }
-        }
-    },
+    images() {
+      return {
+        doctor: require('../../assets/images/doctor.webp'),
+        patient: require('../../assets/images/patient.webp'),
+      }
+    }
+  },
 }
 </script>
 

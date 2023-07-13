@@ -11,6 +11,9 @@ const routesNames = Object.freeze({
     registrationDoctor: {
         name: 'RegistrationDoctorPage'
     },
+    registrationClinic: {
+        name: 'RegistrationClinicPage'
+    },
     login: {
         name: 'LoginPage'
     },

@@ -85,10 +85,10 @@
 import routesNames from "../../router/routesNames";
 import LogoSVG from "../../components/svg/LogoSVG.vue";
 import {useVuelidate} from "@vuelidate/core";
-import initState from "../../hooks/auth/initStateAndRules";
-import computedErrors from "../../hooks/computedErrors";
-import login from "../../hooks/auth/login";
-import regMountedState from "../../hooks/regMountedState";
+import initState from "../../hooks/auth/init-state-rules.hook";
+import computedErrors from "../../hooks/computed-errors.hook";
+import login from "../../hooks/auth/login.hook";
+import regMountedState from "../../hooks/reg-mounted-state.hook";
 
 export default {
     name: "LoginPage",

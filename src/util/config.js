@@ -7,5 +7,6 @@ const port = 3000
 export const STORAGE_KEY = 'Client'
 
 export const config = {
-    apiUrl: `${protocol}://${ip}:${port}`
+    apiUrl: `${protocol}://${ip}:${port}`,
+    geoNameApiUrl: 'https://public.opendatasoft.com/api/records/1.0/search/'
 }

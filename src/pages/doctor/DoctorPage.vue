@@ -20,10 +20,10 @@
 
 <script>
 import VPagination from "../../components/custom/VPagination.vue";
-import initState from "../../hooks/doctor/initState";
-import getDoctors from "../../hooks/doctor/getDoctors";
+import initState from "../../hooks/doctor/init-state.hook";
+import getDoctors from "../../hooks/doctor/get-doctors.hook";
 import DoctorList from "../../components/doctor/DoctorList.vue";
-import regMountedState from "../../hooks/regMountedState";
+import regMountedState from "../../hooks/reg-mounted-state.hook";
 
 export default {
     name: "DoctorPage",

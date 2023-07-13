@@ -75,8 +75,8 @@
 <script>
 
 import {useVuelidate} from "@vuelidate/core";
-import computedErrors from "../../hooks/computedErrors";
-import initState from "../../hooks/auth/reset-password/initState";
+import computedErrors from "../../hooks/computed-errors.hook";
+import initState from "../../hooks/auth/reset-password/init-state.hook";
 import ResetPasswordBody from "../../components/auth/ResetPasswordBody.vue";
 import resetPasswordHook from "../../hooks/auth/reset-password/reset-password.hook";
 import ForgotPasswordBody from "../../components/auth/ResetPasswordBody.vue";

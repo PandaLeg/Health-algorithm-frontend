@@ -53,10 +53,10 @@
 
 <script>
 import routesNames from "../../router/routesNames";
-import initState from "../../hooks/auth/verify-email/initState";
-import checkParams from "../../hooks/auth/verify-email/checkParams";
-import sendConfirmationEmail from "../../hooks/auth/verify-email/sendConfirmationEmail";
-import regMountedState from "../../hooks/regMountedState";
+import initState from "../../hooks/auth/verify-email/init-state.hook";
+import checkParams from "../../hooks/auth/verify-email/check-params.hook";
+import sendConfirmationEmail from "../../hooks/auth/verify-email/send-confirmation-email.hook";
+import regMountedState from "../../hooks/reg-mounted-state.hook";
 
 export default {
     name: "VerifyEmail",

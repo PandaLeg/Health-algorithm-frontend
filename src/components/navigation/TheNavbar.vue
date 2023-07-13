@@ -85,8 +85,8 @@
 <script>
 import routesNames from "../../router/routesNames";
 import {computed} from "vue";
-import logout from "../../hooks/auth/logout";
-import active from "../../hooks/navbar/active";
+import logout from "../../hooks/auth/logout.hook";
+import active from "../../hooks/navbar/active.hook";
 
 export default {
     name: "TheNavbar",
