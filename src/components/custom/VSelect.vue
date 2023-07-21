@@ -9,10 +9,10 @@
     </option>
     <option
         v-for="option in options"
-        :key="`k-${option[itemValue]}`"
-        :value="option[itemValue]"
+        :key="`k-${itemValue ? option[itemValue] : option}`"
+        :value="itemValue ? option[itemValue] : option"
     >
-      {{ option[itemTitle] }}
+      {{ itemTitle ? option[itemTitle] : option }}
     </option>
   </select>
 </template>
@@ -30,11 +30,9 @@ export default {
     },
     itemTitle: {
       type: String,
-      required: true
     },
     itemValue: {
       type: String,
-      required: true
     },
     label: {
       type: String,

@@ -15,16 +15,16 @@
               :v$="v$"
           >
             <validate-each
-                v-for="(item, index) in locations"
-                :key="index"
+                v-for="item in locations"
+                :key="item.id"
                 :state="item"
                 :rules="locationRule"
             >
               <template #default="{ v }">
                 <location-item
                     :item="item"
-                    :index="index"
-                    :v="v"
+                    :v-location="v"
+                    :working-hour-rule="workingHourRule"
                     v-model:location-vuelidate="locationVuelidate"
                 />
                 <div
@@ -70,7 +70,7 @@ export default {
     ValidateEach
   },
   setup() {
-    const {locations, entity, rule, locationRule, locationVuelidate} = initStateRulesHook()
+    const {locations, entity, rule, locationRule, locationVuelidate, scheduleVuelidate, workingHourRule} = initStateRulesHook()
     const {user, rules, image} = initUserStateAndRules(entity, rule);
     const v$ = useVuelidate(rules, user)
     const v = useVuelidate()
@@ -92,6 +92,8 @@ export default {
       locationRule,
       locations,
       locationVuelidate,
+      workingHourRule,
+      scheduleVuelidate,
       addLocation,
       deleteLocation,
       registrationUser
