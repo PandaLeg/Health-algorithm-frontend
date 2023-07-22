@@ -5,10 +5,10 @@ import dayInformation from '../../../util/dayInformation.json'
 export default function () {
     const locations = ref([
         {
-            id: 1, city: null, searchCity: '', cities: [], address: null, workingHours: [
+            id: 1, city: null, searchCity: '', cities: [], address: null, schedule: [
                 {
                     id: 1,
-                    weekDay: null,
+                    weekDays: [],
                     days: dayInformation.days,
                     dayType: null,
                     types: dayInformation.dayTypes,
@@ -19,7 +19,6 @@ export default function () {
         },
     ])
     const locationVuelidate = ref([])
-    const scheduleVuelidate = ref([])
 
     const entity = {
         clinic: {
@@ -44,18 +43,38 @@ export default function () {
         }
     }
 
-    const workingHourRule = {
-        weekDay: {
+    const checkRequiredValue = (value, siblingState) => {
+        if (typeof value === 'string') {
+            value = value.trim();
+        }
+
+        return siblingState.dayType === 'Workday' ? value !== undefined && value !== null && !!String(value).length : true
+    }
+
+    const scheduleRule = {
+        weekDays: {
             required: helpers.withMessage('Select day', required)
         },
         dayType: {
             required: helpers.withMessage('Select type of day', required)
         },
         from: {
-            required: helpers.withMessage('Select from time', required)
+            required: {
+                $validator: checkRequiredValue,
+                $message: 'Select from time',
+                $params: {
+                    type: 'required'
+                }
+            }
         },
         to: {
-            required: helpers.withMessage('Select to time', required)
+            required: {
+                $validator: checkRequiredValue,
+                $message: 'Select to time',
+                $params: {
+                    type: 'required'
+                }
+            }
         }
     }
 
@@ -65,7 +84,6 @@ export default function () {
         rule,
         locationRule,
         locationVuelidate,
-        workingHourRule,
-        scheduleVuelidate
+        scheduleRule,
     }
 }

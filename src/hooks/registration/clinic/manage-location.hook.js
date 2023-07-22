@@ -4,14 +4,14 @@ import dayInformation from "../../../util/dayInformation.json";
 export default function (locations, locationVuelidate) {
     const addLocation = () => {
         let id = locations.value[locations.value.length - 1].id
-        const workingHours = []
+        const schedule = []
 
         const days = dayInformation.days.map(el => Object.assign({}, el))
         const dayTypes = dayInformation.dayTypes.map(el => Object.assign({}, el))
 
-        const fieldWorkingHour = {
+        const fieldSchedule = {
             id: 1,
-            weekDay: null,
+            weekDays: [],
             days,
             dayType: null,
             types: dayTypes,
@@ -19,7 +19,7 @@ export default function (locations, locationVuelidate) {
             to: null
         }
 
-        workingHours.push(fieldWorkingHour)
+        schedule.push(fieldSchedule)
 
         const field = reactive({
             id: ++id,
@@ -27,7 +27,7 @@ export default function (locations, locationVuelidate) {
             searchCity: '',
             cities: [],
             address: null,
-            workingHours
+            schedule
         })
 
         locations.value.push(field)
@@ -37,8 +37,8 @@ export default function (locations, locationVuelidate) {
         const itemIndex = locations.value.findIndex(el => el.id === item.id)
 
         if (itemIndex !== -1 && locations.value.length > 1) {
-            locations.value.splice(1, 1)
-            locationVuelidate.value.splice(1, 1)
+            locations.value.splice(itemIndex, 1)
+            locationVuelidate.value.splice(itemIndex, 1)
         }
     }
 

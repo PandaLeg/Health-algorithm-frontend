@@ -73,7 +73,7 @@ import {
   watchAndGetCities,
   watchAndGetClinics,
   watchAndGetAddresses
-} from "../../../hooks/registration/doctor/get-cities-clinic.hook";
+} from "../../../hooks/registration/get-cities-clinic.hook";
 import {onMounted} from "vue";
 import VSelect from "../../custom/VSelect.vue";
 

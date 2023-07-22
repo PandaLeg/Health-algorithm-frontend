@@ -2,11 +2,11 @@
   <div class="registration-clinic__week">
     <div
         class="registration-clinic__week-day"
-        :class="{'form-error': v.weekDay.$error}"
+        :class="{'form-error': v.weekDays.$error}"
     >
       <label>Week day *</label>
       <VAutocomplete
-          v-model="v.weekDay.$model"
+          v-model="v.weekDays.$model"
           :items="item.days"
           item-title="name"
           item-value="name"
@@ -14,7 +14,7 @@
           multiple
       />
       <div
-          v-for="error in v.weekDay.$errors"
+          v-for="error in v.weekDays.$errors"
           :key="error.$uid"
           class="input-error"
       >
@@ -96,14 +96,16 @@ import VSelect from "../../custom/VSelect.vue";
 import {onMounted} from "vue";
 
 export default {
-  name: "WorkingHourItem",
+  name: "ScheduleItem",
   components: {VSelect, VAutocomplete},
   props: {
     item: {required: true},
     v: {required: true},
+    currentLocationVuelidate: {required: true},
   },
   setup(props) {
     onMounted(() => {
+      props.currentLocationVuelidate.push(props.v)
     })
   }
 }

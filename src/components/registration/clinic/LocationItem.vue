@@ -42,24 +42,25 @@
   </div>
   <div
       v-if="vLocation.city.$model"
-      class="registration-clinic__working-hours"
+      class="registration-clinic__schedule"
   >
     <validate-each
-        v-for="workingHourItem in item.workingHours"
-        :key="workingHourItem.id"
-        :state="workingHourItem"
-        :rules="workingHourRule"
+        v-for="scheduleItem in item.schedule"
+        :key="scheduleItem.id"
+        :state="scheduleItem"
+        :rules="scheduleRule"
     >
       <template #default="{ v }">
-        <working-hour-item
+        <schedule-item
             :v="v"
-            :item="workingHourItem"
+            :item="scheduleItem"
+            :current-location-vuelidate="currentLocationVuelidate"
         />
         <div
-            v-if="workingHourItem.id !== 1"
+            v-if="scheduleItem.id !== 1"
             class="registration-clinic__calendar-minus"
         >
-          <button @click="deleteSchedule(workingHourItem)">
+          <button @click="deleteSchedule(scheduleItem)">
             <calendar-minus-s-v-g/>
           </button>
         </div>
@@ -75,34 +76,37 @@
 
 <script>
 import VAutocomplete from "../../custom/VAutocomplete.vue";
-import {watchAndGetCities} from "../../../hooks/registration/doctor/get-cities-clinic.hook";
-import {onMounted} from "vue";
+import {watchAndGetCities} from "../../../hooks/registration/get-cities-clinic.hook";
+import {onMounted, ref} from "vue";
 import {ValidateEach} from "@vuelidate/components";
 import VSelect from "../../custom/VSelect.vue";
-import WorkingHourItem from "./WorkingHourItem.vue";
-import manageWorkingHourHook from "../../../hooks/registration/clinic/manage-working-hour.hook";
+import ScheduleItem from "./ScheduleItem.vue";
+import manageScheduleHook from "../../../hooks/registration/clinic/manage-schedule.hook";
 import CalendarPlusSVG from "../../svg/CalendarPlusSVG.vue";
 import CalendarMinusSVG from "../../svg/CalendarMinusSVG.vue";
 
 export default {
   name: "LocationItem",
-  components: {CalendarPlusSVG, CalendarMinusSVG, WorkingHourItem, VSelect, ValidateEach, VAutocomplete},
+  components: {CalendarPlusSVG, CalendarMinusSVG, ScheduleItem, VSelect, ValidateEach, VAutocomplete},
   props: {
     item: {required: true},
-    locationVuelidate: {default: false},
+    locationVuelidate: {required: true},
     vLocation: {required: true},
-    workingHourRule: {required: true},
+    scheduleRule: {required: true},
   },
   setup(props) {
+    const currentLocationVuelidate = ref([])
     watchAndGetCities(props)
 
-    const {addSchedule, deleteSchedule} = manageWorkingHourHook(props)
+    const {addSchedule, deleteSchedule} = manageScheduleHook(props)
 
     onMounted(() => {
-      props.locationVuelidate.push(props.vLocation)
+      currentLocationVuelidate.value.push(props.vLocation)
+      props.locationVuelidate.push(currentLocationVuelidate)
     })
 
     return {
+      currentLocationVuelidate,
       addSchedule,
       deleteSchedule
     }

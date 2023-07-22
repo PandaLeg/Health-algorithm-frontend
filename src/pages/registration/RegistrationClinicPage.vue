@@ -24,8 +24,8 @@
                 <location-item
                     :item="item"
                     :v-location="v"
-                    :working-hour-rule="workingHourRule"
-                    v-model:location-vuelidate="locationVuelidate"
+                    :schedule-rule="scheduleRule"
+                    :location-vuelidate="locationVuelidate"
                 />
                 <div
                     v-if="item.id !== 1"
@@ -70,7 +70,7 @@ export default {
     ValidateEach
   },
   setup() {
-    const {locations, entity, rule, locationRule, locationVuelidate, scheduleVuelidate, workingHourRule} = initStateRulesHook()
+    const {locations, entity, rule, locationRule, locationVuelidate, scheduleRule} = initStateRulesHook()
     const {user, rules, image} = initUserStateAndRules(entity, rule);
     const v$ = useVuelidate(rules, user)
     const v = useVuelidate()
@@ -92,8 +92,7 @@ export default {
       locationRule,
       locations,
       locationVuelidate,
-      workingHourRule,
-      scheduleVuelidate,
+      scheduleRule,
       addLocation,
       deleteLocation,
       registrationUser

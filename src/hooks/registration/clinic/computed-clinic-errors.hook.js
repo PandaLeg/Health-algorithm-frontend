@@ -1,5 +1,3 @@
-import {computed} from "vue";
-
 export default function (v$, locationVuelidate, isObj = false) {
     const isValid = () => {
         return !v$.value.email.$error && !v$.value.password.$error
@@ -10,14 +8,17 @@ export default function (v$, locationVuelidate, isObj = false) {
         let isValidLocation = true
 
         for (let i = 0; i < locationVuelidate.value.length; i++) {
-            const v = locationVuelidate.value[i]
-            v.$touch()
+            const currentLocation = locationVuelidate.value[i]
+            for (let j = 0; j < currentLocation.value.length; j++) {
+                const v = currentLocation.value[j]
+                v.$touch()
 
-            if (!isValidLocation) {
-                continue
+                if (!isValidLocation) {
+                    continue
+                }
+
+                isValidLocation = v.city ? !v.city.$error && !v.address.$error : !v.weekDays.$error && !v.dayType.$error
             }
-
-            isValidLocation = !v.city.$error && !v.address.$error
         }
 
         return isValidLocation
