@@ -8,8 +8,8 @@ export default function (props) {
 
         let id = schedule.value[schedule.value.length - 1].id
 
-        const days = dayInformation.days.map(el => Object.assign({}, el))
-        const dayTypes = dayInformation.dayTypes.map(el => Object.assign({}, el))
+        const days = props.weekDays.map(el => ({...el}))
+        const dayTypes = dayInformation.dayTypes.map(el => ({...el}))
 
         const field = reactive({
             id: ++id,

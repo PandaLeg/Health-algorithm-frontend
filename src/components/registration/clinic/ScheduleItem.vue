@@ -9,7 +9,7 @@
           v-model="v.weekDays.$model"
           :items="item.days"
           item-title="name"
-          item-value="name"
+          item-value="id"
           label="Select day of week"
           multiple
       />

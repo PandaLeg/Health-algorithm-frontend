@@ -1,15 +1,17 @@
 import {helpers, required} from "@vuelidate/validators";
 import {ref} from "vue";
 import dayInformation from '../../../util/dayInformation.json'
+import getWeekDaysHook from "./get-week-days.hook";
 
 export default function () {
+    const weekDays = ref([])
     const locations = ref([
         {
             id: 1, city: null, searchCity: '', cities: [], address: null, schedule: [
                 {
                     id: 1,
                     weekDays: [],
-                    days: dayInformation.days,
+                    days: weekDays,
                     dayType: null,
                     types: dayInformation.dayTypes,
                     from: null,
@@ -19,6 +21,8 @@ export default function () {
         },
     ])
     const locationVuelidate = ref([])
+
+    getWeekDaysHook(weekDays)
 
     const entity = {
         clinic: {
@@ -80,6 +84,7 @@ export default function () {
 
     return {
         locations,
+        weekDays,
         entity,
         rule,
         locationRule,

@@ -93,6 +93,7 @@ export default {
     locationVuelidate: {required: true},
     vLocation: {required: true},
     scheduleRule: {required: true},
+    weekDays: {required: true},
   },
   setup(props) {
     const currentLocationVuelidate = ref([])
