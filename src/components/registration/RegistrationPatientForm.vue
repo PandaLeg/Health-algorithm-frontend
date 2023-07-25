@@ -67,7 +67,7 @@
 
 <script>
 
-import {watchAndGetCities} from "../../hooks/registration/doctor/get-cities-clinic.hook";
+import {watchAndGetCities} from "../../hooks/registration/get-cities-clinic.hook";
 import VAutocomplete from "../custom/VAutocomplete.vue";
 
 export default {

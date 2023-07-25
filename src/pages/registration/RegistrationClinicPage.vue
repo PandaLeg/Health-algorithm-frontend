@@ -15,17 +15,18 @@
               :v$="v$"
           >
             <validate-each
-                v-for="(item, index) in locations"
-                :key="index"
+                v-for="item in locations"
+                :key="item.id"
                 :state="item"
                 :rules="locationRule"
             >
               <template #default="{ v }">
                 <location-item
                     :item="item"
-                    :index="index"
-                    :v="v"
-                    v-model:location-vuelidate="locationVuelidate"
+                    :v-location="v"
+                    :schedule-rule="scheduleRule"
+                    :location-vuelidate="locationVuelidate"
+                    :week-days="weekDays"
                 />
                 <div
                     v-if="item.id !== 1"
@@ -70,14 +71,14 @@ export default {
     ValidateEach
   },
   setup() {
-    const {locations, entity, rule, locationRule, locationVuelidate} = initStateRulesHook()
+    const {locations, entity, rule, weekDays, locationRule, locationVuelidate, scheduleRule} = initStateRulesHook()
     const {user, rules, image} = initUserStateAndRules(entity, rule);
     const v$ = useVuelidate(rules, user)
     const v = useVuelidate()
 
     const {isValid, isValidLocation} = computedClinicErrorsHook(v$, locationVuelidate)
 
-    const {addLocation, deleteLocation} = manageLocationHook(locations, locationVuelidate)
+    const {addLocation, deleteLocation} = manageLocationHook(locations, locationVuelidate, weekDays)
 
     const type = 'clinic'
 
@@ -89,9 +90,11 @@ export default {
       v$,
       v,
       user,
+      weekDays,
       locationRule,
       locations,
       locationVuelidate,
+      scheduleRule,
       addLocation,
       deleteLocation,
       registrationUser

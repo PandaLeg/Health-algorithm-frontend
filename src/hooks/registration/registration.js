@@ -55,19 +55,21 @@ function formLocations(locations) {
     locations.value.forEach(location => {
         const addresses = []
 
+        const newAddress = formAddressWithSchedule(location.schedule, location)
+
         const clinicLocation = clinicLocations.find(el => el.city === location.city)
 
         if (clinicLocation) {
             const newLocation = {
                 city: location.city,
-                addresses: [...clinicLocation.addresses, location.address]
+                addresses: [...clinicLocation.addresses, newAddress]
             }
 
             const locationIndex = clinicLocations.findIndex(el => el.city === location.city)
 
             clinicLocations.splice(locationIndex, 1, newLocation)
         } else {
-            addresses.push(location.address)
+            addresses.push(newAddress)
 
             const newLocation = {
                 city: location.city,
@@ -80,6 +82,28 @@ function formLocations(locations) {
     })
 
     return clinicLocations
+}
+
+function formAddressWithSchedule(schedule, location) {
+    const scheduleClinic = schedule.map(el => {
+        if (el.dayType === 'Workday') {
+            return {
+                weekDays: [...el.weekDays],
+                dayType: el.dayType,
+                from: el.from,
+                to: el.to
+            }
+        }
+        return {
+            weekDays: [...el.weekDays],
+            dayType: el.dayType
+        }
+    })
+
+    return {
+        name: location.address,
+        scheduleClinic
+    }
 }
 
 function formAddresses(locations) {
