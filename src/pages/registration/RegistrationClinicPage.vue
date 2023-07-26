@@ -12,7 +12,12 @@
         >
           <registration-clinic-form
               v-model:name="user.clinic.name"
+              v-model:description="user.clinic.description"
+              v-model:conveniences="user.clinic.conveniences"
+              v-model:clinic-type="user.clinic.clinicType"
               :v$="v$"
+              :clinic-types="clinicTypes"
+              :conveniences-from-db="conveniencesFromDb"
           >
             <validate-each
                 v-for="item in locations"
@@ -71,7 +76,17 @@ export default {
     ValidateEach
   },
   setup() {
-    const {locations, entity, rule, weekDays, locationRule, locationVuelidate, scheduleRule} = initStateRulesHook()
+    const {
+      locations,
+      entity,
+      rule,
+      weekDays,
+      clinicTypes,
+      conveniencesFromDb,
+      locationRule,
+      locationVuelidate,
+      scheduleRule
+    } = initStateRulesHook()
     const {user, rules, image} = initUserStateAndRules(entity, rule);
     const v$ = useVuelidate(rules, user)
     const v = useVuelidate()
@@ -91,9 +106,11 @@ export default {
       v,
       user,
       weekDays,
+      clinicTypes,
       locationRule,
       locations,
       locationVuelidate,
+      conveniencesFromDb,
       scheduleRule,
       addLocation,
       deleteLocation,
@@ -103,7 +120,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
 
@@ -159,6 +176,24 @@ export default {
   &__add {
     margin-top: 5px;
   }
+}
+
+.input-error {
+  @extend %input-error;
+}
+
+.form-error {
+  input, textarea, select {
+    @extend %form-error;
+  }
+}
+
+input, textarea {
+  @extend %field-reg;
+}
+
+label {
+  @extend %label-reg;
 }
 
 </style>

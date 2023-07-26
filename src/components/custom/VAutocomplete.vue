@@ -110,9 +110,7 @@ export default {
       }
     },
     items(val) {
-      if (this.dynamic) {
-        this.filteredItems = val
-      }
+      this.filteredItems = val
     }
   },
   created() {
