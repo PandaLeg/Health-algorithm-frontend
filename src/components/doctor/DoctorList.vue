@@ -504,4 +504,9 @@ export default defineComponent({
   background-color: rgba(0, 0, 0, 0.12);
   border-radius: 6px;
 }
+
+.not-found {
+  text-align: center;
+  padding-top: 30px;
+}
 </style>
