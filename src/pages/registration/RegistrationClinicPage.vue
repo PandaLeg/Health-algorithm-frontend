@@ -9,6 +9,7 @@
             v-model:password="user.password"
             v-model:email="user.email"
             v-model:phone="user.phone"
+            v-model:image="image"
         >
           <registration-clinic-form
               v-model:name="user.clinic.name"
@@ -105,6 +106,7 @@ export default {
       v$,
       v,
       user,
+      image,
       weekDays,
       clinicTypes,
       locationRule,

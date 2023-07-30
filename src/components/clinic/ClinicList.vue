@@ -1,27 +1,52 @@
 <template>
   <div>
-    <div class="clinic__list clinic-list">
-      <div class="clinic-list__card clinic-card">
-        <ClinicListItem :avatar="images.avatar" />
+    <div
+        v-if="clinics.length > 0"
+        class="clinic__list clinic-list"
+    >
+      <div
+          v-for="clinic in clinics"
+          :key="clinic.userId"
+          class="clinic-list__card clinic-card"
+      >
+        <ClinicListItem
+            :clinic="clinic"
+            :path-to-img="pathToImg"
+        />
       </div>
+    </div>
+    <div
+        v-else
+        class="clinic__list not-found"
+    >
+      <span>Not found</span>
     </div>
   </div>
 </template>
 
 <script>
 import ClinicListItem from "./ClinicListItem.vue";
+import {config} from "../../util/config";
 
 export default {
   name: "ClinicList",
   components: {
     ClinicListItem
   },
+  props: {
+    clinics: {
+      default: () => []
+    },
+  },
   computed: {
     images() {
       return {
         avatar: require('../.././assets/images/doctor.webp')
       }
-    }
+    },
+    pathToImg() {
+      return config.apiUrl + '/'
+    },
   }
 }
 </script>
@@ -104,6 +129,7 @@ export default {
     color: #707272;
     font-size: 13px;
     max-height: 80px;
+    height: 80px;
     overflow: hidden;
   }
 }

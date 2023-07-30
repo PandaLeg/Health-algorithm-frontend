@@ -21,7 +21,7 @@ export function watchAndGetClinics(props) {
     const searchClinic = computed(() => props.item.searchClinic)
 
     watch(searchClinic, async (value) => {
-        const url = config.apiUrl + '/clinics/by-city'
+        const url = config.apiUrl + '/clinics/by-city-and-name'
         const response = await axios.get(url, {
             params: {
                 name: value,

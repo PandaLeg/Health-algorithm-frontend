@@ -1,47 +1,47 @@
 <template>
-    <div>
-        <div
-                v-if="doctors.length > 0 && !isLoading"
-                class="doctor__list doctor-list"
-        >
-            <div
-                    v-for="doctor in doctors"
-                    :key="doctor.userId"
-                    class="doctor-list__card doctor-card"
-            >
-                <DoctorListItem
-                        :doctor="doctor"
-                        :path-to-img="pathToImg"
-                        :slots-days="slotsDays"
-                        :visit-times="visitTimes"
-                />
-            </div>
-        </div>
-        <div
-                v-else-if="!doctors.length && isLoading"
-                class="doctor__list doctor-list"
-        >
-            <div
-                    v-for="item in perPage"
-                    :key="`k-${item}`"
-                    class="doctor-list__card doctor-card"
-            >
-                <DoctorListItem
-                        :doctor="staticDoctorInfo"
-                        :path-to-img="pathToImg"
-                        :slots-days="slotsDays"
-                        :visit-times="visitTimes"
-                        :is-loading="isLoading"
-                />
-            </div>
-        </div>
-        <div
-                v-else
-                class="doctor__list not-found"
-        >
-            <span>Not found</span>
-        </div>
+  <div>
+    <div
+        v-if="doctors.length > 0 && !isLoading"
+        class="doctor__list doctor-list"
+    >
+      <div
+          v-for="doctor in doctors"
+          :key="doctor.userId"
+          class="doctor-list__card doctor-card"
+      >
+        <DoctorListItem
+            :doctor="doctor"
+            :path-to-img="pathToImg"
+            :slots-days="slotsDays"
+            :visit-times="visitTimes"
+        />
+      </div>
     </div>
+    <div
+        v-else-if="!doctors.length && isLoading"
+        class="doctor__list doctor-list"
+    >
+      <div
+          v-for="item in perPage"
+          :key="`k-${item}`"
+          class="doctor-list__card doctor-card"
+      >
+        <DoctorListItem
+            :doctor="staticDoctorInfo"
+            :path-to-img="pathToImg"
+            :slots-days="slotsDays"
+            :visit-times="visitTimes"
+            :is-loading="isLoading"
+        />
+      </div>
+    </div>
+    <div
+        v-else
+        class="doctor__list not-found"
+    >
+      <span>Not found</span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -50,35 +50,35 @@ import DoctorListItem from "./DoctorListItem.vue";
 import {config} from "../../util/config";
 
 export default defineComponent({
-    name: "DoctorList",
-    components: {
-        DoctorListItem,
+  name: "DoctorList",
+  components: {
+    DoctorListItem,
+  },
+  props: {
+    doctors: {
+      default: () => []
     },
-    props: {
-        doctors: {
-            default: () => []
-        },
-        perPage: {
-            required: true
-        },
-        isLoading: {
-            required: true
-        },
-        staticDoctorInfo: {
-            required: true
-        },
-        slotsDays: {
-            required: true
-        },
-        visitTimes: {
-            required: true
-        },
+    perPage: {
+      required: true
     },
-    computed: {
-        pathToImg() {
-            return config.apiUrl + '/'
-        },
-    }
+    isLoading: {
+      required: true
+    },
+    staticDoctorInfo: {
+      required: true
+    },
+    slotsDays: {
+      required: true
+    },
+    visitTimes: {
+      required: true
+    },
+  },
+  computed: {
+    pathToImg() {
+      return config.apiUrl + '/'
+    },
+  }
 })
 </script>
 
@@ -505,8 +505,4 @@ export default defineComponent({
   border-radius: 6px;
 }
 
-.not-found {
-  text-align: center;
-  padding-top: 30px;
-}
 </style>
