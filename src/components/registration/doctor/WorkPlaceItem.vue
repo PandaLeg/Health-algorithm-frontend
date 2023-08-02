@@ -87,8 +87,8 @@ export default {
     workPlaceVuelidate: {default: false},
   },
   setup(props) {
-    watchAndGetCities(props)
-    watchAndGetClinics(props)
+    watchAndGetCities(props.item)
+    watchAndGetClinics(props.item)
     watchAndGetAddresses(props)
 
     onMounted(() => {

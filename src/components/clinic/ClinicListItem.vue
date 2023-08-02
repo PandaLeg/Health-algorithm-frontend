@@ -6,14 +6,14 @@
       </div>
       <div class="clinic-card__inner">
         <div class="clinic-card__name">
-                <span>
-                  {{ clinic.name }}
-                </span>
+          <router-link to="">
+            {{ clinic.name }}
+          </router-link>
         </div>
         <div class="clinic-card__type">
-                <span>
-                  Medical center
-                </span>
+          <span>
+            {{ clinic.type }}
+          </span>
         </div>
         <div class="clinic-card__description">
           <p>
@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     defaultAvatar() {
-      return require('../.././assets/images/doctor.webp')
+      return require('../.././assets/images/clinic.webp')
     }
   }
 }

@@ -67,7 +67,7 @@ const routes = [
     {
         path: '/clinics',
         name: routesNames.clinic.name,
-        component: () => import(/* webpackChunkName: "ClinicPage" */ '../pages/clinic/ClinicPage.vue')
+        component: () => import(/* webpackChunkName: "ClinicPage" */ '../pages/clinic/ClinicPage.vue'),
     }
 ]
 

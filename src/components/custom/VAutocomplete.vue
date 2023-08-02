@@ -4,6 +4,7 @@
         v-model="modelInput"
         type="text"
         :placeholder="label"
+        :disabled="disabled"
         @blur="toggle = false"
         @focus="toggle = true"
         @keydown.delete="del"
@@ -50,6 +51,9 @@ export default {
     },
     search: {
       default: ''
+    },
+    disabled: {
+      default: false
     },
     label: {
       type: String,
@@ -247,7 +251,7 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
     border: 2px solid #000;
-    border-radius: 5px;
+    border-radius: 10px;
     transition: all 0.4s;
 
     &:focus, &:active {

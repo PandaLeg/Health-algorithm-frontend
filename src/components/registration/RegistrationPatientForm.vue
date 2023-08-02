@@ -81,7 +81,7 @@ export default {
     item: {required: true}
   },
   setup(props) {
-    watchAndGetCities(props)
+    watchAndGetCities(props.item)
   },
   computed: {
     modelFirstName: {

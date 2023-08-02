@@ -157,16 +157,7 @@ export default {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 13px 30px;
-  background-color: $burgundyLighten;
-  color: $LightenBlue2;
-  font-family: "MyRoboto", sans-serif;
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 1.4px;
-  border-radius: 5px;
-  text-transform: uppercase;
-  position: relative;
+  @include main-btn($burgundyLighten, $LightenBlue2);
 
   &::before {
     @extend %after-effect-btn;

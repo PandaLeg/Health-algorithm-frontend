@@ -97,7 +97,7 @@ export default {
   },
   setup(props) {
     const currentLocationVuelidate = ref([])
-    watchAndGetCities(props)
+    watchAndGetCities(props.item)
 
     const {addSchedule, deleteSchedule} = manageScheduleHook(props)
 

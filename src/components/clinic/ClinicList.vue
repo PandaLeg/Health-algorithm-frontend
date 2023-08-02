@@ -80,6 +80,9 @@ export default {
   }
 
   &__avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex: 1 0 135px;
     max-width: 135px;
     width: 135px;
@@ -114,8 +117,17 @@ export default {
   &__name {
     margin-bottom: 5px;
     line-height: 24px;
-    font-weight: 700;
-    font-size: 24px;
+
+    a {
+      color: #000;
+      font-weight: 700;
+      font-size: 24px;
+      transition: color 0.2s;
+
+      &:hover {
+        color: $darkTeal;
+      }
+    }
   }
 
   &__type {

@@ -2,8 +2,8 @@ import {computed, toRef, watch} from "vue";
 import axios from "axios";
 import {config} from "../../util/config";
 
-export function watchAndGetCities(props) {
-    const searchCity = computed(() => props.item.searchCity)
+export function watchAndGetCities(item) {
+    const searchCity = computed(() => item.searchCity)
 
     watch(searchCity, async (value) => {
         const query = value + ' ' + 'UA'
@@ -12,24 +12,24 @@ export function watchAndGetCities(props) {
 
         const data = response.data
 
-        const cities = data.records.map(el => el.fields)
-        props.item.cities = cities
+        const citiesFromDb = data.records.map(el => el.fields)
+        item.cities = citiesFromDb
     })
 }
 
-export function watchAndGetClinics(props) {
-    const searchClinic = computed(() => props.item.searchClinic)
+export function watchAndGetClinics(item) {
+    const searchClinic = computed(() => item.searchClinic)
 
     watch(searchClinic, async (value) => {
         const url = config.apiUrl + '/clinics/by-city-and-name'
         const response = await axios.get(url, {
             params: {
                 name: value,
-                city: props.item.city
+                city: item.city
             }
         })
 
-        props.item.clinics = response.data
+        item.clinics = response.data
     })
 }
 
