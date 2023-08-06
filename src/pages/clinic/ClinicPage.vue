@@ -1,151 +1,106 @@
 <template>
   <div class="clinic">
-    <div class="container">
-      <div class="clinic__search search-clinic">
-        <div class="search-clinic__wrapper">
-          <div class="search-clinic__title">
-            <h2>Search clinic</h2>
-          </div>
-          <div class="search-clinic__main">
+    <div class="clinic__container container">
+      <div
+          v-if="hasClinicInfo"
+          class="clinic__main-card main-card clinic-card"
+      >
+        <clinic-list-item
+            :clinic="clinic"
+            :path-to-img="pathToImg"
+        >
+          <div class="clinic-card__schedule clinic-schedule">
             <div
-                class="search-clinic__city"
-                :class="{'form-error': v$.city.$error}"
+                v-for="schedule in clinic.schedule"
+                :key="schedule.id"
+                class="clinic-schedule__item"
             >
-              <label>City</label>
-              <VAutocomplete
-                  v-model="clinicInfo.city"
-                  v-model:search="clinicInfo.searchCity"
-                  :items="clinicInfo.cities"
-                  item-title="name"
-                  item-value="name"
-                  label="Write the name of city"
-                  dynamic
-              />
-              <div
-                  v-for="error in v$.city.$errors"
-                  :key="error.$uid"
-                  class="input-error"
-              >
-                {{ error.$message }}
-              </div>
-            </div>
-            <div class="search-clinic__name">
-              <label>Clinic</label>
-              <VAutocomplete
-                  v-model="clinicInfo.clinic"
-                  v-model:search="clinicInfo.searchClinic"
-                  :items="clinicInfo.clinics"
-                  :disabled="isClinicDisabled"
-                  item-title="name"
-                  item-value="clinicId"
-                  label="Write the name of clinic"
-                  dynamic
-              />
+              <span>{{ schedule.addressInfo }};</span>
             </div>
           </div>
-          <div class="search-clinic__action">
-            <button @click="search">Search</button>
+          <div class="clinic-card__address">
+            <span>{{ clinic.address }}</span>
           </div>
-        </div>
+          <div class="clinic-card__make-appointment">
+            <button>Make appointment</button>
+          </div>
+        </clinic-list-item>
       </div>
-      <ClinicList :clinics="clinics"/>
-      <VPagination
-          v-if="clinics.length > 0 && totalPages > 1"
-          :current-page="page"
-          :total-pages="totalPages"
-          @next-page="nextPage"
-      />
+      <div class="clinic__info clinic-info">
+
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import ClinicList from "../../components/clinic/ClinicList.vue";
 import regMountedStateHook from "../../hooks/reg-mounted-state.hook";
-import initStateHook from "../../hooks/clinic/init-state.hook";
-import getClinicsHook from "../../hooks/clinic/get-clinics.hook";
-import VPagination from "../../components/custom/VPagination.vue";
-import VAutocomplete from "../../components/custom/VAutocomplete.vue";
-import {watchAndGetCities, watchAndGetClinics} from "../../hooks/registration/get-cities-clinic.hook";
-import {useVuelidate} from "@vuelidate/core";
-import searchClinicsHook from "../../hooks/clinic/search-clinics.hook";
+import {config} from "../../util/config";
+import ClinicListItem from "../../components/clinic/ClinicListItem.vue";
+import initStateHook from "../../hooks/clinic/specific-clinic/init-state.hook";
+import routesNames from "../../router/routesNames";
 
 export default {
   name: "ClinicPage",
-  components: {
-    VAutocomplete,
-    VPagination,
-    ClinicList
-  },
+  components: {ClinicListItem},
   setup() {
     regMountedStateHook()
 
-    const {clinics, page, perPage, totalPages, clinicInfo, isClinicDisabled, cityRule} = initStateHook()
-    const v$ = useVuelidate(cityRule, clinicInfo)
-
-    const {nextPage, getClinic, getClinics} = getClinicsHook(clinics, page, perPage, totalPages, clinicInfo)
-    const {search} = searchClinicsHook(v$, clinicInfo, getClinic, getClinics)
-
-    watchAndGetCities(clinicInfo)
-    watchAndGetClinics(clinicInfo)
-
+    const {clinic, hasClinicInfo} = initStateHook()
 
     return {
-      clinics,
-      page,
-      totalPages,
-      clinicInfo,
-      isClinicDisabled,
-      v$,
-      nextPage,
-      search
+      clinic,
+      hasClinicInfo
     }
+  },
+  computed: {
+    routesNames() {
+      return routesNames
+    },
+    pathToImg() {
+      return config.apiUrl + '/'
+    },
   }
 }
 </script>
 
 <style lang="scss">
+@import "src/assets/scss/clinic-card";
 @import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
+
+%location-text {
+  line-height: 16px;
+  color: #707272;
+  font-size: 13px;
+  font-weight: 500;
+}
 
 .clinic {
   height: 100%;
 
-  &__search {
+  &__container {
+    max-width: 750px;
+    margin: 0 auto;
     padding-top: 30px;
-
   }
 }
 
-.search-clinic {
-  &__wrapper {
-    max-width: 750px;
-    margin: 0 auto;
-    box-shadow: 2px 2px 15px rgb(128 142 184 / 10%);
-    border-radius: 15px;
-    padding: 15px;
-    background: $white;
-  }
+.main-card {
+  margin-bottom: 25px;
+}
 
-  &__title {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 20px;
-  }
-
-  &__main {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 20px;
-
-    label {
-      display: inline-block;
-      margin-bottom: 5px;
-    }
-  }
-
-  &__action {
+.clinic-card {
+  &__address {
+    margin-bottom: 10px;
     text-align: end;
+    @extend %location-text;
+    word-break: break-word;
+  }
+
+  &__make-appointment {
+    text-align: end;
+    margin-bottom: 5px;
 
     button {
       @include main-btn($burgundyLighten, $LightenBlue2);
@@ -159,27 +114,18 @@ export default {
       }
     }
   }
-
-  &__city, &__name {
-    flex: 0 1 50%;
-  }
 }
 
-input {
-  @extend %field-reg;
-}
+.clinic-schedule {
+  margin-bottom: 5px;
 
-label {
-  @extend %label-reg;
-}
+  &__item {
+    display: inline-block;
+    @extend %location-text;
 
-.input-error {
-  @extend %input-error;
-}
-
-.form-error {
-  input, select {
-    @extend %form-error;
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
   }
 }
 </style>

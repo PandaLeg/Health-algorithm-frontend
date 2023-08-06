@@ -66,8 +66,14 @@ const routes = [
     },
     {
         path: '/clinics',
+        name: routesNames.clinics.name,
+        component: () => import(/* webpackChunkName: "ClinicsPage" */ '../pages/clinic/ClinicsPage.vue'),
+    },
+    {
+        path: '/clinics/:id',
         name: routesNames.clinic.name,
         component: () => import(/* webpackChunkName: "ClinicPage" */ '../pages/clinic/ClinicPage.vue'),
+        params: true,
     }
 ]
 

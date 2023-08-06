@@ -1,6 +1,6 @@
 import {useStore} from "vuex";
-import {config} from "../../util/config";
-import {vuexTypes} from "../../store/vuexTypes";
+import {config} from "../../../util/config";
+import {vuexTypes} from "../../../store/vuexTypes";
 import {onMounted} from "vue";
 import axios from "axios";
 
@@ -10,10 +10,10 @@ export default function (clinics, page, perPage, totalPages, clinicInfo) {
     const getClinics = async () => {
         try {
             const city = clinicInfo.city? clinicInfo.city : 'kyiv'
-            const url = config.apiUrl + `/clinics/${city}`
+            const url = config.apiUrl + '/clinics/card-info'
 
             const response = await axios.get(url, {
-                params: {page: page.value - 1, perPage: perPage.value}
+                params: {city: city, page: page.value - 1, perPage: perPage.value}
             })
             const data = response.data
 
@@ -27,11 +27,13 @@ export default function (clinics, page, perPage, totalPages, clinicInfo) {
     const getClinic = async () => {
         try {
             const city = clinicInfo.city
-            const clinic = clinicInfo.clinic
+            const clinicId = clinicInfo.clinic
 
-            const url = config.apiUrl + `/clinics/${city}/${clinic}`
+            const url = config.apiUrl + `/clinics/${clinicId}/card-info`
 
-            const response = await axios.get(url)
+            const response = await axios.get(url, {
+                params: { city }
+            })
             const data = response.data
 
             clinics.value = []

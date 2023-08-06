@@ -6,7 +6,12 @@
       </div>
       <div class="clinic-card__inner">
         <div class="clinic-card__name">
-          <router-link to="">
+          <router-link
+              :to="{
+            name: routesNames.clinic.name,
+            params: { id: clinic.clinicId },
+            query: { city: clinic.city, address: clinic.addressId }
+          }">
             {{ clinic.name }}
           </router-link>
         </div>
@@ -20,12 +25,14 @@
             {{ clinic.description }}
           </p>
         </div>
+        <slot></slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import routesNames from "../../router/routesNames";
 
 export default {
   name: "ClinicListItem",
@@ -40,6 +47,9 @@ export default {
     }
   },
   computed: {
+    routesNames() {
+      return routesNames
+    },
     defaultAvatar() {
       return require('../.././assets/images/clinic.webp')
     }
