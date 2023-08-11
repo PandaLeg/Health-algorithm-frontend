@@ -4,6 +4,7 @@ import axios from "axios";
 import {vuexTypes} from "../../../store/vuexTypes";
 import {useStore} from "vuex";
 import {useRoute} from "vue-router";
+import buildSchedule from "./build-schedule";
 
 export default function (clinic) {
     const store = useStore()
@@ -30,23 +31,7 @@ export default function (clinic) {
             clinic.type = data.type
             clinic.description = data.description
             clinic.address = data.address
-            clinic.schedule = data.schedule.map(el => {
-                let weekDay
-
-                if (el.weekDays.length > 1) {
-                    weekDay = el.weekDays[0] + '-' + el.weekDays[el.weekDays.length - 1]
-                } else {
-                    weekDay = el.weekDays[0]
-                }
-
-                const resultSchedule = el.dayType === 'Workday' ? weekDay + ': ' + el.time : weekDay + ': ' + el.dayType
-
-
-                return {
-                    id: el.weekDayId,
-                    addressInfo: resultSchedule
-                }
-            })
+            clinic.schedule = buildSchedule(data.schedule)
         } catch (err) {
             store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
         }

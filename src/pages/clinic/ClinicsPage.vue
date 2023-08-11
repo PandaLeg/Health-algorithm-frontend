@@ -1,54 +1,27 @@
 <template>
   <div class="clinics">
     <div class="container">
-      <div class="clinics__search search-clinic">
-        <div class="search-clinic__wrapper">
-          <div class="search-clinic__title">
-            <h2>Search clinic</h2>
-          </div>
-          <div class="search-clinic__main">
-            <div
-                class="search-clinic__city"
-                :class="{'form-error': v$.city.$error}"
-            >
-              <label>City</label>
-              <VAutocomplete
-                  v-model="clinicInfo.city"
-                  v-model:search="clinicInfo.searchCity"
-                  :items="clinicInfo.cities"
-                  item-title="name"
-                  item-value="name"
-                  label="Write the name of city"
-                  dynamic
-              />
-              <div
-                  v-for="error in v$.city.$errors"
-                  :key="error.$uid"
-                  class="input-error"
-              >
-                {{ error.$message }}
-              </div>
-            </div>
-            <div class="search-clinic__name">
-              <label>Clinic</label>
-              <VAutocomplete
-                  v-model="clinicInfo.clinic"
-                  v-model:search="clinicInfo.searchClinic"
-                  :items="clinicInfo.clinics"
-                  :disabled="isClinicDisabled"
-                  item-title="name"
-                  item-value="clinicId"
-                  label="Write the name of clinic"
-                  dynamic
-              />
-            </div>
-          </div>
-          <div class="search-clinic__action">
-            <button @click="search">Search</button>
-          </div>
-        </div>
-      </div>
-      <ClinicList :clinics="clinics"/>
+      <SearchClinic
+          v-model:city="clinicInfo.city"
+          v-model:clinic="clinicInfo.clinic"
+          v-model:search-city="clinicInfo.searchCity"
+          v-model:search-clinic="clinicInfo.searchClinic"
+          :cities="clinicInfo.cities"
+          :clinics="clinicInfo.clinics"
+          :is-clinic-disabled="isClinicDisabled"
+          :v$="v$"
+          @search="search"
+      />
+
+      <ClinicList :clinics="clinics">
+        <template #listItem="scope">
+          <ClinicListItem
+              :clinic="scope.clinic"
+              :path-to-img="scope.pathToImg"
+          />
+        </template>
+      </ClinicList>
+
       <VPagination
           v-if="clinics.length > 0 && totalPages > 1"
           :current-page="page"
@@ -69,10 +42,15 @@ import VAutocomplete from "../../components/custom/VAutocomplete.vue";
 import {watchAndGetCities, watchAndGetClinics} from "../../hooks/registration/get-cities-clinic.hook";
 import {useVuelidate} from "@vuelidate/core";
 import searchClinicsHook from "../../hooks/clinic/clinic-search/search-clinics.hook";
+import ClinicListItem from "../../components/clinic/ClinicListItem.vue";
+import {config} from "../../util/config";
+import SearchClinic from "../../components/clinic/SearchClinic.vue";
 
 export default {
   name: "ClinicsPage",
   components: {
+    SearchClinic,
+    ClinicListItem,
     VAutocomplete,
     VPagination,
     ClinicList
@@ -107,12 +85,22 @@ export default {
 <style lang="scss">
 @import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
+@import "src/assets/scss/clinic-card";
 
 .clinics {
   height: 100%;
 
   &__search {
     padding-top: 30px;
+    margin-bottom: 30px;
+  }
+}
+
+.clinic-list {
+
+  &__card {
+    max-width: 750px;
+    margin: 0 auto 15px;
   }
 }
 

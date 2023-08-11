@@ -1,26 +1,26 @@
 <template>
-  <div>
+  <div
+      v-if="clinics.length > 0"
+      class="clinic__list clinic-list"
+  >
     <div
-        v-if="clinics.length > 0"
-        class="clinics__list clinics-list"
+        v-for="clinic in clinics"
+        :key="clinic.userId"
+        class="clinic-list__card clinic-card"
     >
-      <div
-          v-for="clinic in clinics"
-          :key="clinic.userId"
-          class="clinics-list__card clinic-card"
+      <slot
+          name="listItem"
+          :clinic="clinic"
+          :pathToImg="pathToImg"
       >
-        <ClinicListItem
-            :clinic="clinic"
-            :path-to-img="pathToImg"
-        />
-      </div>
+      </slot>
     </div>
-    <div
-        v-else
-        class="clinic__list not-found"
-    >
-      <span>Not found</span>
-    </div>
+  </div>
+  <div
+      v-else
+      class="clinic__list not-found"
+  >
+    <span>Not found</span>
   </div>
 </template>
 
@@ -46,15 +46,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "src/assets/scss/clinic-card";
+<style lang="scss" scoped>
 
-.clinics-list {
-  padding-top: 30px;
-
-  &__card {
-    max-width: 750px;
-    margin: 0 auto 15px;
-  }
-}
 </style>
