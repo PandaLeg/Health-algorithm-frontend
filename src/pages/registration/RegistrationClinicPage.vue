@@ -5,7 +5,6 @@
         <h1 class="registration-clinic__title">Registration Clinic</h1>
         <registration-user-form
             :v$="v$"
-            v-model:city="user.city"
             v-model:password="user.password"
             v-model:email="user.email"
             v-model:phone="user.phone"
@@ -14,11 +13,9 @@
           <registration-clinic-form
               v-model:name="user.clinic.name"
               v-model:description="user.clinic.description"
-              v-model:conveniences="user.clinic.conveniences"
               v-model:clinic-type="user.clinic.clinicType"
               :v$="v$"
               :clinic-types="clinicTypes"
-              :conveniences-from-db="conveniencesFromDb"
           >
             <validate-each
                 v-for="item in locations"
@@ -28,11 +25,17 @@
             >
               <template #default="{ v }">
                 <location-item
-                    :item="item"
+                    v-model:search-city="item.searchCity"
+                    v-model:searched-cities="item.searchedCities"
+                    v-model:city="v.city.$model"
+                    v-model:address="v.address.$model"
+                    v-model:conveniences="v.conveniences.$model"
+                    v-model:schedule="item.schedule"
+                    v-model:location-vuelidate="locationVuelidate"
                     :v-location="v"
                     :schedule-rule="scheduleRule"
-                    :location-vuelidate="locationVuelidate"
-                    :week-days="weekDays"
+                    :convenience-items="item.convenienceItems"
+                    :days="item.days"
                 />
                 <div
                     v-if="item.id !== 1"
@@ -90,11 +93,10 @@ export default {
     } = initStateRulesHook()
     const {user, rules, image} = initUserStateAndRules(entity, rule);
     const v$ = useVuelidate(rules, user)
-    const v = useVuelidate()
 
     const {isValid, isValidLocation} = computedClinicErrorsHook(v$, locationVuelidate)
 
-    const {addLocation, deleteLocation} = manageLocationHook(locations, locationVuelidate, weekDays)
+    const {addLocation, deleteLocation} = manageLocationHook(locations, locationVuelidate, weekDays, conveniencesFromDb)
 
     const type = 'clinic'
 
@@ -104,15 +106,12 @@ export default {
 
     return {
       v$,
-      v,
       user,
       image,
-      weekDays,
       clinicTypes,
       locationRule,
       locations,
       locationVuelidate,
-      conveniencesFromDb,
       scheduleRule,
       addLocation,
       deleteLocation,

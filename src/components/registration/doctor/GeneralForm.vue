@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import {computed} from "vue";
 
 export default {
   name: "RegistrationDoctorForm",
@@ -82,42 +83,32 @@ export default {
     surname: {required: true,},
     dateOfBirth: {required: true,},
   },
-  computed: {
-    modelFirstName: {
-      get() {
-        return this.firstName
-      },
+  setup(props, {emit}) {
+    const modelFirstName = computed({
+      get: () => props.firstName,
+      set: (val) => emit('update:first-name', val)
+    })
 
-      set(value) {
-        this.$emit('update:first-name', value)
-      }
-    },
-    modelLastName: {
-      get() {
-        return this.lastName
-      },
+    const modelLastName = computed({
+      get: () => props.lastName,
+      set: (val) => emit('update:last-name', val)
+    })
 
-      set(value) {
-        this.$emit('update:last-name', value)
-      }
-    },
-    modelSurname: {
-      get() {
-        return this.surname
-      },
+    const modelSurname = computed({
+      get: () => props.surname,
+      set: (val) => emit('update:surname', val)
+    })
 
-      set(value) {
-        this.$emit('update:surname', value)
-      }
-    },
-    modelDateOfBirth: {
-      get() {
-        return this.dateOfBirth
-      },
+    const modelDateOfBirth = computed({
+      get: () => props.dateOfBirth,
+      set: (val) => emit('update:date-of-birth', val)
+    })
 
-      set(value) {
-        this.$emit('update:dateOfBirth', value)
-      }
+    return {
+      modelFirstName,
+      modelLastName,
+      modelSurname,
+      modelDateOfBirth
     }
   }
 }

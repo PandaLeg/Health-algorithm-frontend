@@ -59,23 +59,13 @@
       {{ error.$message }}
     </div>
   </div>
-  <div class="registration-clinic__conveniences">
-    <label>Conveniences *</label>
-    <VAutocomplete
-        v-model="modelConveniences"
-        :items="conveniencesFromDb"
-        item-title="name"
-        item-value="id"
-        label="Select convenience"
-        multiple
-    />
-  </div>
   <slot></slot>
 </template>
 
 <script>
 import VAutocomplete from "../../custom/VAutocomplete.vue";
 import VSelect from "../../custom/VSelect.vue";
+import {computed} from "vue";
 
 export default {
   name: "RegistrationClinicForm",
@@ -86,47 +76,29 @@ export default {
     description: {required: true},
     clinicType: {required: true},
     clinicTypes: {required: true},
-    conveniences: {required: true},
-    conveniencesFromDb: {required: true},
   },
-  computed: {
-    modelName: {
-      get() {
-        return this.name
-      },
+  setup(props, {emit}) {
+    const modelName = computed({
+      get: () => props.name,
+      set: (val) => emit('update:name', val)
+    })
 
-      set(value) {
-        this.$emit('update:name', value)
-      }
-    },
-    modelDescription: {
-      get() {
-        return this.description
-      },
+    const modelDescription = computed({
+      get: () => props.description,
+      set: (val) => emit('update:description', val)
+    })
 
-      set(value) {
-        this.$emit('update:description', value)
-      }
-    },
-    modelClinicType: {
-      get() {
-        return this.clinicType
-      },
+    const modelClinicType = computed({
+      get: () => props.clinicType,
+      set: (val) => emit('update:clinic-type', val)
+    })
 
-      set(value) {
-        this.$emit('update:clinicType', value)
-      }
-    },
-    modelConveniences: {
-      get() {
-        return this.conveniences
-      },
-
-      set(value) {
-        this.$emit('update:conveniences', value)
-      }
-    },
-  }
+    return {
+      modelName,
+      modelDescription,
+      modelClinicType,
+    }
+  },
 }
 </script>
 

@@ -60,17 +60,23 @@
 
           <form @submit.prevent class="registration-doctor__place-form">
             <validate-each
-                v-for="(item, index) in workPlaces"
-                :key="index"
+                v-for="item in workPlaces"
+                :key="item.id"
                 :state="item"
                 :rules="workPlaceRule"
             >
               <template #default="{ v }">
                 <work-place-item
-                    :item="item"
-                    :index="index"
-                    :v="v"
+                    v-model:city="v.city.$model"
+                    v-model:clinic-name="v.clinicName.$model"
+                    v-model:address="v.address.$model"
+                    v-model:search-city="item.searchCity"
+                    v-model:search-clinic="item.searchClinic"
+                    v-model:searched-cities="item.searchedCities"
+                    v-model:searched-clinics="item.searchedClinics"
+                    v-model:addresses="item.addresses"
                     v-model:work-place-vuelidate="workPlaceVuelidate"
+                    :v="v"
                 />
                 <div
                     v-if="item.id !== 1"
@@ -110,10 +116,12 @@ import nextStepHook from "../../hooks/registration/doctor/next-step.hook";
 import managePlaceHook from "../../hooks/registration/doctor/manage-place.hook";
 import {ValidateEach} from "@vuelidate/components";
 import LocationItem from "../../components/registration/clinic/LocationItem.vue";
+import SearchClinic from "../../components/clinic/SearchClinic.vue";
 
 export default {
   name: "RegistrationDoctorPage",
   components: {
+    SearchClinic,
     LocationItem,
     ValidateEach,
     RegistrationStepper,

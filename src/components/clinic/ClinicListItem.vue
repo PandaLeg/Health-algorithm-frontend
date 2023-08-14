@@ -10,7 +10,7 @@
               :to="{
             name: routesNames.clinic.name,
             params: { id: clinic.clinicId },
-            query: { city: clinic.city, address: clinic.addressId }
+            query: { city: clinic.city, branch: clinic.clinicBranchId }
           }">
             {{ clinic.name }}
           </router-link>

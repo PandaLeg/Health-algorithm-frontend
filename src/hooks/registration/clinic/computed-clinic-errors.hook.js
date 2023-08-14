@@ -1,7 +1,7 @@
-export default function (v$, locationVuelidate, isObj = false) {
+export default function (v$, locationVuelidate) {
     const isValid = () => {
-        return !v$.value.email.$error && !v$.value.password.$error
-            && !v$.value.phone.$error && !v$.value.clinic.name.$error
+        return !v$.value.email.$error && !v$.value.password.$error && !v$.value.phone.$error
+            && !v$.value.clinic.name.$error && !v$.value.clinic.description.$error && !v$.value.clinic.clinicType.$error
     }
 
     const isValidLocation = () => {
@@ -17,7 +17,9 @@ export default function (v$, locationVuelidate, isObj = false) {
                     continue
                 }
 
-                isValidLocation = v.city ? !v.city.$error && !v.address.$error : !v.weekDays.$error && !v.dayType.$error
+                isValidLocation = v.city ? !v.city.$error && !v.address.$error && !v.conveniences.$error :
+                    !v.weekDays.$error && !v.dayType.$error && (v.dayType.$model === 'Workday' ?
+                        !v.from.$error && !v.to.$error : true)
             }
         }
 

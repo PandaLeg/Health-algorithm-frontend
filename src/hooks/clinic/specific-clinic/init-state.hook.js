@@ -1,15 +1,15 @@
-import {computed, reactive, ref} from "vue";
+import {computed, ref} from "vue";
 import getFullInfoClinicHook from "./get-full-info-clinic.hook";
 
 export default function () {
-    const clinic = reactive({})
+    const clinic = ref({})
     const clinics = ref([])
     const page = ref(1)
     const perPage = ref(5)
     const totalPages = ref(0)
 
     const hasClinicInfo = computed(() => {
-        return Object.keys(clinic).length
+        return Object.keys(clinic.value).length
     })
 
     getFullInfoClinicHook(clinic)

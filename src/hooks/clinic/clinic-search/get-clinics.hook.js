@@ -36,8 +36,7 @@ export default function (clinics, page, perPage, totalPages, clinicInfo) {
             })
             const data = response.data
 
-            clinics.value = []
-            clinics.value.push(data)
+            clinics.value = [data]
 
             page.value = 1
             perPage.value = 5

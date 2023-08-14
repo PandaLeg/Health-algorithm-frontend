@@ -13,25 +13,26 @@ export default function (clinic) {
     onMounted(async () => {
         try {
             const city = route.query.city
-            const address = route.query.address
+            const clinicBranch = route.query.branch
             const clinicId = route.params.id
 
             const url = config.apiUrl + `/clinics/${clinicId}/full-info`
 
             const response = await axios.get(url, {
-                params: {city, address}
+                params: {city, clinicBranch}
             })
             const data = response.data
 
-            clinic.avatar = data.avatar
-            clinic.clinicId = data.clinicId
-            clinic.city = data.city
-            clinic.addressId = data.addressId
-            clinic.name = data.name
-            clinic.type = data.type
-            clinic.description = data.description
-            clinic.address = data.address
-            clinic.schedule = buildSchedule(data.schedule)
+            clinic.value.avatar = data.avatar
+            clinic.value.clinicId = data.clinicId
+            clinic.value.city = data.city
+            clinic.value.clinicBranchId = data.clinicBranchId
+            clinic.value.name = data.name
+            clinic.value.type = data.type
+            clinic.value.description = data.description
+            clinic.value.address = data.address
+            clinic.value.conveniences = data.conveniences
+            clinic.value.schedule = buildSchedule(data.schedule)
         } catch (err) {
             store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
         }

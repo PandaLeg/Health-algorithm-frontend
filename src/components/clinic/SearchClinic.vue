@@ -13,7 +13,7 @@
           <VAutocomplete
               v-model="modelCity"
               v-model:search="modelSearchCity"
-              :items="cities"
+              :items="searchedCities"
               item-title="name"
               item-value="name"
               label="Write the name of city"
@@ -32,7 +32,7 @@
           <VAutocomplete
               v-model="modelClinic"
               v-model:search="modelSearchClinic"
-              :items="clinics"
+              :items="searchedClinics"
               :disabled="isClinicDisabled"
               item-title="name"
               item-value="clinicId"
@@ -51,6 +51,7 @@
 <script>
 import VAutocomplete from "../custom/VAutocomplete.vue";
 import {computed} from "vue";
+import {watchAndGetCities, watchAndGetClinics} from "../../hooks/registration/get-cities-clinic.hook";
 
 export default {
   name: "SearchClinic",
@@ -60,8 +61,8 @@ export default {
     clinic: {required: true},
     searchCity: {required: true},
     searchClinic: {required: true},
-    cities: {required: true},
-    clinics: {required: true},
+    searchedCities: {required: true},
+    searchedClinics: {required: true},
     isClinicDisabled: {required: true}
   },
   components: {VAutocomplete},
@@ -82,9 +83,12 @@ export default {
     })
 
     const modelSearchClinic = computed({
-      get: () => props.searchCity,
+      get: () => props.searchClinic,
       set: (val) => emit('update:search-clinic', val)
     })
+
+    watchAndGetCities(modelSearchCity, emit)
+    watchAndGetClinics(modelSearchClinic, modelCity, emit)
 
     return {
       modelCity,

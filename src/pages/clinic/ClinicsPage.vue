@@ -6,8 +6,8 @@
           v-model:clinic="clinicInfo.clinic"
           v-model:search-city="clinicInfo.searchCity"
           v-model:search-clinic="clinicInfo.searchClinic"
-          :cities="clinicInfo.cities"
-          :clinics="clinicInfo.clinics"
+          v-model:searched-cities="searchedCities"
+          v-model:searched-clinics="searchedClinics"
           :is-clinic-disabled="isClinicDisabled"
           :v$="v$"
           @search="search"
@@ -58,21 +58,29 @@ export default {
   setup() {
     regMountedStateHook()
 
-    const {clinics, page, perPage, totalPages, clinicInfo, isClinicDisabled, cityRule} = initStateHook()
+    const {
+      clinics,
+      page,
+      perPage,
+      totalPages,
+      clinicInfo,
+      searchedCities,
+      searchedClinics,
+      isClinicDisabled,
+      cityRule
+    } = initStateHook()
     const v$ = useVuelidate(cityRule, clinicInfo)
 
     const {nextPage, getClinic, getClinics} = getClinicsHook(clinics, page, perPage, totalPages, clinicInfo)
     const {search} = searchClinicsHook(v$, clinicInfo, getClinic, getClinics)
-
-    watchAndGetCities(clinicInfo)
-    watchAndGetClinics(clinicInfo)
-
 
     return {
       clinics,
       page,
       totalPages,
       clinicInfo,
+      searchedCities,
+      searchedClinics,
       isClinicDisabled,
       v$,
       nextPage,

@@ -55,6 +55,10 @@ export default {
     disabled: {
       default: false
     },
+    same: {
+      type: Boolean,
+      default: false
+    },
     label: {
       type: String,
       default: ''
@@ -139,6 +143,10 @@ export default {
     selectResult(selectedItem) {
       if (selectedItem) {
         let item = this.savedItems.find(item => item[this.itemValue] === selectedItem[this.itemValue])
+
+        if (this.same && !item && selectedItem.highlight) {
+          return
+        }
 
         if (this.multiple) {
           if (!item) {

@@ -7,6 +7,19 @@
             {{ clinic.type }}
           </span>
         </div>
+        <div class="clinic-card__conveniences clinic-conveniences">
+          <div
+              v-for="convenience in clinic.conveniences"
+              :key="convenience.id"
+              class="clinic-conveniences__item"
+          >
+            <i
+                class="clinic-conveniences__icon"
+                :class="getIcon(convenience.id)">
+            </i>
+            <span>{{ convenience.name }}</span>
+          </div>
+        </div>
         <div class="clinic-card__schedule clinic-schedule">
           <div
               v-for="schedule in clinic.schedule"
@@ -28,7 +41,9 @@
 </template>
 
 <script>
-import routesNames from "../../router/routesNames";
+import routes from "../../router/routesNames";
+import getClinicIcon from "../../util/get-clinic-icon";
+import {computed} from "vue";
 
 export default {
   name: "SubClinicListItem",
@@ -42,12 +57,13 @@ export default {
       required: true
     }
   },
-  computed: {
-    routesNames() {
-      return routesNames
-    },
-    defaultAvatar() {
-      return require('../.././assets/images/clinic.webp')
+  setup() {
+    const getIcon = (convenienceId) => getClinicIcon(convenienceId)
+    const routesNames = computed(() => routes)
+
+    return {
+      routesNames,
+      getIcon
     }
   }
 }

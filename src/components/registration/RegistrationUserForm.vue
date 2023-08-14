@@ -91,6 +91,8 @@
 
 <script>
 
+import {computed, ref} from "vue";
+
 export default {
   name: "RegistrationUserForm",
   props: {
@@ -100,51 +102,29 @@ export default {
     password: {required: true},
     image: {default: null},
   },
-  data() {
-    return {
-      imageUrl: ''
-    }
-  },
-  computed: {
-    modelPhone: {
-      get() {
-        return this.phone
-      },
+  setup(props, {emit}) {
+    const imageUrl = ref('')
+    const modelPhone = computed({
+      get: () => props.phone,
+      set: (val) => emit('update:phone', val)
+    })
 
-      set(value) {
-        this.$emit('update:phone', value)
-      }
-    },
-    modelEmail: {
-      get() {
-        return this.email
-      },
+    const modelEmail = computed({
+      get: () => props.email,
+      set: (val) => emit('update:email', val)
+    })
 
-      set(value) {
-        this.$emit('update:email', value)
-      }
-    },
-    modelPassword: {
-      get() {
-        return this.password
-      },
+    const modelPassword = computed({
+      get: () => props.password,
+      set: (val) => emit('update:password', val)
+    })
 
-      set(value) {
-        this.$emit('update:password', value)
-      }
-    },
-    modelImage: {
-      get() {
-        return this.image
-      },
+    const modelImage = computed({
+      get: () => props.image,
+      set: (val) => emit('update:image', val)
+    })
 
-      set(value) {
-        this.$emit('update:image', value)
-      }
-    },
-  },
-  methods: {
-    onChangeImage(e) {
+    const onChangeImage = (e) => {
       const files = e.target.files;
 
       if (files[0]) {
@@ -158,12 +138,21 @@ export default {
         fr.readAsDataURL(file);
 
         fr.addEventListener('load', () => {
-          this.imageUrl = fr.result
-          this.modelImage = file
+          imageUrl.value = fr.result
+          modelImage.value = file
         })
       }
     }
-  }
+
+    return {
+      imageUrl,
+      modelPhone,
+      modelEmail,
+      modelPassword,
+      modelImage,
+      onChangeImage
+    }
+  },
 }
 </script>
 

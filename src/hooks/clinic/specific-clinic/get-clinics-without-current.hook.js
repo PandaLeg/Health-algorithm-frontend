@@ -12,7 +12,7 @@ export default function (currentClinic, clinics, page, perPage, totalPages) {
     const getClinicsWithoutCurrent = async () => {
         try {
             const city = route.query.city
-            const address = route.query.address
+            const clinicBranch = route.query.branch
             const clinicId = route.params.id
 
             const url = config.apiUrl + `/clinics/full-info`
@@ -21,7 +21,7 @@ export default function (currentClinic, clinics, page, perPage, totalPages) {
                 params: {
                     id: clinicId,
                     city: city,
-                    address,
+                    clinicBranch,
                     page: page.value - 1,
                     perPage: perPage.value
                 }
@@ -29,17 +29,18 @@ export default function (currentClinic, clinics, page, perPage, totalPages) {
             const data = response.data
 
             clinics.value = data.clinics.map(clinic => ({
-                avatar: currentClinic.avatar,
-                clinicId: currentClinic.clinicId,
-                city: currentClinic.city,
-                addressId: clinic.addressId,
-                type: currentClinic.type,
+                clinicId: currentClinic.value.clinicId,
+                city: currentClinic.value.city,
+                clinicBranchId: clinic.clinicBranchId,
+                type: currentClinic.value.type,
                 address: clinic.address,
-                schedule: buildSchedule(data.schedule)
+                conveniences: clinic.conveniences,
+                schedule: buildSchedule(clinic.schedule)
             }))
 
             totalPages.value = data.totalPages
         } catch (err) {
+            console.log(err)
             store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
         }
     }

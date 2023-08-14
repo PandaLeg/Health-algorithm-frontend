@@ -1,5 +1,5 @@
 import {helpers, required} from "@vuelidate/validators";
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 
 export default function () {
     const entity = {
@@ -10,10 +10,8 @@ export default function () {
         }
     }
 
-    const item = reactive({
-        searchCity: '',
-        cities: []
-    })
+    const searchCity = ref('')
+    const searchedCities = ref([])
 
     const rule = {
         patient: {
@@ -31,7 +29,8 @@ export default function () {
 
     return {
         entity,
-        item,
+        searchCity,
+        searchedCities,
         rule
     }
 }

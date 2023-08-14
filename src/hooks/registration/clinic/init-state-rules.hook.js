@@ -1,5 +1,5 @@
 import {helpers, required} from "@vuelidate/validators";
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import dayInformation from '../../../util/dayInformation.json'
 import {getConveniences, getWeekDays, getClinicTypes} from "./clinic-information.hook";
 
@@ -8,13 +8,20 @@ export default function () {
     const conveniencesFromDb = ref([])
     const clinicTypes = ref([])
 
-    const locations = ref([
+    const locations = reactive([
         {
-            id: 1, city: null, searchCity: '', cities: [], address: null, schedule: [
+            id: 1,
+            city: null,
+            searchCity: '',
+            searchedCities: [],
+            address: null,
+            conveniences: [],
+            convenienceItems: conveniencesFromDb,
+            days: weekDays,
+            schedule: [
                 {
                     id: 1,
                     weekDays: [],
-                    days: weekDays,
                     dayType: null,
                     types: dayInformation.dayTypes,
                     from: null,
@@ -33,8 +40,7 @@ export default function () {
         clinic: {
             name: '',
             description: '',
-            clinicType: null,
-            conveniences: []
+            clinicType: null
         }
     }
 
@@ -58,6 +64,9 @@ export default function () {
         },
         address: {
             required: helpers.withMessage('Enter address', required)
+        },
+        conveniences: {
+            required: helpers.withMessage('Select convenience', required)
         }
     }
 

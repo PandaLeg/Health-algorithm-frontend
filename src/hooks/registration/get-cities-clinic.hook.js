@@ -1,11 +1,10 @@
-import {computed, toRef, watch} from "vue";
+import {toRef, watch} from "vue";
 import axios from "axios";
 import {config} from "../../util/config";
 
-export function watchAndGetCities(item) {
-    const searchCity = computed(() => item.searchCity)
+export function watchAndGetCities(modelSearchCity, emit) {
 
-    watch(searchCity, async (value) => {
+    watch(modelSearchCity, async (value) => {
         const query = value + ' ' + 'UA'
         const url = config.geoNameApiUrl + `/?dataset=geonames-all-cities-with-a-population-1000&q=${query}&sort=name&facet=feature_code&facet=cou_name_en&facet=timezone`
         const response = await axios.get(url)
@@ -13,40 +12,39 @@ export function watchAndGetCities(item) {
         const data = response.data
 
         const citiesFromDb = data.records.map(el => el.fields)
-        item.cities = citiesFromDb
+
+        emit('update:searched-cities', citiesFromDb)
     })
 }
 
-export function watchAndGetClinics(item) {
-    const searchClinic = computed(() => item.searchClinic)
+export function watchAndGetClinics(modelSearchClinic, city, emit) {
 
-    watch(searchClinic, async (value) => {
+    watch(modelSearchClinic, async (value) => {
         const url = config.apiUrl + '/clinics/names'
         const response = await axios.get(url, {
             params: {
                 name: value,
-                city: item.city
+                city: city.value
             }
         })
 
-        item.clinics = response.data
+        emit('update:searched-clinics', response.data)
     })
 }
 
-export function watchAndGetAddresses(props) {
-    const name = toRef(props.item, 'name')
+export function watchAndGetAddresses(modelClinicName, city, emit) {
 
-    watch(name, async (value) => {
+    watch(modelClinicName, async (value) => {
         if (!value) return
 
-        const url = config.apiUrl + '/addresses/location'
+        const url = config.apiUrl + '/clinic-branches/addresses'
         const response = await axios.get(url, {
             params: {
                 clinicId: value,
-                city: props.item.city
+                city: city.value
             }
         })
 
-        props.item.addresses = response.data
+        emit('update:addresses', response.data)
     })
 }

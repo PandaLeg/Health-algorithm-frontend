@@ -10,6 +10,19 @@
             :path-to-img="pathToImg"
         >
           <template #default>
+            <div class="clinic-card__conveniences clinic-conveniences">
+              <div
+                  v-for="convenience in clinic.conveniences"
+                  :key="convenience.id"
+                  class="clinic-conveniences__item"
+              >
+                <i
+                    class="clinic-conveniences__icon"
+                    :class="getIcon(convenience.id)">
+                </i>
+                <span>{{ convenience.name }}</span>
+              </div>
+            </div>
             <div class="clinic-card__schedule clinic-schedule">
               <div
                   v-for="schedule in clinic.schedule"
@@ -81,6 +94,7 @@ import switchActiveTabHook from "../../hooks/clinic/specific-clinic/switch-activ
 import getClinicsWithoutCurrentHook from "../../hooks/clinic/specific-clinic/get-clinics-without-current.hook";
 import ClinicList from "../../components/clinic/ClinicList.vue";
 import SubClinicListItem from "../../components/clinic/SubClinicListItem.vue";
+import getClinicIcon from "../../util/get-clinic-icon";
 
 export default {
   name: "ClinicPage",
@@ -93,12 +107,14 @@ export default {
     switchActiveTabHook()
 
     const {getClinicsWithoutCurrent} = getClinicsWithoutCurrentHook(clinic, clinics, page, perPage, totalPages)
+    const getIcon = (convenienceId) => getClinicIcon(convenienceId)
 
     return {
       clinic,
       clinics,
       hasClinicInfo,
-      getClinicsWithoutCurrent
+      getClinicsWithoutCurrent,
+      getIcon
     }
   },
   computed: {
@@ -116,6 +132,7 @@ export default {
 @import "src/assets/scss/clinic-card";
 @import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
+@import "src/assets/scss/icons";
 
 %location-text {
   line-height: 16px;
@@ -170,8 +187,28 @@ export default {
   }
 }
 
+.clinic-conveniences {
+  margin-bottom: 10px;
+
+  &__item {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    @extend %location-text;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+
+  &__icon {
+    margin-right: 5px;
+    font-size: 14px;
+  }
+}
+
 .clinic-schedule {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 
   &__item {
     display: inline-block;

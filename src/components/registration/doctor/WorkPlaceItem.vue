@@ -5,9 +5,9 @@
   >
     <label>City *</label>
     <VAutocomplete
-        v-model="v.city.$model"
-        v-model:search="item.searchCity"
-        :items="item.cities"
+        v-model="modelCity"
+        v-model:search="modelSearchCity"
+        :items="searchedCities"
         item-title="name"
         item-value="name"
         label="Write the name of city"
@@ -22,22 +22,22 @@
     </div>
   </div>
   <div
-      v-if="item.city"
+      v-if="modelCity"
       class="registration-doctor__clinic-name"
-      :class="{'form-error': v.name.$error}"
+      :class="{'form-error': v.clinicName.$error}"
   >
     <label>Clinic *</label>
     <VAutocomplete
-        v-model="v.name.$model"
-        v-model:search="item.searchClinic"
-        :items="item.clinics"
+        v-model="modelClinicName"
+        v-model:search="modelSearchClinic"
+        :items="searchedClinics"
         item-title="name"
         item-value="clinicId"
         label="Write the name of clinic"
         dynamic
     />
     <div
-        v-for="error in v.name.$errors"
+        v-for="error in v.clinicName.$errors"
         :key="error.$uid"
         class="input-error"
     >
@@ -45,14 +45,14 @@
     </div>
   </div>
   <div
-      v-if="item.city && item.name && item.addresses.length"
+      v-if="modelCity && modelClinicName && addresses.length"
       class="registration-doctor__clinic-address"
       :class="{'form-error': v.address.$error}"
   >
     <label>Address *</label>
     <VSelect
-        v-model="v.address.$model"
-        :options="item.addresses"
+        v-model="modelAddress"
+        :options="addresses"
         item-title="address"
         item-value="id"
         label="Select address"
@@ -74,26 +74,65 @@ import {
   watchAndGetClinics,
   watchAndGetAddresses
 } from "../../../hooks/registration/get-cities-clinic.hook";
-import {onMounted} from "vue";
+import {computed, onMounted} from "vue";
 import VSelect from "../../custom/VSelect.vue";
 
 export default {
   name: "WorkPlaceForm",
   components: {VSelect, VAutocomplete},
   props: {
-    item: {required: true},
-    index: {required: true},
+    city: {required: true},
+    clinicName: {required: true},
+    address: {required: true},
+    searchCity: {required: true},
+    searchClinic: {required: true},
+    searchedCities: {required: true},
+    searchedClinics: {required: true},
+    addresses: {required: true},
     v: {required: true},
-    workPlaceVuelidate: {default: false},
+    workPlaceVuelidate: {default: () => []},
   },
-  setup(props) {
-    watchAndGetCities(props.item)
-    watchAndGetClinics(props.item)
-    watchAndGetAddresses(props)
+  setup(props, {emit}) {
+    const modelCity = computed({
+      get: () => props.city,
+      set: (val) => emit('update:city', val)
+    })
+
+    const modelClinicName = computed({
+      get: () => props.clinicName,
+      set: (val) => emit('update:clinic-name', val)
+    })
+
+    const modelAddress = computed({
+      get: () => props.address,
+      set: (val) => emit('update:address', val)
+    })
+
+    const modelSearchCity = computed({
+      get: () => props.searchCity,
+      set: (val) => emit('update:search-city', val)
+    })
+
+    const modelSearchClinic = computed({
+      get: () => props.searchClinic,
+      set: (val) => emit('update:search-clinic', val)
+    })
+
+    watchAndGetCities(modelSearchCity, emit)
+    watchAndGetClinics(modelSearchClinic, modelCity, emit)
+    watchAndGetAddresses(modelClinicName, modelCity, emit)
 
     onMounted(() => {
-      props.workPlaceVuelidate.push(props.v)
+      emit('update:work-place-vuelidate', [...props.workPlaceVuelidate, props.v])
     })
+
+    return {
+      modelCity,
+      modelClinicName,
+      modelAddress,
+      modelSearchCity,
+      modelSearchClinic
+    }
   },
 }
 </script>

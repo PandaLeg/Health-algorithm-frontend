@@ -12,16 +12,16 @@ export default function () {
         isSpecialtySuccess: false,
         isPlaceActive: false,
     })
-    const workPlaces = ref([
+    const workPlaces = reactive([
         {
             id: 1,
             city: null,
-            name: null,
+            clinicName: null,
             address: null,
             searchCity: '',
             searchClinic: '',
-            cities: [],
-            clinics: [],
+            searchedCities: [],
+            searchedClinics: [],
             addresses: []
         },
     ])
@@ -82,7 +82,7 @@ export default function () {
         city: {
             required: helpers.withMessage('Enter city', required)
         },
-        name: {
+        clinicName: {
             required: helpers.withMessage('Enter name', required)
         },
         address: {

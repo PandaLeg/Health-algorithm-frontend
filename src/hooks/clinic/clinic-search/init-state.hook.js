@@ -9,11 +9,12 @@ export default function () {
     const clinicInfo = reactive({
         searchCity: '',
         city: '',
-        cities: [],
         searchClinic: '',
         clinic: '',
-        clinics: []
     })
+    const searchedCities = ref([])
+    const searchedClinics = ref([])
+
     const isClinicDisabled = computed(() => {
         return !(!!clinicInfo.city)
     })
@@ -30,6 +31,8 @@ export default function () {
         perPage,
         totalPages,
         clinicInfo,
+        searchedCities,
+        searchedClinics,
         isClinicDisabled,
         cityRule
     }
