@@ -21,7 +21,6 @@ export default function (page, perPage, totalPages, doctors, isLoading) {
             totalPages.value = data.totalPages
         } catch (err) {
             store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
-            console.log(err)
         } finally {
             isLoading.value = false
         }

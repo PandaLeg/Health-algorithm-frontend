@@ -40,3 +40,16 @@
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 5px;
 }
+
+@mixin main-btn($background, $color) {
+  padding: 13px 30px;
+  background-color: $background;
+  color: $color;
+  font-family: "MyRoboto", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  position: relative;
+}

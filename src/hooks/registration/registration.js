@@ -52,28 +52,24 @@ export default function (v$, user, isValid, type, image = null, locations = [], 
 function formLocations(locations) {
     const clinicLocations = []
 
-    locations.value.forEach(location => {
-        const addresses = []
-
-        const newAddress = formAddressWithSchedule(location.schedule, location)
+    locations.forEach(location => {
+        const newBranch = formBranchWithSchedule(location.schedule, location)
 
         const clinicLocation = clinicLocations.find(el => el.city === location.city)
 
         if (clinicLocation) {
             const newLocation = {
                 city: location.city,
-                addresses: [...clinicLocation.addresses, newAddress]
+                clinicBranches: [...clinicLocation.clinicBranches, newBranch]
             }
 
             const locationIndex = clinicLocations.findIndex(el => el.city === location.city)
 
             clinicLocations.splice(locationIndex, 1, newLocation)
         } else {
-            addresses.push(newAddress)
-
             const newLocation = {
                 city: location.city,
-                addresses
+                clinicBranches: [newBranch]
             }
 
             clinicLocations.push(newLocation)
@@ -84,7 +80,7 @@ function formLocations(locations) {
     return clinicLocations
 }
 
-function formAddressWithSchedule(schedule, location) {
+function formBranchWithSchedule(schedule, location) {
     const scheduleClinic = schedule.map(el => {
         if (el.dayType === 'Workday') {
             return {
@@ -101,7 +97,8 @@ function formAddressWithSchedule(schedule, location) {
     })
 
     return {
-        name: location.address,
+        address: location.address,
+        conveniences: location.conveniences,
         scheduleClinic
     }
 }
@@ -109,25 +106,25 @@ function formAddressWithSchedule(schedule, location) {
 function formAddresses(locations) {
     const workPlaces = []
 
-    locations.value.forEach(location => {
+    locations.forEach(location => {
         const addresses = []
 
-        const workPlace = workPlaces.find(el => el.clinicId === location.name)
+        const workPlace = workPlaces.find(el => el.clinicId === location.clinicName)
 
         if (workPlace) {
             const newLocation = {
-                clinicId: location.name,
+                clinicId: location.clinicName,
                 addresses: [...workPlace.addresses, location.address]
             }
 
-            const locationIndex = workPlaces.findIndex(el => el.clinicId === location.name)
+            const locationIndex = workPlaces.findIndex(el => el.clinicId === location.clinicName)
 
             workPlaces.splice(locationIndex, 1, newLocation)
         } else {
             addresses.push(location.address)
 
             const newLocation = {
-                clinicId: location.name,
+                clinicId: location.clinicName,
                 addresses
             }
 

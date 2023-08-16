@@ -5,14 +5,17 @@
         <h1 class="registration-clinic__title">Registration Clinic</h1>
         <registration-user-form
             :v$="v$"
-            v-model:city="user.city"
             v-model:password="user.password"
             v-model:email="user.email"
             v-model:phone="user.phone"
+            v-model:image="image"
         >
           <registration-clinic-form
               v-model:name="user.clinic.name"
+              v-model:description="user.clinic.description"
+              v-model:clinic-type="user.clinic.clinicType"
               :v$="v$"
+              :clinic-types="clinicTypes"
           >
             <validate-each
                 v-for="item in locations"
@@ -22,11 +25,17 @@
             >
               <template #default="{ v }">
                 <location-item
-                    :item="item"
+                    v-model:search-city="item.searchCity"
+                    v-model:searched-cities="item.searchedCities"
+                    v-model:city="v.city.$model"
+                    v-model:address="v.address.$model"
+                    v-model:conveniences="v.conveniences.$model"
+                    v-model:schedule="item.schedule"
+                    v-model:location-vuelidate="locationVuelidate"
                     :v-location="v"
                     :schedule-rule="scheduleRule"
-                    :location-vuelidate="locationVuelidate"
-                    :week-days="weekDays"
+                    :convenience-items="item.convenienceItems"
+                    :days="item.days"
                 />
                 <div
                     v-if="item.id !== 1"
@@ -71,14 +80,23 @@ export default {
     ValidateEach
   },
   setup() {
-    const {locations, entity, rule, weekDays, locationRule, locationVuelidate, scheduleRule} = initStateRulesHook()
+    const {
+      locations,
+      entity,
+      rule,
+      weekDays,
+      clinicTypes,
+      conveniencesFromDb,
+      locationRule,
+      locationVuelidate,
+      scheduleRule
+    } = initStateRulesHook()
     const {user, rules, image} = initUserStateAndRules(entity, rule);
     const v$ = useVuelidate(rules, user)
-    const v = useVuelidate()
 
     const {isValid, isValidLocation} = computedClinicErrorsHook(v$, locationVuelidate)
 
-    const {addLocation, deleteLocation} = manageLocationHook(locations, locationVuelidate, weekDays)
+    const {addLocation, deleteLocation} = manageLocationHook(locations, locationVuelidate, weekDays, conveniencesFromDb)
 
     const type = 'clinic'
 
@@ -88,9 +106,9 @@ export default {
 
     return {
       v$,
-      v,
       user,
-      weekDays,
+      image,
+      clinicTypes,
       locationRule,
       locations,
       locationVuelidate,
@@ -103,7 +121,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
 
@@ -159,6 +177,24 @@ export default {
   &__add {
     margin-top: 5px;
   }
+}
+
+.input-error {
+  @extend %input-error;
+}
+
+.form-error {
+  input, textarea, select {
+    @extend %form-error;
+  }
+}
+
+input, textarea {
+  @extend %field-reg;
+}
+
+label {
+  @extend %label-reg;
 }
 
 </style>

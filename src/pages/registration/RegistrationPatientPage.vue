@@ -8,13 +8,15 @@
             v-model:password="user.password"
             v-model:email="user.email"
             v-model:phone="user.phone"
+            v-model:image="image"
         >
           <registration-patient-form
               :v$="v$"
-              :item="item"
               v-model:first-name="user.patient.firstName"
               v-model:last-name="user.patient.lastName"
               v-model:city="user.patient.city"
+              v-model:search-city="searchCity"
+              v-model:searched-cities="searchedCities"
           />
           <div class="registration__button">
             <button @click="registrationUser">Registration</button>
@@ -42,8 +44,8 @@ export default {
     RegistrationPatientForm
   },
   setup() {
-    const {entity, rule, item} = initStateAndRules();
-    const {user, rules} = initUserStateAndRules(entity, rule);
+    const {entity, rule, searchCity, searchedCities} = initStateAndRules();
+    const {user, rules, image} = initUserStateAndRules(entity, rule);
     const v$ = useVuelidate(rules, user)
 
     const {isValid} = computedPatientErrors(v$)
@@ -56,7 +58,9 @@ export default {
     return {
       v$,
       user,
-      item,
+      image,
+      searchCity,
+      searchedCities,
       registrationUser
     }
   },

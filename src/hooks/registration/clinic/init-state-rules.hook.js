@@ -1,17 +1,27 @@
 import {helpers, required} from "@vuelidate/validators";
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import dayInformation from '../../../util/dayInformation.json'
-import getWeekDaysHook from "./get-week-days.hook";
+import {getConveniences, getWeekDays, getClinicTypes} from "./clinic-information.hook";
 
 export default function () {
     const weekDays = ref([])
-    const locations = ref([
+    const conveniencesFromDb = ref([])
+    const clinicTypes = ref([])
+
+    const locations = reactive([
         {
-            id: 1, city: null, searchCity: '', cities: [], address: null, schedule: [
+            id: 1,
+            city: null,
+            searchCity: '',
+            searchedCities: [],
+            address: null,
+            conveniences: [],
+            convenienceItems: conveniencesFromDb,
+            days: weekDays,
+            schedule: [
                 {
                     id: 1,
                     weekDays: [],
-                    days: weekDays,
                     dayType: null,
                     types: dayInformation.dayTypes,
                     from: null,
@@ -22,11 +32,15 @@ export default function () {
     ])
     const locationVuelidate = ref([])
 
-    getWeekDaysHook(weekDays)
+    getWeekDays(weekDays)
+    getConveniences(conveniencesFromDb)
+    getClinicTypes(clinicTypes)
 
     const entity = {
         clinic: {
-            name: ''
+            name: '',
+            description: '',
+            clinicType: null
         }
     }
 
@@ -34,6 +48,12 @@ export default function () {
         clinic: {
             name: {
                 required: helpers.withMessage('Enter clinic name', required)
+            },
+            description: {
+                required: helpers.withMessage('Describe your clinic', required)
+            },
+            clinicType: {
+                required: helpers.withMessage('Select type of clinic', required)
             }
         }
     }
@@ -44,6 +64,9 @@ export default function () {
         },
         address: {
             required: helpers.withMessage('Enter address', required)
+        },
+        conveniences: {
+            required: helpers.withMessage('Select convenience', required)
         }
     }
 
@@ -85,6 +108,8 @@ export default function () {
     return {
         locations,
         weekDays,
+        clinicTypes,
+        conveniencesFromDb,
         entity,
         rule,
         locationRule,

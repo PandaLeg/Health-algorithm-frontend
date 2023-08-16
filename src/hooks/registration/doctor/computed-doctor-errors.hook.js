@@ -28,7 +28,7 @@ export default function (v$, locationVuelidate, isObj = false) {
                 continue
             }
 
-            isValidLocation = !v.city.$error && !v.name.$error && !v.address.$error
+            isValidLocation = !v.city.$error && !v.clinicName.$error && !v.address.$error
         }
 
         return isValidLocation

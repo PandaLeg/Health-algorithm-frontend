@@ -1,28 +1,26 @@
-import {reactive} from "vue";
-
 export default function (contentFields, workPlaceVuelidate) {
     const addPlace = () => {
-        let id = contentFields.value[contentFields.value.length - 1].id
-        const field = reactive({
+        let id = contentFields[contentFields.length - 1].id
+        const field = {
             id: ++id,
             city: null,
-            name: null,
+            clinicName: null,
             address: null,
             searchCity: '',
             searchClinic: '',
-            searchAddress: '',
-            cities: [],
-            clinics: [],
+            searchedCities: [],
+            searchedClinics: [],
             addresses: []
-        })
-        contentFields.value.push(field)
+        }
+
+        contentFields.push(field)
     }
 
     const deletePlace = (item) => {
-        const itemIndex = contentFields.value.findIndex(el => el.id === item.id)
+        const itemIndex = contentFields.findIndex(el => el.id === item.id)
 
-        if (itemIndex !== -1 && contentFields.value.length > 1) {
-            contentFields.value.splice(itemIndex, 1)
+        if (itemIndex !== -1 && contentFields.length > 1) {
+            contentFields.splice(itemIndex, 1)
             workPlaceVuelidate.value.splice(itemIndex, 1)
         }
     }

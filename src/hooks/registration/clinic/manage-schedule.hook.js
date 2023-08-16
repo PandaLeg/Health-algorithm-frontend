@@ -1,35 +1,36 @@
-import {reactive, toRef} from "vue";
 import dayInformation from "../../../util/dayInformation.json";
+import cloneDeep from 'lodash/cloneDeep'
 
-export default function (props) {
-    const schedule = toRef(props.item, 'schedule')
+export default function (props, emit) {
+    const schedule = props.schedule
 
     const addSchedule = () => {
+        let id = schedule[schedule.length - 1].id
 
-        let id = schedule.value[schedule.value.length - 1].id
-
-        const days = props.weekDays.map(el => ({...el}))
         const dayTypes = dayInformation.dayTypes.map(el => ({...el}))
 
-        const field = reactive({
+        const field = {
             id: ++id,
             weekDays: [],
-            days,
             dayType: null,
             types: dayTypes,
             from: null,
             to: null
-        })
+        }
 
-
-        schedule.value.push(field)
+        const newSchedule = cloneDeep(schedule)
+        newSchedule.push(field)
+        emit('update:schedule', newSchedule)
     }
 
     const deleteSchedule = (item) => {
-        const itemIndex = schedule.value.findIndex(el => el.id === item.id)
+        const itemIndex = schedule.findIndex(el => el.id === item.id)
 
-        if (itemIndex !== -1 && schedule.value.length > 1) {
-            schedule.value.splice(itemIndex, 1)
+        if (itemIndex !== -1 && schedule.length > 1) {
+            const newSchedule = cloneDeep(schedule)
+            newSchedule.splice(itemIndex, 1)
+
+            emit('update:schedule', newSchedule)
         }
     }
 

@@ -1,18 +1,17 @@
-import {reactive} from "vue";
 import dayInformation from "../../../util/dayInformation.json";
 
-export default function (locations, locationVuelidate, weekDays) {
+export default function (locations, locationVuelidate, weekDays, conveniencesFromDb) {
     const addLocation = () => {
-        let id = locations.value[locations.value.length - 1].id
+        let id = locations[locations.length - 1].id
         const schedule = []
 
-        const days = weekDays.value.map(el => ({...el}))
+        const convenienceItems = conveniencesFromDb.value.map(el => ({id: el.id, name: el.name}))
+        const days = weekDays.value.map(el => ({id: el.id, name: el.name}))
         const dayTypes = dayInformation.dayTypes.map(el => ({...el}))
 
         const fieldSchedule = {
             id: 1,
             weekDays: [],
-            days,
             dayType: null,
             types: dayTypes,
             from: null,
@@ -21,23 +20,26 @@ export default function (locations, locationVuelidate, weekDays) {
 
         schedule.push(fieldSchedule)
 
-        const field = reactive({
+        const field = {
             id: ++id,
             city: null,
             searchCity: '',
-            cities: [],
+            searchedCities: [],
             address: null,
+            conveniences: [],
+            convenienceItems,
+            days,
             schedule
-        })
+        }
 
-        locations.value.push(field)
+        locations.push(field)
     }
 
     const deleteLocation = (item) => {
-        const itemIndex = locations.value.findIndex(el => el.id === item.id)
+        const itemIndex = locations.findIndex(el => el.id === item.id)
 
-        if (itemIndex !== -1 && locations.value.length > 1) {
-            locations.value.splice(itemIndex, 1)
+        if (itemIndex !== -1 && locations.length > 1) {
+            locations.splice(itemIndex, 1)
             locationVuelidate.value.splice(itemIndex, 1)
         }
     }

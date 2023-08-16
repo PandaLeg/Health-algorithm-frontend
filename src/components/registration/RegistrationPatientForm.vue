@@ -48,8 +48,8 @@
     <label>City *</label>
     <VAutocomplete
         v-model="modelCity"
-        v-model:search="item.searchCity"
-        :items="item.cities"
+        v-model:search="modelSearchCity"
+        :items="searchedCities"
         item-title="name"
         item-value="name"
         label="Write the name of city"
@@ -69,6 +69,7 @@
 
 import {watchAndGetCities} from "../../hooks/registration/get-cities-clinic.hook";
 import VAutocomplete from "../custom/VAutocomplete.vue";
+import {computed} from "vue";
 
 export default {
   name: "RegistrationPatientForm",
@@ -78,40 +79,39 @@ export default {
     firstName: {required: true,},
     lastName: {required: true,},
     city: {required: true,},
-    item: {required: true}
+    searchCity: {required: true},
+    searchedCities: {required: true},
   },
-  setup(props) {
-    watchAndGetCities(props)
-  },
-  computed: {
-    modelFirstName: {
-      get() {
-        return this.firstName
-      },
+  setup(props, {emit}) {
+    const modelFirstName = computed({
+      get: () => props.firstName,
+      set: (val) => emit('update:first-name', val)
+    })
 
-      set(value) {
-        this.$emit('update:first-name', value)
-      }
-    },
-    modelLastName: {
-      get() {
-        return this.lastName
-      },
+    const modelLastName = computed({
+      get: () => props.lastName,
+      set: (val) => emit('update:last-name', val)
+    })
 
-      set(value) {
-        this.$emit('update:last-name', value)
-      }
-    },
-    modelCity: {
-      get() {
-        return this.city
-      },
+    const modelCity = computed({
+      get: () => props.city,
+      set: (val) => emit('update:city', val)
+    })
 
-      set(value) {
-        this.$emit('update:city', value)
-      }
+    const modelSearchCity = computed({
+      get: () => props.searchCity,
+      set: (val) => emit('update:search-city', val)
+    })
+
+    watchAndGetCities(modelSearchCity, emit)
+
+    return {
+      modelFirstName,
+      modelLastName,
+      modelCity,
+      modelSearchCity
     }
-  }
+  },
 }
 </script>
 

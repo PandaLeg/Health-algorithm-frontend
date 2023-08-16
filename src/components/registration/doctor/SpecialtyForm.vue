@@ -121,6 +121,7 @@
 <script>
 import VSelect from "../../custom/VSelect.vue";
 import VAutocomplete from "../../custom/VAutocomplete.vue";
+import {computed} from "vue";
 
 export default {
   name: "RegistrationSpecialtyForm",
@@ -136,62 +137,46 @@ export default {
     course: {required: true},
     specialtiesFromDb: {required: true},
   },
-  computed: {
-    modelExperience: {
-      get() {
-        return this.experience
-      },
+  setup(props, {emit}) {
+    const modelExperience = computed({
+      get: () => props.experience,
+      set: (val) => emit('update:experience', val)
+    })
 
-      set(value) {
-        this.$emit('update:experience', value)
-      }
-    },
-    modelCategory: {
-      get() {
-        return this.categoryId
-      },
+    const modelCategory = computed({
+      get: () => props.categoryId,
+      set: (val) => emit('update:category-id', val)
+    })
 
-      set(value) {
-        this.$emit('update:categoryId', value)
-      }
-    },
-    modelSpecialties: {
-      get() {
-        return this.specialties
-      },
+    const modelSpecialties = computed({
+      get: () => props.specialties,
+      set: (val) => emit('update:specialties', val)
+    })
 
-      set(value) {
-        this.$emit('update:specialties', value)
-      }
-    },
-    modelAbout: {
-      get() {
-        return this.about
-      },
+    const modelAbout = computed({
+      get: () => props.about,
+      set: (val) => emit('update:about', val)
+    })
 
-      set(value) {
-        this.$emit('update:about', value)
-      }
-    },
-    modelEducation: {
-      get() {
-        return this.education
-      },
+    const modelEducation = computed({
+      get: () => props.education,
+      set: (val) => emit('update:education', val)
+    })
 
-      set(value) {
-        this.$emit('update:education', value)
-      }
-    },
-    modelCourse: {
-      get() {
-        return this.course
-      },
+    const modelCourse = computed({
+      get: () => props.course,
+      set: (val) => emit('update:course', val)
+    })
 
-      set(value) {
-        this.$emit('update:course', value)
-      }
+    return {
+      modelExperience,
+      modelCategory,
+      modelSpecialties,
+      modelAbout,
+      modelEducation,
+      modelCourse
     }
-  }
+  },
 }
 </script>
 

@@ -6,12 +6,13 @@
     >
       <label>Week day *</label>
       <VAutocomplete
-          v-model="v.weekDays.$model"
-          :items="item.days"
+          v-model="modelWeekDays"
+          :items="days"
           item-title="name"
           item-value="id"
           label="Select day of week"
           multiple
+          same
       />
       <div
           v-for="error in v.weekDays.$errors"
@@ -28,8 +29,8 @@
     >
       <label>Day type *</label>
       <VSelect
-          v-model="v.dayType.$model"
-          :options="item.types"
+          v-model="modelDayType"
+          :options="types"
           item-title="name"
           item-value="name"
           label="Select type of day"
@@ -44,7 +45,7 @@
     </div>
   </div>
   <div
-      v-if="item.dayType === 'Workday'"
+      v-if="modelDayType === 'Workday'"
       class="registration-clinic__time"
   >
     <div
@@ -53,7 +54,7 @@
     >
       <label>From *</label>
       <input
-          v-model="v.from.$model"
+          v-model="modelFrom"
           placeholder="Select from time"
           type="time"
           required
@@ -73,7 +74,7 @@
     >
       <label>To *</label>
       <input
-          v-model="v.to.$model"
+          v-model="modelTo"
           placeholder="Select to time"
           type="time"
           required
@@ -93,20 +94,52 @@
 <script>
 import VAutocomplete from "../../custom/VAutocomplete.vue";
 import VSelect from "../../custom/VSelect.vue";
-import {onMounted} from "vue";
+import {computed, onMounted} from "vue";
 
 export default {
   name: "ScheduleItem",
   components: {VSelect, VAutocomplete},
   props: {
-    item: {required: true},
+    weekDays: {required: true},
+    dayType: {required: true},
+    from: {required: true},
+    to: {required: true},
+    days: {required: true},
+    types: {required: true},
     v: {required: true},
     currentLocationVuelidate: {required: true},
   },
-  setup(props) {
+  setup(props, {emit}) {
     onMounted(() => {
-      props.currentLocationVuelidate.push(props.v)
+      emit('update:current-location-vuelidate', [...props.currentLocationVuelidate, props.v])
     })
+
+    const modelWeekDays = computed({
+      get: () => props.weekDays,
+      set: (val) => emit('update:week-days', val)
+    })
+
+    const modelDayType = computed({
+      get: () => props.dayType,
+      set: (val) => emit('update:day-type', val)
+    })
+
+    const modelFrom = computed({
+      get: () => props.from,
+      set: (val) => emit('update:from', val)
+    })
+
+    const modelTo = computed({
+      get: () => props.to,
+      set: (val) => emit('update:to', val)
+    })
+
+    return {
+      modelWeekDays,
+      modelDayType,
+      modelFrom,
+      modelTo
+    }
   }
 }
 </script>
