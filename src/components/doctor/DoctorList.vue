@@ -224,6 +224,17 @@ export default defineComponent({
     font-weight: 700;
     font-size: 24px;
 
+    a {
+      color: #000;
+      font-weight: 700;
+      font-size: 24px;
+      transition: color 0.2s;
+
+      &:hover {
+        color: $darkTeal;
+      }
+    }
+
     &.skeleton {
       height: 24px;
     }

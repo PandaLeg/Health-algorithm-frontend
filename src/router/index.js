@@ -61,8 +61,14 @@ const routes = [
     },
     {
         path: '/doctors',
+        name: routesNames.doctors.name,
+        component: () => import(/* webpackChunkName: "DoctorsPage" */ '../pages/doctor/DoctorsPage.vue')
+    },
+    {
+        path: '/doctors/:id',
         name: routesNames.doctor.name,
-        component: () => import(/* webpackChunkName: "DoctorPage" */ '../pages/doctor/DoctorPage.vue')
+        component: () => import(/* webpackChunkName: "DoctorPage" */ '../pages/doctor/DoctorPage.vue'),
+        params: true
     },
     {
         path: '/clinics',
@@ -73,7 +79,7 @@ const routes = [
         path: '/clinics/:id',
         name: routesNames.clinic.name,
         component: () => import(/* webpackChunkName: "ClinicPage" */ '../pages/clinic/ClinicPage.vue'),
-        params: true,
+        params: true
     }
 ]
 

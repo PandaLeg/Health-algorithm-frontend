@@ -14,21 +14,21 @@
                 class="doctor-card__full-name"
                 :class="{'skeleton': isLoading}"
             >
-                            <span>
-                                {{ doctor.firstName }} {{ doctor.lastName }}
-                            </span>
+              <router-link :to="{name: routesNames.doctor.name, params: { id: doctor.userId }}">
+                {{ doctor.firstName }} {{ doctor.lastName }}
+              </router-link>
             </div>
             <div
                 class="doctor-card__specialties specialties-list"
                 :class="{'skeleton': isLoading}"
             >
-                            <span
-                                v-for="specialty in doctor.specialties"
-                                :key="specialty.id"
-                                class="specialties-list__item"
-                            >
-                                {{ specialty?.name ?? '' }}
-                            </span>
+              <span
+                  v-for="specialty in doctor.specialties"
+                  :key="specialty.id"
+                  class="specialties-list__item"
+              >
+                {{ specialty?.name ?? '' }}
+              </span>
             </div>
             <div
                 class="doctor-card__category"
@@ -112,6 +112,7 @@
 
 <script>
 import {defineComponent} from 'vue'
+import routesNames from "../../router/routesNames";
 
 export default defineComponent({
   name: "DoctorListItem",
@@ -135,6 +136,9 @@ export default defineComponent({
     },
   },
   computed: {
+    routesNames() {
+      return routesNames
+    },
     defaultAvatar() {
       return require('../.././assets/images/doctor.webp')
     }

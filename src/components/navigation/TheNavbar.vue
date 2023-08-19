@@ -33,7 +33,7 @@
             </li>
             <li>
               <router-link
-                  :to="{name: routes.doctor.name}"
+                  :to="{name: routes.doctors.name}"
                   class="menu__link"
                   @click="changeStateBurger"
               >

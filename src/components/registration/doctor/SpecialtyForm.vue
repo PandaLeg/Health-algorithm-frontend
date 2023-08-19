@@ -43,9 +43,9 @@
       </div>
     </div>
     <div
+        v-if="specialtiesFromDb.length"
         class="registration-doctor__specialties"
         :class="{'form-error': v$.doctor.specialties.$error}"
-        v-if="specialtiesFromDb.length"
     >
       <label>Specialties *</label>
       <VAutocomplete

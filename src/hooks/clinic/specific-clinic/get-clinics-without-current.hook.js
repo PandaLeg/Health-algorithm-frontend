@@ -40,7 +40,6 @@ export default function (currentClinic, clinics, page, perPage, totalPages) {
 
             totalPages.value = data.totalPages
         } catch (err) {
-            console.log(err)
             store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
         }
     }
