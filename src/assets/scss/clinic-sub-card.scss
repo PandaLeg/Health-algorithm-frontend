@@ -18,11 +18,16 @@
   &__make-appointment, &__look {
     text-align: end;
     margin-bottom: 5px;
+
+    @media screen and (max-width: $md4 + 'px'){
+      text-align: center;
+    }
   }
 }
 
 .clinic-conveniences {
   margin-bottom: 10px;
+  line-height: 18px;
 
   &__item {
     display: inline-flex;
@@ -38,6 +43,10 @@
   &__icon {
     margin-right: 5px;
     font-size: 14px;
+  }
+
+  @media screen and (max-width: $md4 + 'px') {
+    line-height: 22px;
   }
 }
 

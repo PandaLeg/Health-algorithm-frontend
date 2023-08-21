@@ -142,6 +142,7 @@ export default {
     max-width: 750px;
     margin: 0 auto;
     padding-top: 30px;
+    padding-bottom: 30px;
   }
 
   &__tabs {
@@ -149,6 +150,10 @@ export default {
     padding: 20px;
     box-shadow: 2px 2px 15px rgb(128 142 184 / 10%);
     border-radius: 15px;
+
+    @media screen and (max-width: $md4 + 'px'){
+      padding: 10px;
+    }
   }
 }
 
@@ -193,6 +198,10 @@ export default {
 
   &__content {
     padding: 10px;
+
+    @media screen and (max-width: $md4 + 'px'){
+      padding: 5px;
+    }
   }
 }
 

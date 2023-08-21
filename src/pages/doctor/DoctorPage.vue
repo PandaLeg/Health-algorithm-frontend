@@ -55,6 +55,28 @@
           </div>
         </div>
       </div>
+      <div class="doctor__description doctor-description">
+        <div class="doctor-description__wrapper">
+          <div class="doctor-description__about">
+            <h2>About</h2>
+            <p>
+              {{ doctor.about }}
+            </p>
+          </div>
+          <div class="doctor-description__education">
+            <h2>Education</h2>
+            <p>
+              {{ doctor.education }}
+            </p>
+          </div>
+          <div class="doctor-description__course">
+            <h2>Courses</h2>
+            <p>
+              {{ doctor.course }}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -112,6 +134,19 @@ export default {
     max-width: 750px;
     margin: 0 auto;
     padding-top: 30px;
+    padding-bottom: 30px;
+
+    @media screen and (max-width: $md3 + 'px') {
+      max-width: none;
+    }
+  }
+
+  &__description {
+    margin-top: 20px;
+    background: $white;
+    padding: 20px;
+    box-shadow: 2px 2px 15px rgb(128 142 184 / 10%);
+    border-radius: 15px;
   }
 }
 
@@ -126,18 +161,42 @@ export default {
 
     @media screen and (max-width: $md4 + px) {
       flex-direction: column;
-      padding: 0 15px;
+      padding: 0 10px;
     }
   }
 
   &__clinics {
     padding: 0 20px 20px;
+
+    @media screen and (max-width: $md4 + px) {
+      padding: 0 10px 20px;
+    }
   }
 
   &__divider {
     background-color: rgb(229, 229, 229);
     height: 1px;
     margin: 0 20px 20px;
+  }
+}
+
+.doctor-description {
+  &__wrapper {
+  }
+
+  &__about, &__education, &__course {
+    margin-bottom: 15px;
+
+    & > h2 {
+      margin-bottom: 5px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    & > p {
+      line-height: 16px;
+      font-size: 13px;
+    }
   }
 }
 </style>
