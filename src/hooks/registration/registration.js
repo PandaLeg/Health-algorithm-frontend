@@ -25,7 +25,8 @@ export default function (v$, user, isValid, type, image = null, locations = [], 
                 }
 
                 if (type === 'doctor') {
-                    user.doctor.locations = formAddresses(locations)
+                    user.doctor.clinicBranches = locations.map(el => el.address)
+                    user.doctor.cities = formDoctorCities(locations)
                 }
 
                 if (image) {
@@ -38,7 +39,6 @@ export default function (v$, user, isValid, type, image = null, locations = [], 
 
                 router.push({name: routesNames.home.name})
             } catch (err) {
-                console.log(err)
                 store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
             }
         }
@@ -103,35 +103,15 @@ function formBranchWithSchedule(schedule, location) {
     }
 }
 
-function formAddresses(locations) {
-    const workPlaces = []
+function formDoctorCities(locations) {
+    const cities = []
 
     locations.forEach(location => {
-        const addresses = []
+        const isCityExists = cities.some(city => city === location.city)
 
-        const workPlace = workPlaces.find(el => el.clinicId === location.clinicName)
-
-        if (workPlace) {
-            const newLocation = {
-                clinicId: location.clinicName,
-                addresses: [...workPlace.addresses, location.address]
-            }
-
-            const locationIndex = workPlaces.findIndex(el => el.clinicId === location.clinicName)
-
-            workPlaces.splice(locationIndex, 1, newLocation)
-        } else {
-            addresses.push(location.address)
-
-            const newLocation = {
-                clinicId: location.clinicName,
-                addresses
-            }
-
-            workPlaces.push(newLocation)
+        if (!isCityExists) {
+            cities.push(location.city)
         }
-
     })
-
-    return workPlaces
+    return cities
 }

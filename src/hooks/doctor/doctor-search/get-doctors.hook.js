@@ -1,8 +1,8 @@
 import {onMounted} from "vue";
-import {config} from "../../util/config";
-import authAxios from "../../http";
-import {vuexTypes} from "../../store/vuexTypes";
+import {config} from "../../../util/config";
+import {vuexTypes} from "../../../store/vuexTypes";
 import {useStore} from "vuex";
+import axios from "axios";
 
 export default function (page, perPage, totalPages, doctors, isLoading) {
     const store = useStore()
@@ -12,7 +12,7 @@ export default function (page, perPage, totalPages, doctors, isLoading) {
             isLoading.value = true
             const url = config.apiUrl + '/doctors'
 
-            const response = await authAxios.get(url, {
+            const response = await axios.get(url, {
                 params: {page: page.value - 1, perPage: perPage.value}
             })
             const data = response.data

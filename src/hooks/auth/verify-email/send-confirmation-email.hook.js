@@ -11,7 +11,6 @@ export default function (email) {
             store.commit(vuexTypes.UPDATE_NOTIFICATION, 'Email sent successfully')
         } catch (err) {
             store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data.message)
-            console.log(err)
         }
     }
 
