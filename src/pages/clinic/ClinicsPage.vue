@@ -104,14 +104,6 @@ export default {
   }
 }
 
-.clinic-list {
-
-  &__card {
-    max-width: 750px;
-    margin: 0 auto 15px;
-  }
-}
-
 .search-clinic {
   &__wrapper {
     max-width: 750px;

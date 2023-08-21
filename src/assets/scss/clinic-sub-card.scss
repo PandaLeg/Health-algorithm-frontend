@@ -1,0 +1,55 @@
+@import "src/assets/scss/ui";
+@import "src/assets/scss/variables";
+
+%location-text {
+  line-height: 16px;
+  color: #707272;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.clinic-card {
+  &__address {
+    margin-bottom: 10px;
+    @extend %location-text;
+    word-break: break-word;
+  }
+
+  &__make-appointment, &__look {
+    text-align: end;
+    margin-bottom: 5px;
+  }
+}
+
+.clinic-conveniences {
+  margin-bottom: 10px;
+
+  &__item {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    @extend %location-text;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+
+  &__icon {
+    margin-right: 5px;
+    font-size: 14px;
+  }
+}
+
+.clinic-schedule {
+  margin-bottom: 10px;
+
+  &__item {
+    display: inline-block;
+    @extend %location-text;
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
+}

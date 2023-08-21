@@ -27,6 +27,7 @@
 <script>
 import ClinicListItem from "./ClinicListItem.vue";
 import {config} from "../../util/config";
+import {computed} from "vue";
 
 export default {
   name: "ClinicList",
@@ -38,14 +39,21 @@ export default {
       default: () => []
     },
   },
-  computed: {
-    pathToImg() {
-      return config.apiUrl + '/'
-    },
+  setup() {
+    const pathToImg = computed(() => config.apiUrl + '/')
+
+    return {
+      pathToImg
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.clinic-list {
+  &__card {
+    max-width: 750px;
+    margin: 0 auto 20px;
+  }
+}
 </style>

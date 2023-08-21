@@ -1,51 +1,49 @@
 <template>
-  <div>
+  <div
+      v-if="doctors.length > 0 && !isLoading"
+      class="doctor__list doctor-list"
+  >
     <div
-        v-if="doctors.length > 0 && !isLoading"
-        class="doctor__list doctor-list"
+        v-for="doctor in doctors"
+        :key="doctor.userId"
+        class="doctor-list__card doctor-card"
     >
-      <div
-          v-for="doctor in doctors"
-          :key="doctor.userId"
-          class="doctor-list__card doctor-card"
-      >
-        <DoctorListItem
-            :doctor="doctor"
-            :path-to-img="pathToImg"
-            :slots-days="slotsDays"
-            :visit-times="visitTimes"
-        />
-      </div>
+      <DoctorListItem
+          :doctor="doctor"
+          :path-to-img="pathToImg"
+          :slots-days="slotsDays"
+          :visit-times="visitTimes"
+      />
     </div>
+  </div>
+  <div
+      v-else-if="!doctors.length && isLoading"
+      class="doctor__list doctor-list"
+  >
     <div
-        v-else-if="!doctors.length && isLoading"
-        class="doctor__list doctor-list"
+        v-for="item in perPage"
+        :key="`k-${item}`"
+        class="doctor-list__card doctor-card"
     >
-      <div
-          v-for="item in perPage"
-          :key="`k-${item}`"
-          class="doctor-list__card doctor-card"
-      >
-        <DoctorListItem
-            :doctor="staticDoctorInfo"
-            :path-to-img="pathToImg"
-            :slots-days="slotsDays"
-            :visit-times="visitTimes"
-            :is-loading="isLoading"
-        />
-      </div>
+      <DoctorListItem
+          :doctor="staticDoctorInfo"
+          :path-to-img="pathToImg"
+          :slots-days="slotsDays"
+          :visit-times="visitTimes"
+          :is-loading="isLoading"
+      />
     </div>
-    <div
-        v-else
-        class="doctor__list not-found"
-    >
-      <span>Not found</span>
-    </div>
+  </div>
+  <div
+      v-else
+      class="doctor__list not-found"
+  >
+    <span>Not found</span>
   </div>
 </template>
 
 <script>
-import {defineComponent} from 'vue'
+import {computed, defineComponent} from 'vue'
 import DoctorListItem from "./DoctorListItem.vue";
 import {config} from "../../util/config";
 
@@ -74,16 +72,19 @@ export default defineComponent({
       required: true
     },
   },
-  computed: {
-    pathToImg() {
-      return config.apiUrl + '/'
-    },
+  setup() {
+    const pathToImg = computed(() => config.apiUrl + '/')
+
+    return {
+      pathToImg
+    }
   }
 })
 </script>
 
 <style lang="scss">
 @import "src/assets/scss/variables";
+@import "src/assets/scss/doctor-card";
 
 .doctor-list {
   padding-top: 30px;
@@ -94,10 +95,6 @@ export default defineComponent({
 }
 
 .doctor-card {
-  box-shadow: 2px 2px 15px rgb(128 142 184 / 10%);
-  border-radius: 8px;
-  background: $white;
-
   &__wrapper {
     display: flex;
 
@@ -160,36 +157,6 @@ export default defineComponent({
   }
 
   &__avatar {
-    flex: 1 0 135px;
-    max-width: 135px;
-    width: 135px;
-    height: 135px;
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 0 5px;
-    padding: 6px;
-
-    img {
-      border-radius: 8px;
-      max-width: 100%;
-      max-height: 100%;
-      height: auto;
-      padding: 0;
-      object-fit: cover;
-    }
-
-    @media screen and (max-width: $md4 + px) {
-      align-self: center;
-      flex: 1 0 100px;
-      height: 100px;
-      margin: 0 0 5px 0;
-
-      img {
-        width: 135px;
-        height: 100px;
-      }
-    }
-
     &.skeleton {
       background-color: rgba(0, 0, 0, 0.12);
 
@@ -199,58 +166,14 @@ export default defineComponent({
     }
   }
 
-  &__inner {
-    flex: 1;
-    padding-right: 10px;
-    margin-bottom: 10px;
-
-    @media screen and (max-width: $md2 + px) {
-      padding-right: 0;
-      margin-bottom: 0;
-    }
-  }
-
-  &__main {
-    margin-bottom: 5px;
-
-    @media screen and (max-width: $md4 + px) {
-      text-align: center;
-    }
-  }
 
   &__full-name {
-    margin-bottom: 5px;
-    line-height: 24px;
-    font-weight: 700;
-    font-size: 24px;
-
-    a {
-      color: #000;
-      font-weight: 700;
-      font-size: 24px;
-      transition: color 0.2s;
-
-      &:hover {
-        color: $darkTeal;
-      }
-    }
-
     &.skeleton {
       height: 24px;
-    }
-
-    @media screen and (max-width: $md2 + px) {
-      font-size: 18px;
     }
   }
 
   &__specialties, &__category {
-    font-weight: 700;
-
-    @media screen and (max-width: $md2 + px) {
-      font-size: 13px;
-    }
-
     &.skeleton {
       height: 14px;
 
@@ -260,24 +183,7 @@ export default defineComponent({
     }
   }
 
-  &__specialties {
-    margin-bottom: 5px;
-  }
-
-  &__category {
-    margin-bottom: 10px;
-
-  }
-
   &__description {
-    margin: 10px 0;
-    line-height: 16px;
-    color: #707272;
-    font-size: 13px;
-    max-height: 80px;
-    height: 80px;
-    overflow: hidden;
-
     &.skeleton {
       height: 80px;
       max-height: 80px;
@@ -285,16 +191,13 @@ export default defineComponent({
     }
 
     @media screen and (max-width: $md4 + px) {
-      &, &.skeleton {
+      &.skeleton {
         display: none;
       }
     }
   }
 
   &__price {
-    margin-bottom: 15px;
-    align-self: end;
-
     &.skeleton {
       height: 14px;
 
@@ -303,55 +206,12 @@ export default defineComponent({
       }
     }
   }
-
-  &__full-name, &__specialties, &__category, {
-    @media screen and (max-width: $md4 + px) {
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-  }
 }
 
-.specialties-list {
-
-  &__item {
-    &::before {
-      content: ' ';
-    }
-
-    &::after {
-      content: ',';
-    }
-
-    &:last-child::after {
-      content: '';
-    }
-  }
-}
 
 .experience {
-  display: inline-flex;
-  align-items: center;
-  color: #707272;
-  font-size: 13px;
-
-  &__number {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 5px;
-    background-color: #0957c3;
-    border-radius: 10px;
-    color: $white;
-    width: 20px;
-    height: 20px;
-    font-size: 11px;
-    font-weight: 700;
-  }
-
   @media screen and (max-width: $md4 + px) {
-    &, &.skeleton {
+    &.skeleton {
       justify-content: center;
       margin-bottom: 10px;
     }

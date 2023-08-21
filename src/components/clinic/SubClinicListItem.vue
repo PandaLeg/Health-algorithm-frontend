@@ -32,7 +32,7 @@
         <div class="clinic-card__address">
           <span>{{ clinic.address }}</span>
         </div>
-        <div class="clinic-card__make-appointment">
+        <div class="clinic-card__look card-look">
           <button>Look</button>
         </div>
       </div>

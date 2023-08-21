@@ -35,7 +35,7 @@
             <div class="clinic-card__address">
               <span>{{ clinic.address }}</span>
             </div>
-            <div class="clinic-card__make-appointment">
+            <div class="clinic-card__make-appointment make-appointment">
               <button>Make appointment</button>
             </div>
           </template>
@@ -130,16 +130,10 @@ export default {
 
 <style lang="scss">
 @import "src/assets/scss/clinic-card";
+@import "src/assets/scss/clinic-sub-card";
 @import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
 @import "src/assets/scss/icons";
-
-%location-text {
-  line-height: 16px;
-  color: #707272;
-  font-size: 13px;
-  font-weight: 500;
-}
 
 .clinic {
   height: 100%;
@@ -160,64 +154,6 @@ export default {
 
 .main-card {
   margin-bottom: 25px;
-}
-
-.clinic-card {
-  &__address {
-    margin-bottom: 10px;
-    @extend %location-text;
-    word-break: break-word;
-  }
-
-  &__make-appointment {
-    text-align: end;
-    margin-bottom: 5px;
-
-    button {
-      @include main-btn($burgundyLighten, $LightenBlue2);
-
-      &::before {
-        @extend %after-effect-btn;
-      }
-
-      &:hover::before {
-        opacity: 1;
-      }
-    }
-  }
-}
-
-.clinic-conveniences {
-  margin-bottom: 10px;
-
-  &__item {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    @extend %location-text;
-
-    &:not(:last-child) {
-      margin-right: 10px;
-    }
-  }
-
-  &__icon {
-    margin-right: 5px;
-    font-size: 14px;
-  }
-}
-
-.clinic-schedule {
-  margin-bottom: 10px;
-
-  &__item {
-    display: inline-block;
-    @extend %location-text;
-
-    &:not(:last-child) {
-      margin-right: 5px;
-    }
-  }
 }
 
 .clinic-tabs {
@@ -279,12 +215,6 @@ export default {
     &.content-active {
       display: block;
     }
-  }
-
-  &__description {
-  }
-
-  &__clinics {
   }
 }
 </style>
