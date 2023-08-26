@@ -119,7 +119,11 @@ export default {
     },
     items(val) {
       this.filteredItems = val
-    }
+      this.savedItems = []
+    },
+    modelValue(val) {
+      if (!this.modelValue) this.modelInput = ''
+    },
   },
   created() {
     this.initializeValues()

@@ -18,7 +18,18 @@ export default function (v$, step, isValidGeneral, isValidSpecialty) {
         }
     }
 
+    const backStep = () => {
+        if (step.isSpecialtyActive) {
+            step.isGeneralActive = true
+            step.isSpecialtyActive = !step.isSpecialtyActive
+        } else if (step.isPlaceActive) {
+            step.isSpecialtyActive = true
+            step.isPlaceActive = !step.isPlaceActive
+        }
+    }
+
     return {
-        nextStep
+        nextStep,
+        backStep
     }
 }

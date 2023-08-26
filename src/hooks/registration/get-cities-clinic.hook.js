@@ -45,6 +45,8 @@ export function watchAndGetAddresses(modelClinicName, city, emit) {
             }
         })
 
-        emit('update:addresses', response.data)
+        const addresses = response.data.map(branch => ({id: branch.id, address: branch.address}))
+        emit('update:addresses', addresses)
+        emit('update:clinic-branches', response.data)
     })
 }

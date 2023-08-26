@@ -1,6 +1,7 @@
 import {reactive, ref} from "vue";
 import getAllCategoriesSpecialties from "./get-categories-specialties.hook";
 import {helpers, required} from "@vuelidate/validators";
+import {checkRequiredValue} from "../custom-validators.hook";
 
 export default function () {
     const specialtiesFromDb = ref([])
@@ -12,6 +13,7 @@ export default function () {
         isSpecialtySuccess: false,
         isPlaceActive: false,
     })
+
     const workPlaces = reactive([
         {
             id: 1,
@@ -22,7 +24,18 @@ export default function () {
             searchClinic: '',
             searchedCities: [],
             searchedClinics: [],
-            addresses: []
+            clinicBranches: [],
+            addresses: [],
+            days: [],
+            schedule: [
+                {
+                    id: 1,
+                    weekDay: null,
+                    duration: '',
+                    from: null,
+                    to: null
+                }
+            ]
         },
     ])
 
@@ -90,6 +103,33 @@ export default function () {
         }
     }
 
+    const scheduleRule = reactive({
+        weekDay: {
+            required: helpers.withMessage('Select day', required)
+        },
+        duration: {
+            required: helpers.withMessage('Specify the duration of the appointment', required)
+        },
+        from: {
+            required: {
+                $validator: checkRequiredValue,
+                $message: 'Select from time',
+                $params: {
+                    type: 'required'
+                }
+            },
+        },
+        to: {
+            required: {
+                $validator: checkRequiredValue,
+                $message: 'Select to time',
+                $params: {
+                    type: 'required'
+                }
+            }
+        }
+    })
+
     return {
         entity,
         specialtiesFromDb,
@@ -98,6 +138,7 @@ export default function () {
         workPlaceRule,
         step,
         workPlaces,
-        workPlaceVuelidate
+        workPlaceVuelidate,
+        scheduleRule,
     }
 }

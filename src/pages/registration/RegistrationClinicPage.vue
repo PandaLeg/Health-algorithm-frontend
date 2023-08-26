@@ -36,6 +36,7 @@
                     :schedule-rule="scheduleRule"
                     :convenience-items="item.convenienceItems"
                     :days="item.days"
+                    :index-location="item.id"
                 />
                 <div
                     v-if="item.id !== 1"

@@ -2,6 +2,7 @@ import {helpers, required} from "@vuelidate/validators";
 import {reactive, ref} from "vue";
 import dayInformation from '../../../util/dayInformation.json'
 import {getConveniences, getWeekDays, getClinicTypes} from "./clinic-information.hook";
+import {checkRequiredValue} from "../custom-validators.hook";
 
 export default function () {
     const weekDays = ref([])
@@ -68,14 +69,6 @@ export default function () {
         conveniences: {
             required: helpers.withMessage('Select convenience', required)
         }
-    }
-
-    const checkRequiredValue = (value, siblingState) => {
-        if (typeof value === 'string') {
-            value = value.trim();
-        }
-
-        return siblingState.dayType === 'Workday' ? value !== undefined && value !== null && !!String(value).length : true
     }
 
     const scheduleRule = {

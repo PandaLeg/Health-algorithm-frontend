@@ -2,20 +2,19 @@
   <div class="registration__week registration-week">
     <div
         class="registration-week__day"
-        :class="{'form-error': v.weekDays.$error}"
+        :class="{'form-error': v.weekDay.$error}"
     >
       <label>Week day *</label>
       <VAutocomplete
-          v-model="modelWeekDays"
+          v-model="modelWeekDay"
           :items="days"
           item-title="name"
           item-value="id"
           label="Select day of week"
-          multiple
           same
       />
       <div
-          v-for="error in v.weekDays.$errors"
+          v-for="error in v.weekDay.$errors"
           :key="error.$uid"
           class="input-error"
       >
@@ -23,19 +22,19 @@
       </div>
     </div>
     <div
-        class="registration-week__day-type"
-        :class="{'form-error': v.dayType.$error}"
+        class="registration-week__duration"
+        :class="{'form-error': v.duration.$error}"
     >
-      <label>Day type *</label>
-      <VSelect
-          v-model="modelDayType"
-          :options="types"
-          item-title="name"
-          item-value="name"
-          label="Select type of day"
+      <label>Duration of appointment *</label>
+      <input
+          v-model="modelDuration"
+          v-maska
+          data-maska="##:##"
+          placeholder="hh:mm"
+          required
       />
       <div
-          v-for="error in v.dayType.$errors"
+          v-for="error in v.duration.$errors"
           :key="error.$uid"
           class="input-error"
       >
@@ -44,9 +43,15 @@
     </div>
   </div>
   <div
-      v-if="modelDayType === 'Workday'"
-      class="registration-week__time"
+      v-if="modelWeekDay"
+      class="registration-week__clinic-schedule"
   >
+    The clinic is open from
+    <span>{{ clinicSchedule.from.substring(0, 5) }}</span>
+    to
+    <span>{{ clinicSchedule.to.substring(0, 5) }}</span>
+  </div>
+  <div class="registration-week__time">
     <div
         class="registration-week__from"
         :class="{'form-error': v.from.$error}"
@@ -93,37 +98,41 @@
 <script>
 import VAutocomplete from "../../custom/VAutocomplete.vue";
 import VSelect from "../../custom/VSelect.vue";
-import {computed, onMounted} from "vue";
-import {updateScheduleVuelidate} from "../../../hooks/registration/watch-location.hook";
+import {computed, onMounted, ref} from "vue";
+import {vMaska} from "maska";
+import {updateScheduleVuelidate, watchAndUpdateScheduleRule} from "../../../hooks/registration/watch-location.hook";
 
 export default {
-  name: "ScheduleItem",
+  name: "DoctorScheduleItem",
   components: {VSelect, VAutocomplete},
+  directives: {maska: vMaska},
   props: {
-    weekDays: {required: true},
-    dayType: {required: true},
+    weekDay: {required: true},
+    duration: {required: true},
     from: {required: true},
     to: {required: true},
     days: {required: true},
-    types: {required: true},
+    clinicBranches: {required: true},
+    addressBranchId: {required: true},
     v: {required: true},
     scheduleVuelidate: {required: true},
     scheduleRule: {required: true},
     indexSchedule: {required: true}
   },
   setup(props, {emit}) {
+    const clinicSchedule = ref('')
     onMounted(() => {
       emit('update:schedule-vuelidate', [...props.scheduleVuelidate, props.v])
     })
 
-    const modelWeekDays = computed({
-      get: () => props.weekDays,
-      set: (val) => emit('update:week-days', val)
+    const modelWeekDay = computed({
+      get: () => props.weekDay,
+      set: (val) => emit('update:week-day', val)
     })
 
-    const modelDayType = computed({
-      get: () => props.dayType,
-      set: (val) => emit('update:day-type', val)
+    const modelDuration = computed({
+      get: () => props.duration,
+      set: (val) => emit('update:duration', val)
     })
 
     const modelFrom = computed({
@@ -137,12 +146,14 @@ export default {
     })
 
     updateScheduleVuelidate(props, emit)
+    watchAndUpdateScheduleRule(modelWeekDay, props, clinicSchedule, emit)
 
     return {
-      modelWeekDays,
-      modelDayType,
+      modelWeekDay,
+      modelDuration,
       modelFrom,
-      modelTo
+      modelTo,
+      clinicSchedule
     }
   }
 }
