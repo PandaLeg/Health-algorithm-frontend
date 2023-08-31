@@ -33,7 +33,9 @@
           <span>{{ clinic.address }}</span>
         </div>
         <div class="clinic-card__look card-look">
-          <button>Look</button>
+          <button class="btn">
+            <span class="btn__content">Look</span>
+          </button>
         </div>
       </div>
     </div>

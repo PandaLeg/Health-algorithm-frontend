@@ -39,7 +39,7 @@
   height: 100%;
   transition: all 0.2s;
   opacity: 0;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 }
 
@@ -56,17 +56,15 @@
   position: relative;
 }
 
-.card-look, .make-appointment {
-  button {
-    @include main-btn($burgundyLighten, $LightenBlue2);
+.btn {
+  @include main-btn($burgundyLighten, $LightenBlue2);
 
-    &::before {
-      @extend %after-effect-btn;
-    }
+  &::before {
+    @extend %after-effect-btn;
+  }
 
-    &:hover::before {
-      opacity: 1;
-    }
+  &:hover::before {
+    opacity: 1;
   }
 }
 

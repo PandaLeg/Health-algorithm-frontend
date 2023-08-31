@@ -35,8 +35,10 @@
             <div class="clinic-card__address">
               <span>{{ clinic.address }}</span>
             </div>
-            <div class="clinic-card__make-appointment make-appointment">
-              <button>Make appointment</button>
+            <div class="clinic-card__make-appointment">
+              <button class="btn">
+                <span class="btn__content">Make appointment</span>
+              </button>
             </div>
           </template>
         </clinic-list-item>

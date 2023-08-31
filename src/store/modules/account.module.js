@@ -20,5 +20,7 @@ export const accountModule = {
         }
     },
     actions: {},
-    getters: {}
+    getters: {
+        [vuexTypes.user]: (state) => state.user,
+    }
 }
