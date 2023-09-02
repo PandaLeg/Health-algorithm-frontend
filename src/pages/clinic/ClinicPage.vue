@@ -1,48 +1,20 @@
 <template>
   <div class="clinic">
     <div class="clinic__container container">
-      <div
-          v-if="hasClinicInfo"
-          class="clinic__main-card main-card clinic-card"
-      >
-        <clinic-list-item
-            :clinic="clinic"
-            :path-to-img="pathToImg"
-        >
-          <template #default>
-            <div class="clinic-card__conveniences clinic-conveniences">
-              <div
-                  v-for="convenience in clinic.conveniences"
-                  :key="convenience.id"
-                  class="clinic-conveniences__item"
-              >
-                <i
-                    class="clinic-conveniences__icon"
-                    :class="getIcon(convenience.id)">
-                </i>
-                <span>{{ convenience.name }}</span>
-              </div>
-            </div>
-            <div class="clinic-card__schedule clinic-schedule">
-              <div
-                  v-for="schedule in clinic.schedule"
-                  :key="schedule.id"
-                  class="clinic-schedule__item"
-              >
-                <span>{{ schedule.addressInfo }};</span>
-              </div>
-            </div>
-            <div class="clinic-card__address">
-              <span>{{ clinic.address }}</span>
-            </div>
-            <div class="clinic-card__make-appointment">
-              <button class="btn">
-                <span class="btn__content">Make appointment</span>
-              </button>
-            </div>
-          </template>
-        </clinic-list-item>
-      </div>
+      <clinic-main
+          v-model:appointment-schedule="appointmentSchedule"
+          v-model:is-active="isActive"
+          v-model:doctor-id="appointment.doctorId"
+          v-model:date-appointment="appointment.dateAppointment"
+          v-model:time="appointment.time"
+          v-model:working-hours="workingHours"
+          v-model:doctors-for-appointments="doctorsForAppointments"
+          :clinic="clinic"
+          :has-clinic-info="hasClinicInfo"
+          :v$="v$"
+          :store="store"
+          @make-appointment="makeAppointment"
+      />
       <div class="clinic__tabs clinic-tabs">
         <div class="clinic-tabs__box">
           <button class="clinic-tabs__switch-btn tab-active">Info</button>
@@ -88,44 +60,64 @@
 
 <script>
 import regMountedStateHook from "../../hooks/reg-mounted-state.hook";
-import {config} from "../../util/config";
 import ClinicListItem from "../../components/clinic/ClinicListItem.vue";
 import initStateHook from "../../hooks/clinic/specific-clinic/init-state.hook";
-import routesNames from "../../router/routesNames";
 import switchActiveTabHook from "../../hooks/clinic/specific-clinic/switch-active-tab.hook";
 import getClinicsWithoutCurrentHook from "../../hooks/clinic/specific-clinic/get-clinics-without-current.hook";
 import ClinicList from "../../components/clinic/ClinicList.vue";
 import SubClinicListItem from "../../components/clinic/SubClinicListItem.vue";
-import getClinicIcon from "../../util/get-clinic-icon";
+import ClinicMain from "../../components/clinic/ClinicMain.vue";
+import DoctorCard from "../../components/doctor/DoctorCard.vue";
+import {useVuelidate} from "@vuelidate/core";
+import computedErrorsHook from "../../hooks/clinic/specific-clinic/computed-errors.hook";
+import makeAppointmentHook from "../../hooks/doctor/specific-doctor/make-appointment.hook";
+import {useStore} from "vuex";
+import {vuexTypes} from "../../store/vuexTypes";
 
 export default {
   name: "ClinicPage",
-  components: {SubClinicListItem, ClinicList, ClinicListItem},
+  components: {DoctorCard, ClinicMain, SubClinicListItem, ClinicList, ClinicListItem},
   setup() {
     regMountedStateHook()
+    const store = useStore()
+    const user = store.getters[vuexTypes.user]
 
-    const {clinic, hasClinicInfo, clinics, page, perPage, totalPages} = initStateHook()
+    const {
+      clinic,
+      hasClinicInfo,
+      clinics,
+      page,
+      perPage,
+      totalPages,
+      appointment,
+      appointmentSchedule,
+      isActive,
+      workingHours,
+      doctorsForAppointments,
+      appointmentRule
+    } = initStateHook()
 
     switchActiveTabHook()
 
+    const v$ = useVuelidate(appointmentRule, appointment)
+    const {isValid} = computedErrorsHook(v$)
     const {getClinicsWithoutCurrent} = getClinicsWithoutCurrentHook(clinic, clinics, page, perPage, totalPages)
-    const getIcon = (convenienceId) => getClinicIcon(convenienceId)
 
+    const {makeAppointment} = makeAppointmentHook(appointment, v$, isActive, user.id, isValid, store)
     return {
       clinic,
       clinics,
       hasClinicInfo,
+      appointment,
+      appointmentSchedule,
+      isActive,
+      workingHours,
+      doctorsForAppointments,
+      v$,
+      store,
       getClinicsWithoutCurrent,
-      getIcon
+      makeAppointment
     }
-  },
-  computed: {
-    routesNames() {
-      return routesNames
-    },
-    pathToImg() {
-      return config.apiUrl + '/'
-    },
   }
 }
 </script>
@@ -153,7 +145,7 @@ export default {
     box-shadow: 2px 2px 15px rgb(128 142 184 / 10%);
     border-radius: 15px;
 
-    @media screen and (max-width: $md4 + 'px'){
+    @media screen and (max-width: $md4 + 'px') {
       padding: 10px;
     }
   }
@@ -201,9 +193,18 @@ export default {
   &__content {
     padding: 10px;
 
-    @media screen and (max-width: $md4 + 'px'){
+    @media screen and (max-width: $md4 + 'px') {
       padding: 5px;
     }
+  }
+}
+
+.appointment-form {
+  display: flex;
+  flex-direction: column;
+
+  &__input:not(:last-child) {
+    margin-bottom: 10px;
   }
 }
 
@@ -228,4 +229,23 @@ export default {
     }
   }
 }
+
+.input-error {
+  @extend %input-error;
+}
+
+.form-error {
+  input, select {
+    @extend %form-error;
+  }
+}
+
+input {
+  @extend %field-reg;
+}
+
+label {
+  @extend %label-reg;
+}
+
 </style>

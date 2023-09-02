@@ -117,7 +117,7 @@
             <template #actions>
               <button
                   class="btn"
-                  @click="isActive = false"
+                  @click="$emit('update:is-active', false)"
               >
                 <span class="btn__content">Close</span>
               </button>
@@ -150,12 +150,11 @@
 import ClinicList from "../clinic/ClinicList.vue";
 import VSelect from "../custom/VSelect.vue";
 import SubClinicListItem from "../clinic/SubClinicListItem.vue";
-import {computed, defineAsyncComponent} from "vue";
+import {computed, defineAsyncComponent, ref} from "vue";
 import routes from "../../router/routesNames";
 import {config} from "../../util/config";
 import getAppointmentScheduleHook from "../../hooks/doctor/specific-doctor/get-appointment-schedule.hook";
 import updateWorkingHoursHook from "../../hooks/doctor/specific-doctor/update-working-hours.hook";
-import {useStore} from "vuex";
 import {vuexTypes} from "../../store/vuexTypes";
 
 export default {
@@ -206,10 +205,18 @@ export default {
     v$: {
       type: Object,
       required: true
+    },
+    doctorId: {
+      type: String,
+      required: true
+    },
+    store: {
+      type: Object,
+      required: true
     }
   },
   setup(props, {emit}) {
-    const store = useStore()
+    const store = props.store
 
     const isLoggedIn = store.getters[vuexTypes.isLoggedIn]
     const user = store.getters[vuexTypes.user]
@@ -222,6 +229,7 @@ export default {
     const defaultAvatar = computed(() => require('../.././assets/images/doctor.webp'))
     const pathToImg = computed(() => config.apiUrl + '/')
 
+    const doctorId = ref(props.doctorId)
     const modelClinicBranch = computed({
       get: () => props.clinicBranchId,
       set: (val) => emit('update:clinic-branch-id', val)
@@ -237,17 +245,19 @@ export default {
       set: (val) => emit('update:time', val)
     })
 
-    const {getAppointmentSchedule} = getAppointmentScheduleHook(props.clinicBranches, emit, store)
+    const {appointmentScheduleForDoctor} = getAppointmentScheduleHook(emit, store)
 
-    updateWorkingHoursHook(modelDateAppointment, modelClinicBranch, modelTime, props, emit)
+    const getDoctorByClinicBranch = (appointmentSchedule) => {
+      return appointmentSchedule.value.find(sh => sh.clinicBranchId === modelClinicBranch.value)
+    }
+    updateWorkingHoursHook(modelDateAppointment, modelTime, getDoctorByClinicBranch, props, emit, doctorId)
 
     const activateModal = () => {
-
       if (!isLoggedIn) {
         store.commit(vuexTypes.UPDATE_NOTIFICATION,'Please log in as a patient')
       } else {
         emit('update:is-active', true)
-        getAppointmentSchedule()
+        appointmentScheduleForDoctor(props.clinicBranches)
       }
     }
 

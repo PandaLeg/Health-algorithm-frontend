@@ -12,6 +12,8 @@
           :doctor="doctor"
           :clinics="clinics"
           :v$="v$"
+          :doctor-id="doctorId"
+          :store="store"
           @make-appointment="makeAppointment"
       />
       <div class="doctor__description doctor-description">
@@ -50,6 +52,8 @@ import DoctorCard from "../../components/doctor/DoctorCard.vue";
 import {useVuelidate} from "@vuelidate/core";
 import computedErrorsHook from "../../hooks/doctor/specific-doctor/computed-errors.hook";
 import makeAppointmentHook from "../../hooks/doctor/specific-doctor/make-appointment.hook";
+import {useStore} from "vuex";
+import {vuexTypes} from "../../store/vuexTypes";
 
 export default {
   name: "DoctorPage",
@@ -70,12 +74,16 @@ export default {
       appointmentSchedule,
       appointmentRule,
       isActive,
-      clinicBranches
+      clinicBranches,
+      doctorId
     } = initStateHook()
+
+    const store = useStore()
+    const user = store.getters[vuexTypes.user]
 
     const v$ = useVuelidate(appointmentRule, appointment)
     const {isValid} = computedErrorsHook(v$)
-    const {makeAppointment} = makeAppointmentHook(appointment, v$, isActive, isValid)
+    const {makeAppointment} = makeAppointmentHook(appointment, v$, isActive, user.id, isValid, store)
 
     return {
       doctor,
@@ -86,6 +94,8 @@ export default {
       isActive,
       clinicBranches,
       v$,
+      doctorId,
+      store,
       makeAppointment
     }
   },

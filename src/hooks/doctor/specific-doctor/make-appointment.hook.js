@@ -1,25 +1,20 @@
 import {useStore} from "vuex";
-import {useRoute} from "vue-router";
 import {vuexTypes} from "../../../store/vuexTypes";
 import {config} from "../../../util/config";
 import authAxios from "../../../http";
 
-export default function (appointment, v$, isActive, isValid) {
-    const store = useStore()
-    const route = useRoute()
+export default function (appointment, v$, isActive, patientId, isValid, store) {
 
     const makeAppointment = async () => {
         v$.value.$touch()
 
         try {
             if (!v$.value.invalid && isValid()) {
-                const doctorId = route.params.id;
                 const url = config.apiUrl + `/appointments`
 
                 const body = {
                     ...appointment,
-                    doctorId,
-                    patientId: 'fd3573b8-b3ac-4f85-afab-ee9e5854a0f3'
+                    patientId
                 }
 
                 const response = await authAxios.post(url, body)

@@ -1,23 +1,23 @@
 import {toRef, watch} from "vue";
-import axios from "axios";
 import {config} from "../../../util/config";
+import authAxios from "../../../http";
 
-export default function (modelDateAppointment, modelClinicBranch, modelTime, props, emit) {
+export default function (modelDateAppointment, modelTime, getDoctor, props, emit, doctorId) {
     const appointmentSchedule = toRef(props, 'appointmentSchedule')
 
     watch(modelDateAppointment, async (val) => {
         if (!val) return
 
-        const doctorWorkPlace = appointmentSchedule.value.find(sh => sh.clinicBranchId === modelClinicBranch.value)
+        const doctor = getDoctor(appointmentSchedule)
         const dayOfAppointment = new Date(val)
-        const schedule = doctorWorkPlace.schedule.find(el => el.weekDayId === dayOfAppointment.getDay())
+        const schedule = doctor.schedule.find(el => el.weekDayId === dayOfAppointment.getDay())
 
         let appointmentTime = {}
 
         try {
             const url = config.apiUrl + '/appointments/times'
-            const response = await axios.get(url, {
-                params: {date: val}
+            const response = await authAxios.get(url, {
+                params: {date: val, doctorId: doctorId.value}
             })
 
             const workingHours = response.data

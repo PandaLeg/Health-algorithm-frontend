@@ -1,12 +1,16 @@
 import {reactive, ref} from "vue";
 import getFullInfoDoctorHook from "./get-full-info-doctor.hook";
 import {helpers, required} from "@vuelidate/validators";
+import {useRoute} from "vue-router";
 
 export default function () {
+    const route = useRoute()
+    const doctorId = route.params.id
+
     const doctor = ref({})
     const clinics = ref([])
     const appointment = reactive({
-        doctorId: null,
+        doctorId,
         clinicBranchId: null,
         patientId: null,
         dateAppointment: null,
@@ -39,6 +43,7 @@ export default function () {
         workingHours,
         appointmentSchedule,
         isActive,
-        clinicBranches
+        clinicBranches,
+        doctorId
     }
 }
