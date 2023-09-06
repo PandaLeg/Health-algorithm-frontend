@@ -80,6 +80,12 @@ const routes = [
         name: routesNames.clinic.name,
         component: () => import(/* webpackChunkName: "ClinicPage" */ '../pages/clinic/ClinicPage.vue'),
         params: true
+    },
+    {
+        path: '/appointments',
+        name: routesNames.appointment.name,
+        component: () => import(/* webpackChunkName: "AppointmentPage" */ '../pages/appointment/AppointmentPage.vue'),
+        beforeEnter: guardLogIn
     }
 ]
 
@@ -93,6 +99,18 @@ function guardUnLogIn(to, from, next) {
         })
     } else {
         next()
+    }
+}
+
+function guardLogIn(to, from, next) {
+    const isLoggedIn = store.getters[vuexTypes.isLoggedIn]
+
+    if (isLoggedIn) {
+        next()
+    } else {
+        next({
+            name: routesNames.home.name
+        })
     }
 }
 

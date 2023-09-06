@@ -17,14 +17,27 @@
       />
       <div class="clinic__tabs clinic-tabs">
         <div class="clinic-tabs__box">
-          <button class="clinic-tabs__switch-btn tab-active">Info</button>
+          <button class="clinic-tabs__switch-btn switch-btn tab-active">
+            <span class="switch-btn__content">Info</span>
+            <span class="switch-btn__line-wrapper">
+              <span class="switch-btn__line"></span>
+            </span>
+          </button>
           <button
-              class="clinic-tabs__switch-btn"
+              class="clinic-tabs__switch-btn switch-btn"
               @click="getClinicsWithoutCurrent"
           >
-            Clinics
+            <span class="switch-btn__content">Clinics</span>
+            <span class="switch-btn__line-wrapper">
+              <span class="switch-btn__line"></span>
+            </span>
           </button>
-          <button class="clinic-tabs__switch-btn">Doctors</button>
+          <button class="clinic-tabs__switch-btn switch-btn">
+            <span class="switch-btn__content">Doctors</span>
+            <span class="switch-btn__line-wrapper">
+              <span class="switch-btn__line"></span>
+            </span>
+          </button>
           <div class="clinic-tabs__active-line"></div>
         </div>
         <div class="clinic-tabs__content tabs-content">
@@ -129,6 +142,13 @@ export default {
 @import "src/assets/scss/ui";
 @import "src/assets/scss/icons";
 
+%active-line {
+  height: 3px;
+  border-radius: 10px;
+  border-top-width: 2px;
+  background-color: #0fb4a8;
+}
+
 .clinic {
   height: 100%;
 
@@ -169,25 +189,22 @@ export default {
     position: absolute;
     bottom: -2px;
     left: 73px;
-    height: 4px;
     width: 63px;
-    border-radius: 10px;
-    background: #0fb4a8;
+    opacity: 0;
     transition: $transition03;
+    @extend %active-line;
   }
 
   &__switch-btn {
+    position: relative;
     font-size: 18px;
     font-weight: 700;
     color: #919191;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 15px;
-
-    &.tab-active {
-      color: $darkTeal2;
-    }
+    height: 40px;
+    padding: 0 8px;
   }
 
   &__content {
@@ -195,6 +212,35 @@ export default {
 
     @media screen and (max-width: $md4 + 'px') {
       padding: 5px;
+    }
+  }
+}
+
+.switch-btn {
+  &__line-wrapper {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  &__line {
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    bottom: -2px;
+  }
+
+  &.tab-active {
+    color: $darkTeal2;
+
+    .switch-btn__line {
+      align-self: flex-end;
+      width: 100%;
+      @extend %active-line;
     }
   }
 }

@@ -49,6 +49,15 @@
                 Clinics
               </router-link>
             </li>
+            <li v-if="isLoggedIn">
+              <router-link
+                  :to="{name: routes.appointment.name}"
+                  class="menu__link"
+                  @click="changeStateBurger"
+              >
+                Appointments
+              </router-link>
+            </li>
             <li v-if="!isLoggedIn">
               <router-link
                   :to="{name: routes.login.name}"

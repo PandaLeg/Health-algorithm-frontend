@@ -44,7 +44,7 @@
 
 <script>
 import routes from "../../router/routesNames";
-import getClinicIcon from "../../util/get-clinic-icon";
+import {getClinicConvenienceIcons} from "../../util/get-icons";
 import {computed} from "vue";
 
 export default {
@@ -60,7 +60,7 @@ export default {
     }
   },
   setup() {
-    const getIcon = (convenienceId) => getClinicIcon(convenienceId)
+    const getIcon = (convenienceId) => getClinicConvenienceIcons(convenienceId)
     const routesNames = computed(() => routes)
 
     return {

@@ -137,7 +137,7 @@ import ClinicListItem from "./ClinicListItem.vue";
 import {computed, defineAsyncComponent} from "vue";
 import routes from "../../router/routesNames";
 import {config} from "../../util/config";
-import getClinicIcon from "../../util/get-clinic-icon";
+import {getClinicConvenienceIcons} from "../../util/get-icons";
 import VSelect from "../custom/VSelect.vue";
 import {vuexTypes} from "../../store/vuexTypes";
 import getAppointmentScheduleHook from "../../hooks/doctor/specific-doctor/get-appointment-schedule.hook";
@@ -239,7 +239,7 @@ export default {
         appointmentScheduleForClinic()
       }
     }
-    const getIcon = (convenienceId) => getClinicIcon(convenienceId)
+    const getIcon = (convenienceId) => getClinicConvenienceIcons(convenienceId)
 
     return {
       routesNames,

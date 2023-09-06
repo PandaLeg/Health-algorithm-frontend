@@ -37,6 +37,9 @@ const routesNames = Object.freeze({
     },
     clinic: {
         name: 'ClinicPage'
+    },
+    appointment: {
+        name: 'AppointmentPage'
     }
 })
 

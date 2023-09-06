@@ -23,7 +23,7 @@
           :visit-times="visitTimes"
       />
       <VPagination
-          v-if="doctors.length > 0"
+          v-if="doctors.length"
           :current-page="currentPage"
           :total-pages="totalPages"
           @next-page="nextPage"
