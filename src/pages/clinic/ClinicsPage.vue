@@ -23,7 +23,7 @@
       </ClinicList>
 
       <VPagination
-          v-if="clinics.length > 0 && totalPages > 1"
+          v-if="clinics.length && totalPages > 1"
           :current-page="page"
           :total-pages="totalPages"
           @next-page="nextPage"

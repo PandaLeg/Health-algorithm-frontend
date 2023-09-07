@@ -1,60 +1,21 @@
 <template>
   <div class="doctor">
     <div class="doctor__container container">
-      <div class="doctor__card doctor-card">
-        <div class="doctor-card__wrapper-layout">
-          <div class="doctor-card__info">
-            <div class="doctor-card__avatar">
-              <img :src="doctor.avatar ? pathToImg + doctor.avatar : defaultAvatar" alt="Not found">
-            </div>
-            <div class="doctor-card__inner">
-              <div class="doctor-card__main">
-                <div class="doctor-card__full-name">
-                  <span>{{ doctor.firstName }} {{ doctor.lastName }} </span>
-                </div>
-                <div class="doctor-card__specialties specialties-list">
-                    <span
-                        v-for="specialty in doctor.specialties"
-                        :key="specialty.id"
-                        class="specialties-list__item"
-                    >
-                      {{ specialty?.name ?? '' }}
-                    </span>
-                </div>
-                <div class="doctor-card__category">
-                  <span>{{ doctor.categoryName }}</span>
-                </div>
-              </div>
-              <div class="doctor-card__experience experience">
-                <span class="experience__number">{{ doctor.experience }}</span>
-                <span class="experience__text">experience</span>
-              </div>
-              <div class="doctor-card__description">
-                <p>
-                  {{ doctor.about }}
-                </p>
-              </div>
-              <div class="doctor-card__price">
-                <span>250$</span>
-              </div>
-              <div class="doctor-card__make-appointment make-appointment">
-                <button>Make appointment</button>
-              </div>
-            </div>
-          </div>
-          <div class="doctor-card__divider"></div>
-          <div class="doctor-card__clinics">
-            <clinic-list :clinics="clinics">
-              <template #listItem="scope">
-                <sub-clinic-list-item
-                    :path-to-img="scope.pathToImg"
-                    :clinic="scope.clinic"
-                />
-              </template>
-            </clinic-list>
-          </div>
-        </div>
-      </div>
+      <doctor-card
+          v-model:appointment-schedule="appointmentSchedule"
+          v-model:is-active="isActive"
+          v-model:clinic-branch-id="appointment.clinicBranchId"
+          v-model:date-appointment="appointment.dateAppointment"
+          v-model:time="appointment.time"
+          v-model:working-hours="workingHours"
+          :clinic-branches="clinicBranches"
+          :doctor="doctor"
+          :clinics="clinics"
+          :v$="v$"
+          :doctor-id="doctorId"
+          :store="store"
+          @make-appointment="makeAppointment"
+      />
       <div class="doctor__description doctor-description">
         <div class="doctor-description__wrapper">
           <div class="doctor-description__about">
@@ -82,31 +43,60 @@
 </template>
 
 <script>
-import routes from "../../router/routesNames";
 import regMountedStateHook from "../../hooks/reg-mounted-state.hook";
 import SubClinicListItem from "../../components/clinic/SubClinicListItem.vue";
-import {config} from "../../util/config";
 import ClinicList from "../../components/clinic/ClinicList.vue";
 import initStateHook from "../../hooks/doctor/specific-doctor/init-state.hook";
-import {computed} from "vue";
+import VSelect from "../../components/custom/VSelect.vue";
+import DoctorCard from "../../components/doctor/DoctorCard.vue";
+import {useVuelidate} from "@vuelidate/core";
+import computedErrorsHook from "../../hooks/doctor/specific-doctor/computed-errors.hook";
+import makeAppointmentHook from "../../hooks/doctor/specific-doctor/make-appointment.hook";
+import {useStore} from "vuex";
+import {vuexTypes} from "../../store/vuexTypes";
 
 export default {
   name: "DoctorPage",
-  components: {ClinicList, SubClinicListItem},
+  components: {
+    DoctorCard,
+    VSelect,
+    ClinicList,
+    SubClinicListItem
+  },
   setup() {
     regMountedStateHook()
 
-    const {doctor, clinics} = initStateHook()
-    const routesNames = computed(() => routes)
-    const defaultAvatar = computed(() => require('../.././assets/images/doctor.webp'))
-    const pathToImg = computed(() => config.apiUrl + '/')
+    const {
+      doctor,
+      clinics,
+      appointment,
+      workingHours,
+      appointmentSchedule,
+      appointmentRule,
+      isActive,
+      clinicBranches,
+      doctorId
+    } = initStateHook()
+
+    const store = useStore()
+    const user = store.getters[vuexTypes.user]
+
+    const v$ = useVuelidate(appointmentRule, appointment)
+    const {isValid} = computedErrorsHook(v$)
+    const {makeAppointment} = makeAppointmentHook(appointment, v$, isActive, user.id, isValid, store)
 
     return {
       doctor,
       clinics,
-      routesNames,
-      defaultAvatar,
-      pathToImg
+      appointment,
+      appointmentSchedule,
+      workingHours,
+      isActive,
+      clinicBranches,
+      v$,
+      doctorId,
+      store,
+      makeAppointment
     }
   },
 }
@@ -198,5 +188,32 @@ export default {
       font-size: 13px;
     }
   }
+}
+
+.appointment-form {
+  display: flex;
+  flex-direction: column;
+
+  &__input:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.input-error {
+  @extend %input-error;
+}
+
+.form-error {
+  input, select {
+    @extend %form-error;
+  }
+}
+
+input {
+  @extend %field-reg;
+}
+
+label {
+  @extend %label-reg;
 }
 </style>

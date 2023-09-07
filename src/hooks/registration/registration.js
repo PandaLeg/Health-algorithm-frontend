@@ -1,7 +1,7 @@
 import {useStore} from "vuex";
 import {vuexTypes} from "../../store/vuexTypes";
-import routesNames from "../../router/routesNames";
 import {useRouter} from "vue-router";
+import routesNames from "../../router/routesNames";
 
 export default function (v$, user, isValid, type, image = null, locations = [], isValidLocation) {
     const store = useStore()
@@ -25,7 +25,7 @@ export default function (v$, user, isValid, type, image = null, locations = [], 
                 }
 
                 if (type === 'doctor') {
-                    user.doctor.clinicBranches = locations.map(el => el.address)
+                    user.doctor.doctorWorkPlaces = formDoctorWorkPlaces(locations)
                     user.doctor.cities = formDoctorCities(locations)
                 }
 
@@ -114,4 +114,23 @@ function formDoctorCities(locations) {
         }
     })
     return cities
+}
+
+function formDoctorWorkPlaces(locations) {
+    const workPlaces = []
+
+    locations.forEach(location => {
+        const workPlace = {}
+
+        workPlace.id = location.address
+        workPlace.schedule = location.schedule.map(sh => ({
+            weekDayId: sh.weekDay,
+            from: sh.from,
+            to: sh.to,
+            duration: sh.duration
+        }))
+        workPlaces.push(workPlace)
+    })
+
+    return workPlaces
 }

@@ -1,6 +1,6 @@
 <template>
   <div
-      v-if="clinics.length > 0"
+      v-if="clinics.length"
       class="clinic__list clinic-list"
   >
     <div

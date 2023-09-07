@@ -76,14 +76,16 @@
               v-model:day-type="v.dayType.$model"
               v-model:from="v.from.$model"
               v-model:to="v.to.$model"
-              v-model:current-location-vuelidate="currentLocationVuelidate"
+              v-model:schedule-vuelidate="scheduleVuelidate"
+              v-model:schedule-rule="modelScheduleRule"
               :v="v"
               :days="days"
               :types="scheduleItem.types"
+              :index-schedule="scheduleItem.id"
           />
           <div
               v-if="scheduleItem.id !== 1"
-              class="registration-clinic__calendar-minus"
+              class="registration-clinic__calendar-minus calendar-minus"
           >
             <button @click="deleteSchedule(scheduleItem)">
               <calendar-minus-s-v-g/>
@@ -91,8 +93,8 @@
           </div>
         </template>
       </validate-each>
-      <div class="registration-clinic__calendar-plus">
-        <button @click="addSchedule">
+      <div class="registration-clinic__calendar-plus calendar-plus">
+        <button @click="addClinicSchedule">
           <calendar-plus-s-v-g/>
         </button>
       </div>
@@ -107,9 +109,10 @@ import {computed, onMounted, ref} from "vue";
 import {ValidateEach} from "@vuelidate/components";
 import VSelect from "../../custom/VSelect.vue";
 import ScheduleItem from "./ScheduleItem.vue";
-import manageScheduleHook from "../../../hooks/registration/clinic/manage-schedule.hook";
+import manageScheduleHook from "../../../hooks/registration/manage-schedule.hook";
 import CalendarPlusSVG from "../../svg/CalendarPlusSVG.vue";
 import CalendarMinusSVG from "../../svg/CalendarMinusSVG.vue";
+import {updateLocationVuelidate} from "../../../hooks/registration/watch-location.hook";
 
 export default {
   name: "LocationItem",
@@ -122,13 +125,14 @@ export default {
     searchCity: {required: true},
     convenienceItems: {required: true},
     schedule: {required: true},
-    locationVuelidate: {required: true},
+    locationVuelidate: {default: () => []},
     vLocation: {required: true},
     scheduleRule: {required: true},
     days: {required: true},
+    indexLocation: {required: true},
   },
   setup(props, {emit}) {
-    const currentLocationVuelidate = ref([])
+    const scheduleVuelidate = ref([])
     const modelSearchCity = computed({
       get: () => props.searchCity,
       set: (val) => emit('update:search-city', val)
@@ -149,41 +153,38 @@ export default {
       set: (val) => emit('update:conveniences', val)
     })
 
-    watchAndGetCities(modelSearchCity, emit)
+    const modelScheduleRule = computed({
+      get: () => props.scheduleRule,
+      set: (val) => emit('update:schedule-rule', val)
+    })
 
-    const {addSchedule, deleteSchedule} = manageScheduleHook(props, emit)
+    watchAndGetCities(modelSearchCity, emit)
+    updateLocationVuelidate(scheduleVuelidate, props, emit)
+
+    const {addClinicSchedule, deleteSchedule} = manageScheduleHook(props, emit)
 
     onMounted(() => {
-      currentLocationVuelidate.value.push(props.vLocation)
-      emit('update:location-vuelidate', [...props.locationVuelidate, currentLocationVuelidate])
+      scheduleVuelidate.value.push(props.vLocation)
+      emit('update:location-vuelidate', [...props.locationVuelidate, scheduleVuelidate])
     })
 
     return {
-      currentLocationVuelidate,
+      scheduleVuelidate,
       modelSearchCity,
       modelCity,
       modelAddress,
       modelConveniences,
-      addSchedule,
+      modelScheduleRule,
+      addClinicSchedule,
       deleteSchedule
     }
   },
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .registration-clinic {
   &__calendar-minus, &__calendar-plus {
-    text-align: center;
-
-    button {
-      height: 30px;
-      background-color: #fff;
-      font-size: 30px;
-    }
-  }
-
-  &__calendar-minus {
     margin-bottom: 10px;
   }
 }

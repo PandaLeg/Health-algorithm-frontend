@@ -38,6 +38,12 @@
             v-else-if="step.isSpecialtyActive"
             class="registration-doctor__content"
         >
+          <div class="registration-doctor__back">
+            <button @click="backStep">
+              <arrow-left-s-v-g/>
+              <span>Back</span>
+            </button>
+          </div>
           <h1 class="registration-doctor__title">Specialty</h1>
           <specialty-form
               :specialties-from-db="specialtiesFromDb"
@@ -56,6 +62,12 @@
             v-else
             class="registration-doctor__content"
         >
+          <div class="registration-doctor__back">
+            <button @click="backStep">
+              <arrow-left-s-v-g/>
+              <span>Back</span>
+            </button>
+          </div>
           <h1 class="registration-doctor__title">Work place</h1>
 
           <form @submit.prevent class="registration-doctor__place-form">
@@ -74,9 +86,14 @@
                     v-model:search-clinic="item.searchClinic"
                     v-model:searched-cities="item.searchedCities"
                     v-model:searched-clinics="item.searchedClinics"
+                    v-model:clinic-branches="item.clinicBranches"
                     v-model:addresses="item.addresses"
-                    v-model:work-place-vuelidate="workPlaceVuelidate"
-                    :v="v"
+                    v-model:schedule="item.schedule"
+                    v-model:days="item.days"
+                    v-model:location-vuelidate="workPlaceVuelidate"
+                    v-model:schedule-rule="scheduleRule"
+                    :index-location="item.id"
+                    :v-place="v"
                 />
                 <div
                     v-if="item.id !== 1"
@@ -112,15 +129,17 @@ import computedDoctorErrorsHook from "../../hooks/registration/doctor/computed-d
 import registration from "../../hooks/registration/registration";
 import initStateAndRules from "../../hooks/registration/doctor/init-state-rules.hook";
 import regMountedState from "../../hooks/reg-mounted-state.hook";
-import nextStepHook from "../../hooks/registration/doctor/next-step.hook";
+import makeStep from "../../hooks/registration/doctor/make-step.hook";
 import managePlaceHook from "../../hooks/registration/doctor/manage-place.hook";
 import {ValidateEach} from "@vuelidate/components";
 import LocationItem from "../../components/registration/clinic/LocationItem.vue";
 import SearchClinic from "../../components/clinic/SearchClinic.vue";
+import ArrowLeftSVG from "../../components/svg/ArrowLeftSVG.vue";
 
 export default {
   name: "RegistrationDoctorPage",
   components: {
+    ArrowLeftSVG,
     SearchClinic,
     LocationItem,
     ValidateEach,
@@ -141,7 +160,8 @@ export default {
       workPlaceRule,
       step,
       workPlaces,
-      workPlaceVuelidate
+      workPlaceVuelidate,
+      scheduleRule,
     } = initStateAndRules()
     const {user, rules, image} = initUserStateAndRules(entity, rule);
 
@@ -157,7 +177,7 @@ export default {
     const type = 'doctor'
 
     const {registrationUser} = registration(v$, user, isValid, type, image, workPlaces, isValidLocation)
-    const {nextStep} = nextStepHook(v$, step, isValidGeneral, isValidSpecialty)
+    const {nextStep, backStep} = makeStep(v$, step, isValidGeneral, isValidSpecialty)
     const {addPlace, deletePlace} = managePlaceHook(workPlaces, workPlaceVuelidate)
 
     return {
@@ -170,10 +190,12 @@ export default {
       workPlaceRule,
       workPlaceVuelidate,
       step,
+      scheduleRule,
       registrationUser,
       nextStep,
       addPlace,
-      deletePlace
+      deletePlace,
+      backStep
     }
   },
 }
@@ -249,6 +271,31 @@ export default {
 
   &__del, &__add {
     margin-bottom: 20px;
+  }
+
+  &__back {
+    margin-bottom: 5px;
+    padding: 1px 0;
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      border: none;
+      border-radius: 5px;
+      background: $grayLighten2;
+      padding: 4px 20px;
+
+      &::after {
+        @extend %after-effect-btn;
+      }
+
+      &:hover::after {
+        opacity: 1;
+      }
+    }
   }
 }
 

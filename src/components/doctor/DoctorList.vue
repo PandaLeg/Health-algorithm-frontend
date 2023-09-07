@@ -1,6 +1,6 @@
 <template>
   <div
-      v-if="doctors.length > 0 && !isLoading"
+      v-if="doctors.length && !isLoading"
       class="doctor__list doctor-list"
   >
     <div

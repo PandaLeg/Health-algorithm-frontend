@@ -1,6 +1,18 @@
-export default function (contentFields, workPlaceVuelidate) {
+export default function (workPlaces, workPlaceVuelidate) {
     const addPlace = () => {
-        let id = contentFields[contentFields.length - 1].id
+        let id = workPlaces[workPlaces.length - 1].id
+        const schedule = []
+
+        const fieldSchedule = {
+            id: 1,
+            weekDay: null,
+            duration: '',
+            from: null,
+            to: null
+        }
+
+        schedule.push(fieldSchedule)
+
         const field = {
             id: ++id,
             city: null,
@@ -10,17 +22,20 @@ export default function (contentFields, workPlaceVuelidate) {
             searchClinic: '',
             searchedCities: [],
             searchedClinics: [],
-            addresses: []
+            clinicBranches: [],
+            addresses: [],
+            days: [],
+            schedule
         }
 
-        contentFields.push(field)
+        workPlaces.push(field)
     }
 
     const deletePlace = (item) => {
-        const itemIndex = contentFields.findIndex(el => el.id === item.id)
+        const itemIndex = workPlaces.findIndex(el => el.id === item.id)
 
-        if (itemIndex !== -1 && contentFields.length > 1) {
-            contentFields.splice(itemIndex, 1)
+        if (itemIndex !== -1 && workPlaces.length > 1) {
+            workPlaces.splice(itemIndex, 1)
             workPlaceVuelidate.value.splice(itemIndex, 1)
         }
     }

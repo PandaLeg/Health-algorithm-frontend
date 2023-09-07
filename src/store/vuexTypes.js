@@ -19,7 +19,8 @@ const getters = {
     isLoggedIn: 'isLoggedIn',
     isAdmin: 'isAdmin',
     token: 'token',
-    notification: 'notification'
+    notification: 'notification',
+    user: 'user'
 }
 
 export const vuexTypes = {
