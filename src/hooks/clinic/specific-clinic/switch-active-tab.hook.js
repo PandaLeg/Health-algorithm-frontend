@@ -1,24 +1,35 @@
 import {onMounted} from "vue";
 
 export default function () {
+
     onMounted(() => {
         const tabs = document.querySelectorAll('.clinic-tabs__switch-btn')
         const allContent = document.querySelectorAll('.tabs-content__wrapper')
+        let btnLine
 
         const getBtnLineFromTabActive = (tab) => tab.target.childNodes[1].firstChild
+        const resetTabs = (tabs) => {
+            tabs.forEach(tab => {
+                btnLine = getBtnLineFromTabActive(tab)
+                btnLine.style.opacity = 0
+                tab.target.classList.remove('tab-active')
+            })
+        }
+        const setInitTabActive = (tabs) => {
+            const firstTab = tabs[0]
+            firstTab.target.classList.add('tab-active')
+
+            btnLine = getBtnLineFromTabActive(firstTab)
+            btnLine.style.opacity = 1
+        }
 
         const observer = new IntersectionObserver((tabs) => {
-            let btnLine = getBtnLineFromTabActive(tabs[0])
-            btnLine.style.opacity = 1
+            resetTabs(tabs)
+            setInitTabActive(tabs)
 
             tabs.forEach((tab, index) => {
                 tab.target.addEventListener('click', (event) => {
-
-                    tabs.forEach(tab => {
-                        btnLine = getBtnLineFromTabActive(tab)
-                        btnLine.style.opacity = 0
-                        tab.target.classList.remove('tab-active')
-                    })
+                    resetTabs(tabs)
                     tab.target.classList.add('tab-active')
 
                     const activeLine = document.querySelector('.clinic-tabs__active-line')

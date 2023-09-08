@@ -44,7 +44,13 @@ export default function (currentClinic, clinics, page, perPage, totalPages) {
         }
     }
 
+    const nextClinicPage = async (currentPage) => {
+        page.value = currentPage
+        await getClinicsWithoutCurrent()
+    }
+
     return {
-        getClinicsWithoutCurrent
+        getClinicsWithoutCurrent,
+        nextClinicPage
     }
 }

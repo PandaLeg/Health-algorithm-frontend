@@ -1,7 +1,7 @@
 <template>
   <div
       v-if="doctors.length && !isLoading"
-      class="doctor__list doctor-list"
+      class="doctors__list doctor-list"
   >
     <div
         v-for="doctor in doctors"
@@ -85,14 +85,6 @@ export default defineComponent({
 <style lang="scss">
 @import "src/assets/scss/variables";
 @import "src/assets/scss/doctor-card";
-
-.doctor-list {
-  padding-top: 30px;
-
-  &__card {
-    margin: 0 20px 20px;
-  }
-}
 
 .doctor-card {
   &__wrapper {

@@ -11,6 +11,11 @@ export default function () {
     const page = ref(1)
     const perPage = ref(5)
     const totalPages = ref(0)
+    const doctors = ref([])
+    const doctorPage = ref(1)
+    const doctorPerPage = ref(5)
+    const doctorTotalPages = ref(0)
+
     const doctorsForAppointments = ref([])
     const appointment = reactive({
         doctorId: null,
@@ -53,6 +58,10 @@ export default function () {
         workingHours,
         doctorsForAppointments,
         isActive,
-        appointmentRule
+        appointmentRule,
+        doctors,
+        doctorPage,
+        doctorPerPage,
+        doctorTotalPages
     }
 }

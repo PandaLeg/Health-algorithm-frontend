@@ -1,9 +1,14 @@
 @import "variables";
 
 .doctor-card {
-  box-shadow: 2px 2px 15px rgb(128 142 184 / 10%);
+  box-shadow: 2px 2px 15px rgb(128 142 184 / 20%);
   border-radius: 15px;
   background: $white;
+  margin: 0 20px 20px;
+
+  @media screen and (max-width: $md4 + 'px') {
+    margin: 0 5px 20px;
+  }
 
   &__inner {
     flex: 1;
@@ -19,6 +24,10 @@
       flex-direction: column;
       padding: 0 15px;
     }
+  }
+
+  &__inner-content {
+    padding: 15px;
   }
 
   &__avatar {
@@ -67,9 +76,7 @@
 
   &__full-name {
     margin-bottom: 5px;
-    line-height: 24px;
     font-weight: 700;
-    font-size: 24px;
 
     a {
       color: #000;
@@ -133,6 +140,11 @@
   &__make-appointment {
     text-align: end;
     margin-bottom: 10px;
+  }
+
+  &__look {
+    margin-top: 10px;
+    text-align: end;
   }
 }
 

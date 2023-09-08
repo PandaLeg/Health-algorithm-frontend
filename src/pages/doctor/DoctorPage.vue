@@ -44,7 +44,6 @@
 
 <script>
 import regMountedStateHook from "../../hooks/reg-mounted-state.hook";
-import SubClinicListItem from "../../components/clinic/SubClinicListItem.vue";
 import ClinicList from "../../components/clinic/ClinicList.vue";
 import initStateHook from "../../hooks/doctor/specific-doctor/init-state.hook";
 import VSelect from "../../components/custom/VSelect.vue";
@@ -61,7 +60,6 @@ export default {
     DoctorCard,
     VSelect,
     ClinicList,
-    SubClinicListItem
   },
   setup() {
     regMountedStateHook()

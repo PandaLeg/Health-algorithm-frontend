@@ -7,7 +7,7 @@
         </div>
         <div class="doctor-card__inner">
           <div class="doctor-card__main">
-            <div class="doctor-card__full-name">
+            <div class="doctor-card__full-name name-lh-fz-24">
               <span>{{ doctor.firstName }} {{ doctor.lastName }} </span>
             </div>
             <div class="doctor-card__specialties specialties-list">
@@ -135,7 +135,7 @@
       <div class="doctor-card__clinics">
         <clinic-list :clinics="clinics">
           <template #listItem="scope">
-            <sub-clinic-list-item
+            <clinic-list-sub-item
                 :path-to-img="scope.pathToImg"
                 :clinic="scope.clinic"
             />
@@ -149,7 +149,7 @@
 <script>
 import ClinicList from "../clinic/ClinicList.vue";
 import VSelect from "../custom/VSelect.vue";
-import SubClinicListItem from "../clinic/SubClinicListItem.vue";
+import ClinicListSubItem from "../clinic/ClinicListSubItem.vue";
 import {computed, defineAsyncComponent, ref} from "vue";
 import routes from "../../router/routesNames";
 import {config} from "../../util/config";
@@ -161,7 +161,7 @@ export default {
   name: "DoctorCard",
   components: {
     VDialog: defineAsyncComponent(() => import('../../components/custom/VDialog.vue')),
-    SubClinicListItem,
+    ClinicListSubItem,
     VSelect,
     ClinicList
   },

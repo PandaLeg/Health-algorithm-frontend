@@ -53,10 +53,6 @@ export default {
     clinic: {
       type: Object,
       required: true
-    },
-    pathToImg: {
-      type: String,
-      required: true
     }
   },
   setup() {

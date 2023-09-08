@@ -11,7 +11,7 @@
         <div class="doctor-card__inner">
           <div class="doctor-card__main">
             <div
-                class="doctor-card__full-name"
+                class="doctor-card__full-name name-lh-fz-24"
                 :class="{'skeleton': isLoading}"
             >
               <router-link :to="{name: routesNames.doctor.name, params: { id: doctor.userId }}">

@@ -96,6 +96,10 @@ export default {
     padding-top: 30px;
     margin-bottom: 30px;
   }
+
+  &__list {
+    padding-top: 30px;
+  }
 }
 
 .search-doctor {

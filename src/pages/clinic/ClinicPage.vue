@@ -17,7 +17,7 @@
       />
       <div class="clinic__tabs clinic-tabs">
         <div class="clinic-tabs__box">
-          <button class="clinic-tabs__switch-btn switch-btn tab-active">
+          <button class="clinic-tabs__switch-btn switch-btn">
             <span class="switch-btn__content">Info</span>
             <span class="switch-btn__line-wrapper">
               <span class="switch-btn__line"></span>
@@ -32,7 +32,10 @@
               <span class="switch-btn__line"></span>
             </span>
           </button>
-          <button class="clinic-tabs__switch-btn switch-btn">
+          <button
+              class="clinic-tabs__switch-btn switch-btn"
+              @click="getDoctors"
+          >
             <span class="switch-btn__content">Doctors</span>
             <span class="switch-btn__line-wrapper">
               <span class="switch-btn__line"></span>
@@ -51,19 +54,25 @@
             <h2>Clinics</h2>
             <clinic-list :clinics="clinics">
               <template #listItem="scope">
-                <sub-clinic-list-item
-                    :path-to-img="scope.pathToImg"
-                    :clinic="scope.clinic"
-                />
+                <clinic-list-sub-item :clinic="scope.clinic"/>
               </template>
             </clinic-list>
+            <v-pagination
+                v-if="clinics.length && totalPages > 1"
+                :current-page="page"
+                :total-pages="totalPages"
+                @next-page="nextClinicPage"
+            />
           </div>
           <div class="tabs-content__wrapper tabs-content__doctors">
             <h2>Doctors</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium architecto delectus minima officia
-              quam, quo vitae voluptatum? Animi assumenda dolore dolorem, esse numquam placeat qui quibusdam reiciendis
-              rerum sed, unde.
-            </p>
+            <doctor-sub-list :doctors="doctors"/>
+            <v-pagination
+                v-if="doctors.length && doctorTotalPages > 1"
+                :current-page="doctorPage"
+                :total-pages="doctorTotalPages"
+                @next-page="nextDoctorPage"
+            />
           </div>
         </div>
       </div>
@@ -78,7 +87,7 @@ import initStateHook from "../../hooks/clinic/specific-clinic/init-state.hook";
 import switchActiveTabHook from "../../hooks/clinic/specific-clinic/switch-active-tab.hook";
 import getClinicsWithoutCurrentHook from "../../hooks/clinic/specific-clinic/get-clinics-without-current.hook";
 import ClinicList from "../../components/clinic/ClinicList.vue";
-import SubClinicListItem from "../../components/clinic/SubClinicListItem.vue";
+import ClinicListSubItem from "../../components/clinic/ClinicListSubItem.vue";
 import ClinicMain from "../../components/clinic/ClinicMain.vue";
 import DoctorCard from "../../components/doctor/DoctorCard.vue";
 import {useVuelidate} from "@vuelidate/core";
@@ -86,10 +95,13 @@ import computedErrorsHook from "../../hooks/clinic/specific-clinic/computed-erro
 import makeAppointmentHook from "../../hooks/doctor/specific-doctor/make-appointment.hook";
 import {useStore} from "vuex";
 import {vuexTypes} from "../../store/vuexTypes";
+import getDoctorsHook from "../../hooks/clinic/specific-clinic/get-clinic-doctors.hook";
+import DoctorSubList from "../../components/doctor/DoctorSubList.vue";
+import VPagination from "../../components/custom/VPagination.vue";
 
 export default {
   name: "ClinicPage",
-  components: {DoctorCard, ClinicMain, SubClinicListItem, ClinicList, ClinicListItem},
+  components: {VPagination, DoctorSubList, DoctorCard, ClinicMain, ClinicListSubItem, ClinicList, ClinicListItem},
   setup() {
     regMountedStateHook()
     const store = useStore()
@@ -107,14 +119,19 @@ export default {
       isActive,
       workingHours,
       doctorsForAppointments,
-      appointmentRule
+      appointmentRule,
+      doctors,
+      doctorPage,
+      doctorPerPage,
+      doctorTotalPages
     } = initStateHook()
 
     switchActiveTabHook()
 
     const v$ = useVuelidate(appointmentRule, appointment)
     const {isValid} = computedErrorsHook(v$)
-    const {getClinicsWithoutCurrent} = getClinicsWithoutCurrentHook(clinic, clinics, page, perPage, totalPages)
+    const {getClinicsWithoutCurrent, nextClinicPage} = getClinicsWithoutCurrentHook(clinic, clinics, page, perPage, totalPages)
+    const {getDoctors, nextDoctorPage} = getDoctorsHook(doctors, doctorPage, doctorPerPage, doctorTotalPages)
 
     const {makeAppointment} = makeAppointmentHook(appointment, v$, isActive, user.id, isValid, store)
     return {
@@ -126,9 +143,17 @@ export default {
       isActive,
       workingHours,
       doctorsForAppointments,
+      page,
+      totalPages,
+      doctors,
+      doctorPage,
+      doctorTotalPages,
       v$,
       store,
       getClinicsWithoutCurrent,
+      nextClinicPage,
+      getDoctors,
+      nextDoctorPage,
       makeAppointment
     }
   }
@@ -138,6 +163,7 @@ export default {
 <style lang="scss">
 @import "src/assets/scss/clinic-card";
 @import "src/assets/scss/clinic-sub-card";
+@import "src/assets/scss/doctor-card";
 @import "src/assets/scss/variables";
 @import "src/assets/scss/ui";
 @import "src/assets/scss/icons";
@@ -168,6 +194,12 @@ export default {
     @media screen and (max-width: $md4 + 'px') {
       padding: 10px;
     }
+  }
+}
+
+.doctor {
+  &__sub-list {
+    margin-bottom: 20px;
   }
 }
 
@@ -205,6 +237,13 @@ export default {
     cursor: pointer;
     height: 40px;
     padding: 0 8px;
+
+    @media screen and (max-width: $md4 + 'px') {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
   }
 
   &__content {

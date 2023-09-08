@@ -105,3 +105,16 @@
     }
   }
 }
+
+@mixin lh-fz($fz, $lh) {
+  font-size: $fz;
+  line-height: $lh;
+}
+
+.name-lh-fz-18 {
+  @include lh-fz(18px, 18px);
+}
+
+.name-lh-fz-24 {
+  @include lh-fz(24px, 24px);
+}
