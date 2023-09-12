@@ -10,7 +10,7 @@ export default function (clinics, page, perPage, totalPages, clinicInfo) {
     const getClinics = async () => {
         try {
             const city = clinicInfo.city? clinicInfo.city : 'kyiv'
-            const url = config.apiUrl + '/clinics/card-info'
+            const url = config.apiUrl + '/clinics/search'
 
             const response = await axios.get(url, {
                 params: {city: city, page: page.value - 1, perPage: perPage.value}
@@ -29,7 +29,7 @@ export default function (clinics, page, perPage, totalPages, clinicInfo) {
             const city = clinicInfo.city
             const clinicId = clinicInfo.clinic
 
-            const url = config.apiUrl + `/clinics/${clinicId}/card-info`
+            const url = config.apiUrl + `/clinics/${clinicId}/search`
 
             const response = await axios.get(url, {
                 params: { city }

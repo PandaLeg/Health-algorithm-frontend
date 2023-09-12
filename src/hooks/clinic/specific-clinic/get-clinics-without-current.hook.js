@@ -15,13 +15,13 @@ export default function (currentClinic, clinics, page, perPage, totalPages) {
             const clinicBranch = route.query.branch
             const clinicId = route.params.id
 
-            const url = config.apiUrl + `/clinics/full-info`
+            const url = config.apiUrl + `/clinics/without-current`
 
             const response = await axios.get(url, {
                 params: {
                     id: clinicId,
                     city: city,
-                    clinicBranch,
+                    clinicBranchId: clinicBranch,
                     page: page.value - 1,
                     perPage: perPage.value
                 }
