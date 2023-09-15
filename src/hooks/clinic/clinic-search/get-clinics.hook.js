@@ -4,7 +4,7 @@ import {vuexTypes} from "../../../store/vuexTypes";
 import {onMounted} from "vue";
 import axios from "axios";
 
-export default function (clinics, page, perPage, totalPages, clinicInfo) {
+export default function (clinics, page, perPage, totalPages, countClinics, currentCity, clinicInfo) {
     const store = useStore()
 
     const getClinics = async () => {
@@ -19,6 +19,8 @@ export default function (clinics, page, perPage, totalPages, clinicInfo) {
 
             clinics.value = data.clinics
             totalPages.value = data.totalPages
+            countClinics.value = data.count
+            currentCity.value = clinicInfo.city ? clinicInfo.city : 'Kyiv'
         } catch (err) {
             store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
         }

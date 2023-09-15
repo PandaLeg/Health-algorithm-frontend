@@ -12,7 +12,16 @@
           :v$="v$"
           @search="search"
       />
-
+      <div class="clinics__count clinics-count">
+        <div class="clinics-count__box">
+          <div class="total-pages">
+            <div class="total-pages__content">
+              Found clinics in {{ currentCity }}
+              <span class="total-pages__count">( {{ countClinics }} )</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <ClinicList :clinics="clinics">
         <template #listItem="scope">
           <ClinicListItem
@@ -63,6 +72,8 @@ export default {
       page,
       perPage,
       totalPages,
+      countClinics,
+      currentCity,
       clinicInfo,
       searchedCities,
       searchedClinics,
@@ -71,13 +82,19 @@ export default {
     } = initStateHook()
     const v$ = useVuelidate(cityRule, clinicInfo)
 
-    const {nextPage, getClinic, getClinics} = getClinicsHook(clinics, page, perPage, totalPages, clinicInfo)
+    const {
+      nextPage,
+      getClinic,
+      getClinics
+    } = getClinicsHook(clinics, page, perPage, totalPages, countClinics, currentCity, clinicInfo)
     const {search} = searchClinicsHook(v$, clinicInfo, getClinic, getClinics)
 
     return {
       clinics,
       page,
       totalPages,
+      countClinics,
+      currentCity,
       clinicInfo,
       searchedCities,
       searchedClinics,
@@ -129,6 +146,11 @@ export default {
       display: inline-block;
       margin-bottom: 5px;
     }
+
+    @media screen and (max-width: $md4 + px) {
+      flex-direction: column;
+      gap: 15px;
+    }
   }
 
   &__action {
@@ -149,6 +171,13 @@ export default {
 
   &__city, &__name {
     flex: 0 1 50%;
+  }
+}
+
+.clinics-count {
+  &__box {
+    max-width: 750px;
+    margin: 0 auto 30px;
   }
 }
 

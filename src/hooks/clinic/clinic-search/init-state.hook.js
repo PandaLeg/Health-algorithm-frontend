@@ -6,6 +6,8 @@ export default function () {
     const page = ref(1)
     const perPage = ref(5)
     const totalPages = ref(0)
+    const countClinics = ref(0)
+    const currentCity = ref('')
     const clinicInfo = reactive({
         searchCity: '',
         city: '',
@@ -30,6 +32,8 @@ export default function () {
         page,
         perPage,
         totalPages,
+        countClinics,
+        currentCity,
         clinicInfo,
         searchedCities,
         searchedClinics,

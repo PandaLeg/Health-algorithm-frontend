@@ -26,7 +26,7 @@
               :key="schedule.id"
               class="clinic-schedule__item"
           >
-            <span>{{ schedule.addressInfo }};</span>
+            <span>{{ schedule.date }};</span>
           </div>
         </div>
         <div class="clinic-card__address">

@@ -106,6 +106,27 @@
   }
 }
 
+.total-pages {
+  box-shadow: 2px 2px 15px rgb(128 142 184 / 10%);
+  border-radius: 15px;
+  background: $white;
+  padding: 25px;
+
+  &__content {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 18px;
+
+    @media screen and (max-width: $md4 + px){
+      text-align: center;
+    }
+  }
+
+  &__count {
+    font-weight: 700;
+  }
+}
+
 @mixin lh-fz($fz, $lh) {
   font-size: $fz;
   line-height: $lh;
