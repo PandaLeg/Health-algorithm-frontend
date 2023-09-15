@@ -11,12 +11,6 @@ const routes = [
         component: () => import(/* webpackChunkName: "HomePage" */ '../pages/HomePage.vue')
     },
     {
-        path: '/registration',
-        name: routesNames.registration.name,
-        component: () => import(/* webpackChunkName: "RegistrationPage" */ '../pages/registration/RegistrationPage.vue'),
-        beforeEnter: guardUnLogIn
-    },
-    {
         path: '/registration-patient',
         name: routesNames.registrationPatient.name,
         component: () => import(/* webpackChunkName: "RegistrationPatientPage" */ '../pages/registration/RegistrationPatientPage.vue'),

@@ -30,7 +30,6 @@ export default function (page, perPage, totalPages, doctors, searchDoctorInfo, c
             countDoctors.value = data.count
             currentCity.value = city
         } catch (err) {
-            console.log(err)
             store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
         } finally {
             isLoading.value = false
