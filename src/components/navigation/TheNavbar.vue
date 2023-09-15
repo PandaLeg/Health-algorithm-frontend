@@ -67,15 +67,6 @@
                 Log in
               </router-link>
             </li>
-            <li v-if="!isLoggedIn">
-              <router-link
-                  :to="{name: routes.registration.name}"
-                  class="menu__link"
-                  @click="changeStateBurger"
-              >
-                Registration
-              </router-link>
-            </li>
             <li v-if="isLoggedIn">
               <a
                   class="menu__link"
