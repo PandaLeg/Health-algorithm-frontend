@@ -1,6 +1,6 @@
 import {reactive, ref} from "vue";
 import getAllCategoriesSpecialties from "./get-categories-specialties.hook";
-import {helpers, required} from "@vuelidate/validators";
+import {helpers, maxValue, minValue, required} from "@vuelidate/validators";
 import {checkRequiredValue} from "../custom-validators.hook";
 
 export default function () {
@@ -14,8 +14,7 @@ export default function () {
         isPlaceActive: false,
     })
 
-    const workPlaces = reactive([
-        {
+    const workPlace = reactive({
             id: 1,
             city: null,
             clinicName: null,
@@ -37,7 +36,7 @@ export default function () {
                 }
             ]
         },
-    ])
+    )
 
     const workPlaceVuelidate = ref([])
 
@@ -47,6 +46,7 @@ export default function () {
             lastName: '',
             surname: '',
             dateOfBirth: null,
+            price: '',
             experience: null,
             categoryId: '',
             specialties: [],
@@ -71,8 +71,14 @@ export default function () {
             surname: {
                 required: helpers.withMessage('Enter surname', required)
             },
+            price: {
+                required: helpers.withMessage('Enter price', required),
+                minValue: helpers.withMessage('Min price is 10', minValue(10))
+            },
             experience: {
-                required: helpers.withMessage('Enter experience', required)
+                required: helpers.withMessage('Enter experience', required),
+                minValue: helpers.withMessage('Min experience is 1', minValue(1)),
+                maxValue: helpers.withMessage('Min experience is 1', maxValue(60))
             },
             categoryId: {
                 required: helpers.withMessage('Select category', required)
@@ -137,7 +143,7 @@ export default function () {
         rule,
         workPlaceRule,
         step,
-        workPlaces,
+        workPlace,
         workPlaceVuelidate,
         scheduleRule,
     }

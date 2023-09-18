@@ -47,9 +47,9 @@
       class="registration-week__clinic-schedule"
   >
     The clinic is open from
-    <span>{{ clinicSchedule.from.substring(0, 5) }}</span>
+    <span>{{ clinicSchedule.from?.substring(0, 5) ?? '' }}</span>
     to
-    <span>{{ clinicSchedule.to.substring(0, 5) }}</span>
+    <span>{{ clinicSchedule.to?.substring(0, 5) ?? '' }}</span>
   </div>
   <div class="registration-week__time">
     <div
@@ -61,7 +61,6 @@
           v-model="modelFrom"
           placeholder="Select from time"
           type="time"
-          required
       >
       <div
           v-for="error in v.from.$errors"
@@ -81,7 +80,6 @@
           v-model="modelTo"
           placeholder="Select to time"
           type="time"
-          required
       >
       <div
           v-for="error in v.to.$errors"
@@ -93,7 +91,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 import VAutocomplete from "../../custom/VAutocomplete.vue";
@@ -122,7 +119,9 @@ export default {
   setup(props, {emit}) {
     const clinicSchedule = ref('')
     onMounted(() => {
-      emit('update:schedule-vuelidate', [...props.scheduleVuelidate, props.v])
+      let isExistsV = props.scheduleVuelidate[props.indexSchedule - 1]
+
+      if (!isExistsV) emit('update:schedule-vuelidate', [...props.scheduleVuelidate, props.v])
     })
 
     const modelWeekDay = computed({
@@ -145,7 +144,17 @@ export default {
       set: (val) => emit('update:to', val)
     })
 
-    updateScheduleVuelidate(props, emit)
+    if (modelWeekDay.value) {
+      const currentBranch = props.clinicBranches.find(branch => branch.id === props.addressBranchId)
+
+      const schedule = currentBranch.schedule.find(sh => sh.weekDayId === modelWeekDay.value)
+
+      if (schedule) {
+        clinicSchedule.value = schedule
+      }
+    }
+
+    updateScheduleVuelidate(props, emit, true)
     watchAndUpdateScheduleRule(modelWeekDay, props, clinicSchedule, emit)
 
     return {

@@ -1,8 +1,8 @@
-export default function (v$, locationVuelidate) {
+export default function (v$, vPlace, locationVuelidate) {
     const isValidGeneral = () => {
         return !v$.value.email.$error && !v$.value.password.$error && !v$.value.phone.$error
             && !v$.value.doctor.firstName.$error && !v$.value.doctor.lastName.$error
-            && !v$.value.doctor.surname.$error
+            && !v$.value.doctor.surname.$error && !v$.value.doctor.price.$error
     }
 
     const isValidSpecialty = () => {
@@ -17,23 +17,19 @@ export default function (v$, locationVuelidate) {
 
     const isValidLocation = () => {
         let isValidLocation = true
+        vPlace.value.$touch()
 
         for (let i = 0; i < locationVuelidate.value.length; i++) {
-            const currentLocation = locationVuelidate.value[i]
+            const v = locationVuelidate.value[i]
+            v.$touch()
 
-            for (let j = 0; j < currentLocation.value.length; j++) {
-                const v = currentLocation.value[j]
-                v.$touch()
-
-                if (!isValidLocation) {
-                    continue
-                }
-
-                isValidLocation = v.city ? !v.city.$error && !v.clinicName.$error && !v.address.$error :
-                    !v.weekDay.$error && !v.duration.$error && !v.from.$error && !v.to.$error
+            if (!isValidLocation) {
+                continue
             }
+
+            isValidLocation = !v.weekDay.$error && !v.duration.$error && !v.from.$error && !v.to.$error
         }
-        return isValidLocation
+        return isValidLocation && !vPlace.value.city.$error && !vPlace.value.clinicName.$error && !vPlace.value.address.$error
     }
 
     return {

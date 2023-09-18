@@ -57,6 +57,7 @@ import watchAndGetNamesHook from "../../hooks/doctor/doctor-search/watch-and-get
 
 export default {
   name: "SearchDoctor",
+  components: {VAutocomplete},
   props: {
     city: {required: true},
     searchCity: {required: true},
@@ -68,7 +69,6 @@ export default {
     names: {required: true},
     isDoctorFieldsDisabled: {required: true},
   },
-  components: {VAutocomplete},
   setup(props, {emit}) {
     const modelCity = computed({
       get: () => props.city,

@@ -26,6 +26,7 @@
                 v-model:last-name="user.doctor.lastName"
                 v-model:first-name="user.doctor.firstName"
                 v-model:date-of-birth="user.doctor.dateOfBirth"
+                v-model:price="user.doctor.price"
             />
             <template v-slot:continue>
               <div class="registration__button" @click="nextStep">
@@ -71,41 +72,22 @@
           <h1 class="registration-doctor__title">Work place</h1>
 
           <form @submit.prevent class="registration-doctor__place-form">
-            <validate-each
-                v-for="item in workPlaces"
-                :key="item.id"
-                :state="item"
-                :rules="workPlaceRule"
-            >
-              <template #default="{ v }">
-                <work-place-item
-                    v-model:city="v.city.$model"
-                    v-model:clinic-name="v.clinicName.$model"
-                    v-model:address="v.address.$model"
-                    v-model:search-city="item.searchCity"
-                    v-model:search-clinic="item.searchClinic"
-                    v-model:searched-cities="item.searchedCities"
-                    v-model:searched-clinics="item.searchedClinics"
-                    v-model:clinic-branches="item.clinicBranches"
-                    v-model:addresses="item.addresses"
-                    v-model:schedule="item.schedule"
-                    v-model:days="item.days"
-                    v-model:location-vuelidate="workPlaceVuelidate"
-                    v-model:schedule-rule="scheduleRule"
-                    :index-location="item.id"
-                    :v-place="v"
-                />
-                <div
-                    v-if="item.id !== 1"
-                    class="registration-doctor__del"
-                >
-                  <button @click="deletePlace(item)">Delete place</button>
-                </div>
-              </template>
-            </validate-each>
-            <div class="registration-doctor__add">
-              <button @click="addPlace">Add place of work</button>
-            </div>
+            <work-place-item
+                v-model:city="workPlace.city"
+                v-model:clinic-name="workPlace.clinicName"
+                v-model:address="workPlace.address"
+                v-model:search-city="workPlace.searchCity"
+                v-model:search-clinic="workPlace.searchClinic"
+                v-model:searched-cities="workPlace.searchedCities"
+                v-model:searched-clinics="workPlace.searchedClinics"
+                v-model:clinic-branches="workPlace.clinicBranches"
+                v-model:addresses="workPlace.addresses"
+                v-model:schedule="workPlace.schedule"
+                v-model:days="workPlace.days"
+                v-model:location-vuelidate="workPlaceVuelidate"
+                v-model:schedule-rule="scheduleRule"
+                :v="vPlace"
+            />
 
             <div class="registration__button">
               <button @click="registrationUser">Registration</button>
@@ -130,8 +112,6 @@ import registration from "../../hooks/registration/registration";
 import initStateAndRules from "../../hooks/registration/doctor/init-state-rules.hook";
 import regMountedState from "../../hooks/reg-mounted-state.hook";
 import makeStep from "../../hooks/registration/doctor/make-step.hook";
-import managePlaceHook from "../../hooks/registration/doctor/manage-place.hook";
-import {ValidateEach} from "@vuelidate/components";
 import LocationItem from "../../components/registration/clinic/LocationItem.vue";
 import SearchClinic from "../../components/clinic/SearchClinic.vue";
 import ArrowLeftSVG from "../../components/svg/ArrowLeftSVG.vue";
@@ -142,7 +122,6 @@ export default {
     ArrowLeftSVG,
     SearchClinic,
     LocationItem,
-    ValidateEach,
     RegistrationStepper,
     RegistrationUserForm,
     GeneralForm,
@@ -159,26 +138,26 @@ export default {
       rule,
       workPlaceRule,
       step,
-      workPlaces,
+      workPlace,
       workPlaceVuelidate,
       scheduleRule,
     } = initStateAndRules()
     const {user, rules, image} = initUserStateAndRules(entity, rule);
 
     const v$ = useVuelidate(rules, user)
+    const vPlace = useVuelidate(workPlaceRule, workPlace)
 
     const {
       isValidGeneral,
       isValidSpecialty,
       isValid,
       isValidLocation
-    } = computedDoctorErrorsHook(v$, workPlaceVuelidate)
+    } = computedDoctorErrorsHook(v$, vPlace, workPlaceVuelidate)
 
     const type = 'doctor'
 
-    const {registrationUser} = registration(v$, user, isValid, type, image, workPlaces, isValidLocation)
+    const {registrationUser} = registration(v$, user, isValid, type, image, workPlace, isValidLocation)
     const {nextStep, backStep} = makeStep(v$, step, isValidGeneral, isValidSpecialty)
-    const {addPlace, deletePlace} = managePlaceHook(workPlaces, workPlaceVuelidate)
 
     return {
       user,
@@ -186,15 +165,13 @@ export default {
       image,
       categories,
       specialtiesFromDb,
-      workPlaces,
-      workPlaceRule,
+      workPlace,
+      vPlace,
       workPlaceVuelidate,
       step,
       scheduleRule,
       registrationUser,
       nextStep,
-      addPlace,
-      deletePlace,
       backStep
     }
   },

@@ -55,6 +55,7 @@ import {watchAndGetCities, watchAndGetClinics} from "../../hooks/registration/ge
 
 export default {
   name: "SearchClinic",
+  components: {VAutocomplete},
   props: {
     v$: {required: true},
     city: {required: true},
@@ -65,7 +66,6 @@ export default {
     searchedClinics: {required: true},
     isClinicDisabled: {required: true}
   },
-  components: {VAutocomplete},
   setup(props, { emit }) {
     const modelCity = computed({
       get: () => props.city,

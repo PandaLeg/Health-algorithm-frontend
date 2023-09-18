@@ -2,7 +2,7 @@
   <form @submit.prevent class="registration__form">
     <div class="registration__title-avatar-group">
       <div class="registration__title">
-        <span>Hover over the area below to select an image</span>
+        <span>Hover over the area below or click on it to select an image</span>
       </div>
       <div class="registration__avatar">
         <label for="image">+</label>
@@ -248,10 +248,18 @@ export default {
   &__contact-group {
     display: flex;
     gap: 15px;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-direction: column;
+    }
   }
 
   &__phone, &__email {
-    flex: 1 1 50%;
+    flex: 0 1 50%;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-basis: 100%;
+    }
   }
 }
 

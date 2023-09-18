@@ -94,7 +94,7 @@
         </template>
       </validate-each>
       <div class="registration-clinic__calendar-plus calendar-plus">
-        <button @click="addClinicSchedule">
+        <button @click="addSchedule">
           <calendar-plus-s-v-g/>
         </button>
       </div>
@@ -109,7 +109,7 @@ import {computed, onMounted, ref} from "vue";
 import {ValidateEach} from "@vuelidate/components";
 import VSelect from "../../custom/VSelect.vue";
 import ScheduleItem from "./ScheduleItem.vue";
-import manageScheduleHook from "../../../hooks/registration/manage-schedule.hook";
+import manageScheduleHook, {manageClinicSchedule} from "../../../hooks/registration/manage-schedule.hook";
 import CalendarPlusSVG from "../../svg/CalendarPlusSVG.vue";
 import CalendarMinusSVG from "../../svg/CalendarMinusSVG.vue";
 import {updateLocationVuelidate} from "../../../hooks/registration/watch-location.hook";
@@ -161,7 +161,7 @@ export default {
     watchAndGetCities(modelSearchCity, emit)
     updateLocationVuelidate(scheduleVuelidate, props, emit)
 
-    const {addClinicSchedule, deleteSchedule} = manageScheduleHook(props, emit)
+    const {addSchedule, deleteSchedule} = manageClinicSchedule(props, emit, scheduleVuelidate)
 
     onMounted(() => {
       scheduleVuelidate.value.push(props.vLocation)
@@ -175,7 +175,7 @@ export default {
       modelAddress,
       modelConveniences,
       modelScheduleRule,
-      addClinicSchedule,
+      addSchedule,
       deleteSchedule
     }
   },

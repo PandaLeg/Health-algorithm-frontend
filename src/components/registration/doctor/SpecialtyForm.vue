@@ -193,10 +193,18 @@ export default {
   &__spec-info {
     display: flex;
     gap: 15px;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-direction: column;
+    }
   }
 
   &__experience, &__category {
     flex: 1 1 50%;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-basis: 100%;
+    }
   }
 }
 

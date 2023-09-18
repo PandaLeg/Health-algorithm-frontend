@@ -115,15 +115,25 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+@import "src/assets/scss/variables";
+
 .registration-patient {
   &__name {
     display: flex;
     gap: 10px;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-direction: column;
+    }
   }
 
   &__firstName, &__lastName {
-    flex: 1 1 50%;
+    flex: 0 1 50%;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-basis: 100%
+    }
   }
 }
 </style>
