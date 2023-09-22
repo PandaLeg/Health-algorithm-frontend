@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import routesNames from "../../router/routesNames";
+import routesNames from "../../router/routes-names";
 import LogoSVG from "../../components/svg/LogoSVG.vue";
 import {useVuelidate} from "@vuelidate/core";
 import initState from "../../hooks/auth/init-state-rules.hook";

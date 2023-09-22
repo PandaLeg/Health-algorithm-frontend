@@ -27,7 +27,7 @@
                 v-model:first-name="user.doctor.firstName"
                 v-model:date-of-birth="user.doctor.dateOfBirth"
                 v-model:price="user.doctor.price"
-            />
+            ></general-form>
             <template v-slot:continue>
               <div class="registration__button" @click="nextStep">
                 <button>Continue</button>
@@ -57,7 +57,7 @@
               v-model:course="user.doctor.description.course"
               :v$="v$"
               @next-step="nextStep"
-          />
+          ></specialty-form>
         </div>
         <div
             v-else
@@ -87,7 +87,7 @@
                 v-model:location-vuelidate="workPlaceVuelidate"
                 v-model:schedule-rule="scheduleRule"
                 :v="vPlace"
-            />
+            ></work-place-item>
 
             <div class="registration__button">
               <button @click="registrationUser">Registration</button>

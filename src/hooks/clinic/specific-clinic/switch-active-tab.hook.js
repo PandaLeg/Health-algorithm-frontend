@@ -2,7 +2,7 @@ import {onMounted} from "vue";
 
 export default function () {
 
-    onMounted(() => {
+    const switchActiveTab = () => {
         const tabs = document.querySelectorAll('.clinic-tabs__switch-btn')
         const allContent = document.querySelectorAll('.tabs-content__wrapper')
         let btnLine
@@ -15,6 +15,10 @@ export default function () {
                 tab.target.classList.remove('tab-active')
             })
         }
+        const resetContent = () => {
+            allContent.forEach(content => content.classList.remove('content-active'))
+            allContent[0].classList.add('content-active')
+        }
         const setInitTabActive = (tabs) => {
             const firstTab = tabs[0]
             firstTab.target.classList.add('tab-active')
@@ -25,6 +29,7 @@ export default function () {
 
         const observer = new IntersectionObserver((tabs) => {
             resetTabs(tabs)
+            resetContent()
             setInitTabActive(tabs)
 
             tabs.forEach((tab, index) => {
@@ -52,5 +57,9 @@ export default function () {
         for (const tab of tabs) {
             observer.observe(tab)
         }
-    })
+    }
+
+    return {
+        switchActiveTab
+    }
 }

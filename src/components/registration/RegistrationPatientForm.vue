@@ -75,12 +75,30 @@ export default {
   name: "RegistrationPatientForm",
   components: {VAutocomplete},
   props: {
-    v$: {required: true},
-    firstName: {required: true,},
-    lastName: {required: true,},
-    city: {required: true,},
-    searchCity: {required: true},
-    searchedCities: {required: true},
+    v$: {
+      type: Object,
+      required: true
+    },
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    city: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    searchCity: {
+      type: String,
+      required: true
+    },
+    searchedCities: {
+      type: Array,
+      required: true
+    },
   },
   setup(props, {emit}) {
     const modelFirstName = computed({

@@ -14,7 +14,7 @@
           :v$="v$"
           :store="store"
           @make-appointment="makeAppointment"
-      />
+      ></clinic-main>
       <div class="clinic__tabs clinic-tabs">
         <div class="clinic-tabs__box">
           <button class="clinic-tabs__switch-btn switch-btn">
@@ -44,7 +44,7 @@
           <div class="clinic-tabs__active-line"></div>
         </div>
         <div class="clinic-tabs__content tabs-content">
-          <div class="tabs-content__wrapper tabs-content__description content-active">
+          <div class="tabs-content__wrapper tabs-content__description">
             <h2>Description</h2>
             <p>
               {{ clinic.description }}
@@ -93,19 +93,19 @@ import DoctorCard from "../../components/doctor/DoctorCard.vue";
 import {useVuelidate} from "@vuelidate/core";
 import computedErrorsHook from "../../hooks/clinic/specific-clinic/computed-errors.hook";
 import makeAppointmentHook from "../../hooks/doctor/specific-doctor/make-appointment.hook";
-import {useStore} from "vuex";
-import {vuexTypes} from "../../store/vuexTypes";
+import {vuexTypes} from "../../store/vuex-types";
 import getDoctorsHook from "../../hooks/clinic/specific-clinic/get-clinic-doctors.hook";
 import DoctorSubList from "../../components/doctor/DoctorSubList.vue";
 import VPagination from "../../components/custom/VPagination.vue";
+import {onBeforeRouteUpdate} from "vue-router";
+import getFullInfoClinicHook from "../../hooks/clinic/specific-clinic/get-full-info-clinic.hook";
+import {onMounted} from "vue";
 
 export default {
   name: "ClinicPage",
   components: {VPagination, DoctorSubList, DoctorCard, ClinicMain, ClinicListSubItem, ClinicList, ClinicListItem},
   setup() {
     regMountedStateHook()
-    const store = useStore()
-    const user = store.getters[vuexTypes.user]
 
     const {
       clinic,
@@ -123,15 +123,31 @@ export default {
       doctors,
       doctorPage,
       doctorPerPage,
-      doctorTotalPages
+      doctorTotalPages,
+      store,
+      resetState
     } = initStateHook()
 
-    switchActiveTabHook()
+    const user = store.getters[vuexTypes.user]
+
+    const {switchActiveTab} = switchActiveTabHook()
+    onMounted(switchActiveTab)
 
     const v$ = useVuelidate(appointmentRule, appointment)
     const {isValid} = computedErrorsHook(v$)
-    const {getClinicsWithoutCurrent, nextClinicPage} = getClinicsWithoutCurrentHook(clinic, clinics, page, perPage, totalPages)
+    const {
+      getClinicsWithoutCurrent,
+      nextClinicPage
+    } = getClinicsWithoutCurrentHook(clinic, clinics, page, perPage, totalPages)
     const {getDoctors, nextDoctorPage} = getDoctorsHook(doctors, doctorPage, doctorPerPage, doctorTotalPages)
+
+    onBeforeRouteUpdate(async (to) => {
+      v$.value.$reset()
+      resetState(to)
+      switchActiveTab()
+      const {getFullInfoClinic} = getFullInfoClinicHook(clinic)
+      await getFullInfoClinic(store, to)
+    })
 
     const {makeAppointment} = makeAppointmentHook(appointment, v$, isActive, user.id, isValid, store)
     return {

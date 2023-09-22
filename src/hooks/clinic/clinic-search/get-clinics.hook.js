@@ -1,6 +1,6 @@
 import {useStore} from "vuex";
 import {config} from "../../../util/config";
-import {vuexTypes} from "../../../store/vuexTypes";
+import {vuexTypes} from "../../../store/vuex-types";
 import {onMounted} from "vue";
 import axios from "axios";
 

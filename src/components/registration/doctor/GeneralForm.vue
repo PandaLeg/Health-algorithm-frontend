@@ -74,11 +74,11 @@
         class="registration-doctor__price"
         :class="{'form-error': v$.doctor.price.$error}"
     >
-      <label>Price(₴) *</label>
+      <label>Price(UAH) *</label>
       <input
-          v-model="modelPrice"
+          v-model.number="modelPrice"
           type="number"
-          placeholder="Write price in ₴"
+          placeholder="Write price in UAH"
           required
           @input="v$.doctor.price.$touch"
           @blur="v$.doctor.price.$touch"
@@ -100,12 +100,30 @@ import {computed} from "vue";
 export default {
   name: "RegistrationDoctorForm",
   props: {
-    v$: {required: true},
-    firstName: {required: true,},
-    lastName: {required: true,},
-    surname: {required: true,},
-    dateOfBirth: {required: true,},
-    price: {required: true,},
+    v$: {
+      type: Object,
+      required: true
+    },
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    surname: {
+      type: String,
+      required: true,
+    },
+    dateOfBirth: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    price: {
+      type: [String, Number],
+      required: true,
+    },
   },
   setup(props, {emit}) {
     const modelFirstName = computed({

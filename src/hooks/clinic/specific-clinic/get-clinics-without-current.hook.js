@@ -1,6 +1,6 @@
 import {config} from "../../../util/config";
 import axios from "axios";
-import {vuexTypes} from "../../../store/vuexTypes";
+import {vuexTypes} from "../../../store/vuex-types";
 import {useRoute} from "vue-router";
 import {useStore} from "vuex";
 import buildSchedule from "./build-schedule";
@@ -12,8 +12,8 @@ export default function (currentClinic, clinics, page, perPage, totalPages) {
     const getClinicsWithoutCurrent = async () => {
         try {
             const city = route.query.city
-            const clinicBranch = route.query.branch
-            const clinicId = route.params.id
+            const clinicBranch = route.params.id
+            const clinicId = route.query.clinic
 
             const url = config.apiUrl + `/clinics/without-current`
 

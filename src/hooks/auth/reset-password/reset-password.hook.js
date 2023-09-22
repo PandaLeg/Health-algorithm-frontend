@@ -1,5 +1,5 @@
 import {useStore} from "vuex";
-import {vuexTypes} from "../../../store/vuexTypes";
+import {vuexTypes} from "../../../store/vuex-types";
 import {useRoute} from "vue-router";
 
 export default function (v$, password, confirmPassword, isSuccessfullySent) {

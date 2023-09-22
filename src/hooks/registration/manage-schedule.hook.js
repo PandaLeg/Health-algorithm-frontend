@@ -19,10 +19,10 @@ export function manageClinicSchedule(props, emit, scheduleVuelidate) {
         const field = {
             id: ++id,
             weekDays: [],
-            dayType: null,
+            dayType: '',
             types: dayTypes,
-            from: null,
-            to: null
+            from: '',
+            to: ''
         }
 
         updateSchedule(schedule, field, emit)
@@ -59,8 +59,8 @@ export function manageDoctorSchedule(props, emit) {
             id: ++id,
             weekDay: null,
             duration: '',
-            from: null,
-            to: null
+            from: '',
+            to: ''
         }
 
         updateSchedule(schedule, field, emit)

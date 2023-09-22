@@ -1,5 +1,4 @@
-import {useStore} from "vuex";
-import {vuexTypes} from "../../../store/vuexTypes";
+import {vuexTypes} from "../../../store/vuex-types";
 import {config} from "../../../util/config";
 import authAxios from "../../../http";
 
@@ -29,7 +28,7 @@ export default function (appointment, v$, isActive, patientId, isValid, store) {
                 v$.value.$reset()
             }
         } catch (err) {
-            store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
+            store.commit(vuexTypes.UPDATE_NOTIFICATION, err.response.data.message ?? 'Error')
         }
     }
 

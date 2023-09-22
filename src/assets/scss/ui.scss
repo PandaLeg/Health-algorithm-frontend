@@ -19,7 +19,7 @@
   border-radius: 10px;
   background-color: transparent;
   color: #21243D;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 %label-reg {
@@ -65,6 +65,10 @@
 
   &:hover::before {
     opacity: 1;
+  }
+
+  &_a {
+    display: inline-block;
   }
 }
 

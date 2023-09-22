@@ -17,7 +17,7 @@
               v-model:city="user.patient.city"
               v-model:search-city="searchCity"
               v-model:searched-cities="searchedCities"
-          />
+          ></registration-patient-form>
           <div class="registration__button">
             <button @click="registrationUser">Registration</button>
           </div>

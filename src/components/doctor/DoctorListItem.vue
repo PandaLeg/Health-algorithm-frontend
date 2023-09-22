@@ -58,12 +58,9 @@
               class="doctor-card__price"
               :class="{'skeleton': isLoading}"
           >
-            <span>250$</span>
+            <span>{{ doctor.price }} UAH</span>
           </div>
         </div>
-      </div>
-      <div class="doctor-card__clinics">
-
       </div>
     </div>
     <div class="doctor-card__block">
@@ -85,12 +82,13 @@
             :class="{'skeleton': isLoading}"
         >
           <div
-              v-for="item in slotsDays"
-              :key="`k-${item.day}`"
+              v-for="schedule in doctor.schedule"
+              :key="`k-${schedule.day}`"
               class="slots-days__item"
+              @click="getTimes(schedule.day)"
           >
-            <span class="slots-days__week-day">{{ item.day }}</span>
-            <span class="slots-days__date">{{ item.date }}</span>
+            <span class="slots-days__week-day">{{ schedule.dayName }} {{ schedule.day }}</span>
+            <span class="slots-days__date">{{ schedule.month }}</span>
           </div>
         </div>
         <ul
@@ -111,8 +109,9 @@
 </template>
 
 <script>
-import {defineComponent} from 'vue'
-import routesNames from "../../router/routesNames";
+import {computed, defineComponent, ref, watch} from 'vue'
+import routes from "../../router/routes-names";
+import switchActiveSlot from "../../hooks/doctor/doctor-search/switch-active-slot.hook";
 
 export default defineComponent({
   name: "DoctorListItem",
@@ -125,22 +124,36 @@ export default defineComponent({
       type: String,
       required: true
     },
-    slotsDays: {
-      required: true
-    },
-    visitTimes: {
-      required: true
-    },
     isLoading: {
+      type: Boolean,
       default: false
     },
   },
-  computed: {
-    routesNames() {
-      return routesNames
-    },
-    defaultAvatar() {
-      return require('../.././assets/images/doctor.webp')
+  setup(props) {
+    const visitTimes = ref([])
+
+    const routesNames = computed(() => routes)
+    const defaultAvatar = computed(() => require('../../assets/images/doctor.webp'))
+
+    watch(() => props.doctor, (value) => {
+      if (!props.isLoading) {
+        visitTimes.value = props.doctor.schedule[0].time
+      }
+    }, {immediate: true})
+
+    const getTimes = (day) => {
+      const currentSchedule = props.doctor?.schedule.find(el => el.day === day)
+
+      visitTimes.value = currentSchedule ? currentSchedule.time : props.doctor.schedule[0].time
+    }
+
+    switchActiveSlot()
+
+    return {
+      visitTimes,
+      routesNames,
+      defaultAvatar,
+      getTimes
     }
   }
 })

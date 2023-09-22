@@ -24,13 +24,16 @@
 </template>
 
 <script>
+
 export default {
-  name: 'ForgotPasswordBody',
+  name: 'ResetPasswordBody',
   props: {
     body: {
+      type: Object,
       required: true
     },
     isSuccessfullySent: {
+      type: Boolean,
       default: false
     }
   }

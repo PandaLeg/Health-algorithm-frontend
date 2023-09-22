@@ -1,6 +1,6 @@
 import {config} from "../../../util/config";
 import axios from "axios";
-import {vuexTypes} from "../../../store/vuexTypes";
+import {vuexTypes} from "../../../store/vuex-types";
 import {useStore} from "vuex";
 import {useRoute} from "vue-router";
 
@@ -10,7 +10,7 @@ export default function (doctors, doctorPage, doctorPerPage, doctorTotalPages) {
 
     const getDoctors = async () => {
         try {
-            const clinicBranchId = route.query.branch
+            const clinicBranchId = route.params.id
             const url = config.apiUrl + `/clinic-branches/${clinicBranchId}/doctors`
 
             const response = await axios.get(url, {

@@ -28,11 +28,9 @@
           :per-page="perPage"
           :is-loading="isLoading"
           :static-doctor-info="staticDoctorInfo"
-          :slots-days="slotsDays"
-          :visit-times="visitTimes"
       />
       <VPagination
-          v-if="doctors.length"
+          v-if="doctors.length && totalPages > 1"
           :current-page="currentPage"
           :total-pages="totalPages"
           @next-page="nextPage"
@@ -63,8 +61,7 @@ export default {
 
     const {
       currentPage, perPage, totalPages, doctors, isLoading, staticDoctorInfo, countDoctors,
-      currentCity, slotsDays, visitTimes, searchedCities, searchDoctorInfo, specialties, names,
-      isDoctorFieldsDisabled
+      currentCity, searchedCities, searchDoctorInfo, specialties, names, isDoctorFieldsDisabled
     } = initState()
 
     const {
@@ -79,8 +76,6 @@ export default {
       doctors,
       isLoading,
       staticDoctorInfo,
-      slotsDays,
-      visitTimes,
       searchedCities,
       searchDoctorInfo,
       specialties,

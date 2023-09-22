@@ -82,7 +82,7 @@
               :days="days"
               :types="scheduleItem.types"
               :index-schedule="scheduleItem.id"
-          />
+          ></schedule-item>
           <div
               v-if="scheduleItem.id !== 1"
               class="registration-clinic__calendar-minus calendar-minus"
@@ -118,18 +118,54 @@ export default {
   name: "LocationItem",
   components: {CalendarPlusSVG, CalendarMinusSVG, ScheduleItem, VSelect, ValidateEach, VAutocomplete},
   props: {
-    city: {required: true},
-    address: {required: true},
-    conveniences: {required: true},
-    searchedCities: {required: true},
-    searchCity: {required: true},
-    convenienceItems: {required: true},
-    schedule: {required: true},
-    locationVuelidate: {default: () => []},
-    vLocation: {required: true},
-    scheduleRule: {required: true},
-    days: {required: true},
-    indexLocation: {required: true},
+    city: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    address: {
+      type: String,
+      required: true
+    },
+    conveniences: {
+      type: Array,
+      required: true
+    },
+    searchedCities: {
+      type: Array,
+      required: true
+    },
+    searchCity: {
+      type: String,
+      required: true
+    },
+    convenienceItems: {
+      type: Array,
+      required: true
+    },
+    schedule: {
+      type: Array,
+      required: true
+    },
+    locationVuelidate: {
+      type: Array,
+      required: true,
+    },
+    vLocation: {
+      type: Object,
+      required: true
+    },
+    scheduleRule: {
+      type: Object,
+      required: true
+    },
+    days: {
+      type: Array,
+      required: true
+    },
+    indexLocation: {
+      type: Number,
+      required: true
+    },
   },
   setup(props, {emit}) {
     const scheduleVuelidate = ref([])

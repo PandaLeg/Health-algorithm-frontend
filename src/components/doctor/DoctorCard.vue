@@ -33,7 +33,7 @@
             </p>
           </div>
           <div class="doctor-card__price">
-            <span>250$</span>
+            <span>{{ doctor.price }} UAH</span>
           </div>
           <div
               v-if="isPatient"
@@ -151,11 +151,11 @@ import ClinicList from "../clinic/ClinicList.vue";
 import VSelect from "../custom/VSelect.vue";
 import ClinicListSubItem from "../clinic/ClinicListSubItem.vue";
 import {computed, defineAsyncComponent, ref} from "vue";
-import routes from "../../router/routesNames";
+import routes from "../../router/routes-names";
 import {config} from "../../util/config";
 import getAppointmentScheduleHook from "../../hooks/doctor/specific-doctor/get-appointment-schedule.hook";
 import updateWorkingHoursHook from "../../hooks/doctor/specific-doctor/update-working-hours.hook";
-import {vuexTypes} from "../../store/vuexTypes";
+import {vuexTypes} from "../../store/vuex-types";
 
 export default {
   name: "DoctorCard",

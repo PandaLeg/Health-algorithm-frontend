@@ -9,7 +9,7 @@
         <input
             type="file"
             id="image"
-            accept="image/*"
+            accept="image/png, image/jpeg"
             @change="onChangeImage"
         >
         <template v-if="imageUrl">
@@ -96,11 +96,26 @@ import {computed, ref} from "vue";
 export default {
   name: "RegistrationUserForm",
   props: {
-    v$: {required: true},
-    phone: {required: true},
-    email: {required: true},
-    password: {required: true},
-    image: {default: null},
+    v$: {
+      type: Object,
+      required: true
+    },
+    phone: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true
+    },
+    password: {
+      type: String,
+      required: true
+    },
+    image: {
+      required: true,
+      validator: (val) => typeof val === 'object' || val === null
+    },
   },
   setup(props, {emit}) {
     const imageUrl = ref('')

@@ -1,6 +1,6 @@
 import {useStore} from "vuex";
 import {onMounted, onUnmounted} from "vue";
-import {vuexTypes} from "../store/vuexTypes";
+import {vuexTypes} from "../store/vuex-types";
 
 export default function () {
     const store = useStore()

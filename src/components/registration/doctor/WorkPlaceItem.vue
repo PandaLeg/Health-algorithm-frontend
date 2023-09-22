@@ -88,7 +88,7 @@
             :clinic-branches="clinicBranches"
             :address-branch-id="modelAddress"
             :index-schedule="scheduleItem.id"
-        />
+        ></doctor-schedule-item>
         <div
             v-if="scheduleItem.id !== 1"
             class="registration-doctor__calendar-minus calendar-minus"
@@ -136,20 +136,62 @@ export default {
     VAutocomplete
   },
   props: {
-    city: {required: true},
-    clinicName: {required: true},
-    address: {required: true},
-    searchCity: {required: true},
-    searchClinic: {required: true},
-    searchedCities: {required: true},
-    searchedClinics: {required: true},
-    clinicBranches: {required: true},
-    addresses: {required: true},
-    v: {required: true},
-    locationVuelidate: {default: () => []},
-    schedule: {required: true},
-    days: {required: true},
-    scheduleRule: {required: true},
+    city: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    clinicName: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    address: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    searchCity: {
+      type: String,
+      required: true
+    },
+    searchClinic: {
+      type: String,
+      required: true
+    },
+    searchedCities: {
+      type: Array,
+      required: true
+    },
+    searchedClinics: {
+      type: Array,
+      required: true
+    },
+    clinicBranches: {
+      type: Array,
+      required: true
+    },
+    addresses: {
+      type: Array,
+      required: true
+    },
+    v: {
+      type: Object,
+      required: true
+    },
+    locationVuelidate: {
+      type: Array,
+      required: true
+    },
+    schedule: {
+      type: Array,
+      required: true
+    },
+    days: {
+      type: Array,
+      required: true
+    },
+    scheduleRule: {
+      type: Object,
+      required: true
+    },
   },
   setup(props, {emit}) {
     const modelCity = computed({

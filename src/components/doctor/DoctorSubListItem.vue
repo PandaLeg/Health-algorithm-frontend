@@ -22,14 +22,20 @@
       <span class="experience__text">experience</span>
     </div>
     <div class="doctor-card__look">
-      <button class="btn">
+      <router-link
+          :to="{name: routeNames.doctor.name, params: { id: doctor.userId }}"
+          class="btn btn_a"
+      >
         <span class="btn__content">Look</span>
-      </button>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import {computed} from "vue";
+import routes from "../../router/routes-names";
+
 export default {
   name: "DoctorListSubItem",
   props: {
@@ -38,6 +44,13 @@ export default {
       required: true
     }
   },
+  setup() {
+    const routeNames = computed(() => routes)
+
+    return {
+      routeNames
+    }
+  }
 }
 </script>
 

@@ -104,17 +104,49 @@ export default {
   components: {VSelect, VAutocomplete},
   directives: {maska: vMaska},
   props: {
-    weekDay: {required: true},
-    duration: {required: true},
-    from: {required: true},
-    to: {required: true},
-    days: {required: true},
-    clinicBranches: {required: true},
-    addressBranchId: {required: true},
-    v: {required: true},
-    scheduleVuelidate: {required: true},
-    scheduleRule: {required: true},
-    indexSchedule: {required: true}
+    weekDay: {
+      required: true,
+      validator: (val) => typeof val === 'number' || typeof val === 'string' || val === null
+    },
+    duration: {
+      type: String,
+      required: true
+    },
+    from: {
+      type: String,
+      required: true
+    },
+    to: {
+      type: String,
+      required: true},
+    days: {
+      type: Array,
+      required: true
+    },
+    clinicBranches: {
+      type: Array,
+      required: true
+    },
+    addressBranchId: {
+      validator: (val) => typeof val === 'string' || val === null,
+      required: true
+    },
+    v: {
+      type: Object,
+      required: true
+    },
+    scheduleVuelidate: {
+      type: Array,
+      required: true
+    },
+    scheduleRule: {
+      type: Object,
+      required: true
+    },
+    indexSchedule: {
+      type: Number,
+      required: true
+    }
   },
   setup(props, {emit}) {
     const clinicSchedule = ref('')

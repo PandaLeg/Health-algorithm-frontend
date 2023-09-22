@@ -100,16 +100,46 @@ export default {
   name: "ScheduleItem",
   components: {VSelect, VAutocomplete},
   props: {
-    weekDays: {required: true},
-    dayType: {required: true},
-    from: {required: true},
-    to: {required: true},
-    days: {required: true},
-    types: {required: true},
-    v: {required: true},
-    scheduleVuelidate: {required: true},
-    scheduleRule: {required: true},
-    indexSchedule: {required: true}
+    weekDays: {
+      type: Array,
+      required: true
+    },
+    dayType: {
+      type: String,
+      required: true
+    },
+    from: {
+      type: String,
+      required: true
+    },
+    to: {
+      type: String,
+      required: true
+    },
+    days: {
+      type: Array,
+      required: true
+    },
+    types: {
+      type: Array,
+      required: true
+    },
+    v: {
+      type: Object,
+      required: true
+    },
+    scheduleVuelidate: {
+      type: Array,
+      required: true
+    },
+    scheduleRule: {
+      type: Object,
+      required: true
+    },
+    indexSchedule: {
+      type: Number,
+      required: true
+    }
   },
   setup(props, {emit}) {
     onMounted(() => {

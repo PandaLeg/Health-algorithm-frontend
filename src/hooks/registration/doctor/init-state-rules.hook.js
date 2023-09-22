@@ -31,8 +31,8 @@ export default function () {
                     id: 1,
                     weekDay: null,
                     duration: '',
-                    from: null,
-                    to: null
+                    from: '',
+                    to: ''
                 }
             ]
         },
@@ -47,7 +47,7 @@ export default function () {
             surname: '',
             dateOfBirth: null,
             price: '',
-            experience: null,
+            experience: '',
             categoryId: '',
             specialties: [],
             description: {

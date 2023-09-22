@@ -1,4 +1,4 @@
-import {vuexTypes} from "../store/vuexTypes";
+import {vuexTypes} from "../store/vuex-types";
 import store from "../store";
 
 export default function (data) {

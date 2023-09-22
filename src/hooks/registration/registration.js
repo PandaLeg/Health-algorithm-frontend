@@ -1,7 +1,7 @@
 import {useStore} from "vuex";
-import {vuexTypes} from "../../store/vuexTypes";
+import {vuexTypes} from "../../store/vuex-types";
 import {useRouter} from "vue-router";
-import routesNames from "../../router/routesNames";
+import routesNames from "../../router/routes-names";
 
 export default function (v$, user, isValid, type, image = null, locations, isValidLocation) {
     const store = useStore()

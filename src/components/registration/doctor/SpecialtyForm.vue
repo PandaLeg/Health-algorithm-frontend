@@ -7,7 +7,7 @@
       >
         <label>Experience *</label>
         <input
-            v-model="modelExperience"
+            v-model.number="modelExperience"
             placeholder="Enter experience"
             type="number"
             required
@@ -127,15 +127,42 @@ export default {
   name: "RegistrationSpecialtyForm",
   components: {VAutocomplete, VSelect},
   props: {
-    v$: {required: true},
-    experience: {required: true,},
-    categoryId: {required: true,},
-    categories: {required: true,},
-    specialties: {required: true},
-    about: {required: true},
-    education: {required: true},
-    course: {required: true},
-    specialtiesFromDb: {required: true},
+    v$: {
+      type: Object,
+      required: true
+    },
+    experience: {
+      type: [String, Number],
+      required: true,
+    },
+    categoryId: {
+      type: [String, Number],
+      required: true,
+    },
+    categories: {
+      type: Array,
+      required: true,
+    },
+    specialties: {
+      type: Array,
+      required: true
+    },
+    about: {
+      type: String,
+      required: true
+    },
+    education: {
+      type: String,
+      required: true
+    },
+    course: {
+      type: String,
+      required: true
+    },
+    specialtiesFromDb: {
+      type: Array,
+      required: true
+    },
   },
   setup(props, {emit}) {
     const modelExperience = computed({

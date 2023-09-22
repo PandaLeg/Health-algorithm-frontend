@@ -36,6 +36,7 @@ export default {
   },
   props: {
     clinics: {
+      type: Array,
       default: () => []
     },
   },

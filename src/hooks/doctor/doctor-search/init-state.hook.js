@@ -19,25 +19,6 @@ export default function () {
     })
     const countDoctors = ref(0)
     const currentCity = ref('Kyiv')
-    const slotsDays = ref([
-        {
-            day: 'Sat',
-            date: '19 May'
-        },
-        {
-            day: 'Sun',
-            date: '20 May'
-        },
-        {
-            day: 'Mon',
-            date: '21 May'
-        }
-    ])
-
-    const visitTimes = ref([
-        '10:00', '10:30', '11:00', '11:30', '12:00',
-        '12:30', '13:00', '13:30'
-    ])
 
     const searchDoctorInfo = reactive({
         searchCity: '',
@@ -65,8 +46,6 @@ export default function () {
         staticDoctorInfo,
         countDoctors,
         currentCity,
-        slotsDays,
-        visitTimes,
         searchDoctorInfo,
         searchedCities,
         specialties,

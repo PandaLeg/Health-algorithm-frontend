@@ -52,11 +52,12 @@
 </template>
 
 <script>
-import routesNames from "../../router/routesNames";
 import initState from "../../hooks/auth/verify-email/init-state.hook";
 import checkParams from "../../hooks/auth/verify-email/check-params.hook";
 import sendConfirmationEmail from "../../hooks/auth/verify-email/send-confirmation-email.hook";
 import regMountedState from "../../hooks/reg-mounted-state.hook";
+import {computed} from "vue";
+import routes from "../../router/routes-names";
 
 export default {
   name: "VerifyEmail",
@@ -67,21 +68,18 @@ export default {
 
     const {sendConfirmation} = sendConfirmationEmail(email)
 
+    const routesNames = computed(() => routes)
+    const images = computed(() => ({
+      verifiedEmail: require('../../assets/images/verified-email.webp')
+    }))
+
     regMountedState()
 
     return {
       activationTokenError,
+      routesNames,
+      images,
       sendConfirmation
-    }
-  },
-  computed: {
-    routesNames() {
-      return routesNames
-    },
-    images() {
-      return {
-        verifiedEmail: require('../../assets/images/verified-email.webp')
-      }
     }
   }
 }

@@ -57,14 +57,38 @@ export default {
   name: "SearchClinic",
   components: {VAutocomplete},
   props: {
-    v$: {required: true},
-    city: {required: true},
-    clinic: {required: true},
-    searchCity: {required: true},
-    searchClinic: {required: true},
-    searchedCities: {required: true},
-    searchedClinics: {required: true},
-    isClinicDisabled: {required: true}
+    v$: {
+      type: Object,
+      required: true
+    },
+    city: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    clinic: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    searchCity: {
+      type: String,
+      required: true
+    },
+    searchClinic: {
+      type: String,
+      required: true
+    },
+    searchedCities: {
+      type: Array,
+      required: true
+    },
+    searchedClinics: {
+      type: Array,
+      required: true
+    },
+    isClinicDisabled: {
+      type: Boolean,
+      required: true
+    }
   },
   setup(props, { emit }) {
     const modelCity = computed({

@@ -59,15 +59,42 @@ export default {
   name: "SearchDoctor",
   components: {VAutocomplete},
   props: {
-    city: {required: true},
-    searchCity: {required: true},
-    searchedCities: {required: true},
-    specialty: {required: true},
-    searchDoctorName: {required: true},
-    doctorName: {required: true},
-    specialties: {required: true},
-    names: {required: true},
-    isDoctorFieldsDisabled: {required: true},
+    city: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    searchCity: {
+      type: String,
+      required: true
+    },
+    searchedCities: {
+      type: Array,
+      required: true
+    },
+    specialty: {
+      required: true,
+      validator: (val) => typeof val === 'number' || val === null
+    },
+    searchDoctorName: {
+      type: String,
+      required: true
+    },
+    doctorName: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    specialties: {
+      type: Array,
+      required: true
+    },
+    names: {
+      type: Array,
+      required: true
+    },
+    isDoctorFieldsDisabled: {
+      type: Boolean,
+      required: true
+    },
   },
   setup(props, {emit}) {
     const modelCity = computed({

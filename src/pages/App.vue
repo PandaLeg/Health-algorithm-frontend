@@ -24,7 +24,7 @@
 
 <script>
 import {mapGetters, mapState} from "vuex";
-import {vuexTypes} from "../store/vuexTypes";
+import {vuexTypes} from "../store/vuex-types";
 import {defineAsyncComponent} from "vue";
 import TheNavbar from "../components/navigation/TheNavbar.vue";
 import VNotification from "../components/custom/VNotification.vue";

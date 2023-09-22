@@ -11,8 +11,6 @@
       <DoctorListItem
           :doctor="doctor"
           :path-to-img="pathToImg"
-          :slots-days="slotsDays"
-          :visit-times="visitTimes"
       />
     </div>
   </div>
@@ -28,8 +26,6 @@
       <DoctorListItem
           :doctor="staticDoctorInfo"
           :path-to-img="pathToImg"
-          :slots-days="slotsDays"
-          :visit-times="visitTimes"
           :is-loading="isLoading"
       />
     </div>
@@ -54,23 +50,21 @@ export default defineComponent({
   },
   props: {
     doctors: {
+      type: Array,
       default: () => []
     },
     perPage: {
+      type: Number,
       required: true
     },
     isLoading: {
+      type: Boolean,
       required: true
     },
     staticDoctorInfo: {
+      type: Object,
       required: true
-    },
-    slotsDays: {
-      required: true
-    },
-    visitTimes: {
-      required: true
-    },
+    }
   },
   setup() {
     const pathToImg = computed(() => config.apiUrl + '/')
@@ -85,6 +79,13 @@ export default defineComponent({
 <style lang="scss">
 @import "src/assets/scss/variables";
 @import "src/assets/scss/doctor-card";
+
+.doctor-list {
+  &__card {
+    max-width: 950px;
+    margin: 0 auto 20px;
+  }
+}
 
 .doctor-card {
   &__wrapper {
@@ -317,6 +318,7 @@ export default defineComponent({
     cursor: pointer;
     text-align: center;
     position: relative;
+    transition: $transition03;
 
     &:not(&:last-child)::after {
       content: '';
@@ -325,6 +327,11 @@ export default defineComponent({
       width: 1px;
       height: 20px;
       background-color: #ebeff6;
+    }
+
+    &.slot-active {
+      background-color: rgba(221, 252, 246, 0.5);
+      border-radius: 8px;
     }
   }
 

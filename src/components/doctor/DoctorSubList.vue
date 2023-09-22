@@ -27,6 +27,7 @@ export default {
   components: {DoctorSubListItem},
   props: {
     doctors: {
+      type: Array,
       default: () => []
     },
   }

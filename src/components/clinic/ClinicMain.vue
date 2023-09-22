@@ -135,11 +135,11 @@
 <script>
 import ClinicListItem from "./ClinicListItem.vue";
 import {computed, defineAsyncComponent} from "vue";
-import routes from "../../router/routesNames";
+import routes from "../../router/routes-names";
 import {config} from "../../util/config";
 import {getClinicConvenienceIcons} from "../../util/get-icons";
 import VSelect from "../custom/VSelect.vue";
-import {vuexTypes} from "../../store/vuexTypes";
+import {vuexTypes} from "../../store/vuex-types";
 import getAppointmentScheduleHook from "../../hooks/doctor/specific-doctor/get-appointment-schedule.hook";
 import updateWorkingHoursHook from "../../hooks/doctor/specific-doctor/update-working-hours.hook";
 
@@ -164,16 +164,16 @@ export default {
       default: false
     },
     doctorId: {
-      type: [String, null],
-      required: true
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
     },
     dateAppointment: {
-      type: [String, null],
-      required: true
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
     },
     time: {
-      type: [String, null],
-      required: true
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
     },
     appointmentSchedule: {
       type: Array,

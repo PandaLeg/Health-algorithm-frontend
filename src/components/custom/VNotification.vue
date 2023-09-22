@@ -6,7 +6,7 @@
 
 <script>
 import {mapGetters, mapMutations} from "vuex";
-import {vuexTypes} from "../../store/vuexTypes";
+import {vuexTypes} from "../../store/vuex-types";
 import VSnackBar from "./VSnackBar.vue";
 
 export default {

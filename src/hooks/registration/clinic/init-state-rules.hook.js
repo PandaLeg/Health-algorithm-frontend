@@ -15,7 +15,7 @@ export default function () {
             city: null,
             searchCity: '',
             searchedCities: [],
-            address: null,
+            address: '',
             conveniences: [],
             convenienceItems: conveniencesFromDb,
             days: weekDays,
@@ -23,10 +23,10 @@ export default function () {
                 {
                     id: 1,
                     weekDays: [],
-                    dayType: null,
+                    dayType: '',
                     types: dayInformation.dayTypes,
-                    from: null,
-                    to: null
+                    from: '',
+                    to: ''
                 }
             ]
         },

@@ -10,9 +10,9 @@ export default function () {
     const currentCity = ref('')
     const clinicInfo = reactive({
         searchCity: '',
-        city: '',
+        city: null,
         searchClinic: '',
-        clinic: '',
+        clinic: null,
     })
     const searchedCities = ref([])
     const searchedClinics = ref([])
