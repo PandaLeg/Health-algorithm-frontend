@@ -1,7 +1,7 @@
 import {reactive, ref} from "vue";
 import getAllCategoriesSpecialties from "./get-categories-specialties.hook";
 import {helpers, maxValue, minValue, required} from "@vuelidate/validators";
-import {checkRequiredValue} from "../custom-validators.hook";
+import {checkRequiredValue, correctTime} from "../custom-validators.hook";
 
 export default function () {
     const specialtiesFromDb = ref([])
@@ -109,12 +109,20 @@ export default function () {
         }
     }
 
+
     const scheduleRule = reactive({
         weekDay: {
             required: helpers.withMessage('Select day', required)
         },
         duration: {
-            required: helpers.withMessage('Specify the duration of the appointment', required)
+            required: helpers.withMessage('Specify the duration of the appointment', required),
+            correctFormat: {
+                $validator: correctTime,
+                $message: 'Invalid format',
+                $params: {
+                    type: 'correctFormat'
+                }
+            }
         },
         from: {
             required: {

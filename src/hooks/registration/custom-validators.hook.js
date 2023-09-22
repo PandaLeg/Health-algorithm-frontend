@@ -6,6 +6,18 @@ export function checkRequiredValue(value, siblingState) {
     return siblingState.dayType === 'Workday' ? value !== undefined && value !== null && !!String(value).length : true
 }
 
+export function correctTime(value, siblingState) {
+    if (!value) return true
+
+    const isColon = value.indexOf(':')
+
+    if (isColon !== - 1) {
+        const time = value.match(/[0-9]+/g).join('')
+        return time.length === 4;
+    }
+    return false
+}
+
 function parseTime(t) {
     const date = new Date()
     const time = t.match(/(\d+)(?::(\d\d))?\s*(p?)/)
