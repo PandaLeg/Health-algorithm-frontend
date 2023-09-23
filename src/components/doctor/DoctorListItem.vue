@@ -49,9 +49,7 @@
               :class="{'skeleton': isLoading}"
           >
             <p v-if="!isLoading">
-              Engaged in effective treatment of disability, depressive conditions, chronic fatigue
-              syndrome, fears, anxiety, apathy and lethargy, sleep disorders, schizophrenia, mental
-              disorders in the elderly and senile.
+              {{ doctor.about }}
             </p>
           </div>
           <div

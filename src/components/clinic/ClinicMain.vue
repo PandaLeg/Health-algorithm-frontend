@@ -203,7 +203,7 @@ export default {
     const user = store.getters[vuexTypes.user]
 
     const routesNames = computed(() => routes)
-    const pathToImg = computed(() => config.apiUrl + '/')
+    const pathToImg = computed(() => config.backUrl + '/')
 
     const isPatient = computed(() => {
       return !isLoggedIn || isLoggedIn && user.roles.includes('PATIENT')

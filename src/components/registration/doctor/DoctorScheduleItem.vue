@@ -153,7 +153,12 @@ export default {
     onMounted(() => {
       let isExistsV = props.scheduleVuelidate[props.indexSchedule - 1]
 
-      if (!isExistsV) emit('update:schedule-vuelidate', [...props.scheduleVuelidate, props.v])
+      if (!isExistsV) {
+        emit('update:schedule-vuelidate', [...props.scheduleVuelidate, props.v])
+      } else {
+        const newScheduleVuelidate = [...props.scheduleVuelidate].splice(props.indexSchedule - 1, 1, props.v)
+        emit('update:schedule-vuelidate', [...newScheduleVuelidate])
+      }
     })
 
     const modelWeekDay = computed({

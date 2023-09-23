@@ -37,8 +37,8 @@ export default function () {
         perPage.value = 5
         totalPages.value = 0
         doctors.value = []
-        doctorPage.value = 0
-        doctorPerPage.value = 0
+        doctorPage.value = 1
+        doctorPerPage.value = 5
         doctorTotalPages.value = 0
 
         doctorsForAppointments.value = []

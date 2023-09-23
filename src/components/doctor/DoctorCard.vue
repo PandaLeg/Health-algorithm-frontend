@@ -227,7 +227,7 @@ export default {
 
     const routesNames = computed(() => routes)
     const defaultAvatar = computed(() => require('../.././assets/images/doctor.webp'))
-    const pathToImg = computed(() => config.apiUrl + '/')
+    const pathToImg = computed(() => config.backUrl + '/')
 
     const doctorId = ref(props.doctorId)
     const modelClinicBranch = computed({

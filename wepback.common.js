@@ -84,5 +84,9 @@ module.exports = {
             __VUE_OPTIONS_API__: true
         }),
         // new BundleAnalyzerPlugin(),
+        new webpack.NormalModuleReplacementPlugin(
+            /moment-timezone\/data\/packed\/latest\.json/,
+            require.resolve('./misc/timezone-definitions')
+        )
     ]
 }
