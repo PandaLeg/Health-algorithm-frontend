@@ -43,9 +43,15 @@
                 </span>
                 </div>
                 <div class="appointment-card__look">
-                  <button class="btn">
+                  <router-link
+                      :to="{
+                    name: routesNames.doctor.name,
+                    params: { id: appointment.doctor.id }
+                  }"
+                      class="btn btn_a"
+                  >
                     <span class="btn__content">Look</span>
-                  </button>
+                  </router-link>
                 </div>
               </div>
               <div class="appointment-card__block appointment-block">
@@ -62,14 +68,21 @@
                   <span>{{ appointment.clinicBranch.address }}</span>
                 </div>
                 <div class="appointment-card__look">
-                  <button class="btn">
+                  <router-link
+                      :to="{
+                    name: routesNames.clinic.name,
+                    params: { id: appointment.clinicBranch.clinicBranchId },
+                    query: { city: appointment.clinicBranch.city, clinic: appointment.clinicBranch.clinicId }
+                  }"
+                      class="btn btn_a"
+                  >
                     <span class="btn__content">Look</span>
-                  </button>
+                  </router-link>
                 </div>
               </div>
             </div>
             <div class="appointment-card__price">
-              Cost: <span>250$</span>
+              Cost: <span>{{ appointment.doctor.price }} UAH</span>
             </div>
             <div class="appointment-card__date-time">
               Date:
@@ -101,6 +114,8 @@ import {getAppointmentIcons} from "../../util/get-icons";
 import initStateHook from "../../hooks/appointment/init-state.hook";
 import VPagination from "../../components/custom/VPagination.vue";
 import getAppointments from "../../hooks/appointment/get-appointments.hook";
+import {computed} from "vue";
+import routes from "../../router/routes-names";
 
 export default {
   name: "AppointmentPage",
@@ -112,11 +127,13 @@ export default {
     const {nextPage} = getAppointments(appointments, page, perPage, totalPages)
 
     const getIcon = (iconId) => getAppointmentIcons(iconId)
+    const routesNames = computed(() => routes)
 
     return {
       appointments,
       page,
       totalPages,
+      routesNames,
       getIcon,
       nextPage
     }

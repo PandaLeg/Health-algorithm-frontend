@@ -49,7 +49,7 @@
                 Clinics
               </router-link>
             </li>
-            <li v-if="isLoggedIn">
+            <li v-if="isLoggedIn && isPatient">
               <router-link
                   :to="{name: routes.appointment.name}"
                   class="menu__link"
@@ -65,15 +65,6 @@
                   @click="changeStateBurger"
               >
                 Log in
-              </router-link>
-            </li>
-            <li v-if="!isLoggedIn">
-              <router-link
-                  :to="{name: routes.registration.name}"
-                  class="menu__link"
-                  @click="changeStateBurger"
-              >
-                Registration
               </router-link>
             </li>
             <li v-if="isLoggedIn">
@@ -92,7 +83,7 @@
 </template>
 
 <script>
-import routesNames from "../../router/routesNames";
+import routesNames from "../../router/routes-names";
 import {computed} from "vue";
 import logout from "../../hooks/auth/logout.hook";
 import active from "../../hooks/navbar/active.hook";
@@ -100,7 +91,7 @@ import active from "../../hooks/navbar/active.hook";
 export default {
   name: "TheNavbar",
   setup() {
-    const {isActive, activeClass, changeStateBurger, isLoggedIn} = active()
+    const {isActive, activeClass, changeStateBurger, isLoggedIn, isPatient} = active()
     const routes = computed(() => routesNames)
 
     const {logoutUser} = logout(isActive, changeStateBurger)
@@ -109,6 +100,7 @@ export default {
       routes,
       activeClass,
       isLoggedIn,
+      isPatient,
       changeStateBurger,
       logoutUser
     }

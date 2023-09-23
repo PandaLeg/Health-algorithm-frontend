@@ -5,10 +5,7 @@
         <h2>Search doctor</h2>
       </div>
       <div class="search-doctor__main">
-        <div
-            class="search-doctor__city"
-            :class="{'form-error': v$.city.$error}"
-        >
+        <div class="search-doctor__city">
           <label>City *</label>
           <VAutocomplete
               v-model="modelCity"
@@ -19,17 +16,8 @@
               label="Write the name of city"
               dynamic
           />
-          <div
-              v-for="error in v$.city.$errors"
-              :key="error.$uid"
-              class="input-error"
-          >
-            {{ error.$message }}
-          </div>
         </div>
-        <div
-            class="search-doctor__specialties"
-        >
+        <div class="search-doctor__specialties">
           <label>Specialties</label>
           <VAutocomplete
               v-model="modelSpecialty"
@@ -69,19 +57,45 @@ import watchAndGetNamesHook from "../../hooks/doctor/doctor-search/watch-and-get
 
 export default {
   name: "SearchDoctor",
-  props: {
-    v$: {required: true},
-    city: {required: true},
-    searchCity: {required: true},
-    searchedCities: {required: true},
-    specialty: {required: true},
-    searchDoctorName: {required: true},
-    doctorName: {required: true},
-    specialties: {required: true},
-    names: {required: true},
-    isDoctorFieldsDisabled: {required: true},
-  },
   components: {VAutocomplete},
+  props: {
+    city: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    searchCity: {
+      type: String,
+      required: true
+    },
+    searchedCities: {
+      type: Array,
+      required: true
+    },
+    specialty: {
+      required: true,
+      validator: (val) => typeof val === 'number' || val === null
+    },
+    searchDoctorName: {
+      type: String,
+      required: true
+    },
+    doctorName: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    specialties: {
+      type: Array,
+      required: true
+    },
+    names: {
+      type: Array,
+      required: true
+    },
+    isDoctorFieldsDisabled: {
+      type: Boolean,
+      required: true
+    },
+  },
   setup(props, {emit}) {
     const modelCity = computed({
       get: () => props.city,

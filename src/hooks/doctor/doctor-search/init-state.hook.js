@@ -1,10 +1,9 @@
 import {computed, reactive, ref} from "vue";
-import {helpers, required} from "@vuelidate/validators";
 import getSpecialtiesHook from "./get-specialties.hook";
 
 export default function () {
     const currentPage = ref(1)
-    const perPage = ref(5)
+    const perPage = ref(1)
     const totalPages = ref(1)
     const doctors = ref([])
     const isLoading = ref(false)
@@ -18,25 +17,8 @@ export default function () {
         specialties: [],
         userId: 1
     })
-    const slotsDays = ref([
-        {
-            day: 'Sat',
-            date: '19 May'
-        },
-        {
-            day: 'Sun',
-            date: '20 May'
-        },
-        {
-            day: 'Mon',
-            date: '21 May'
-        }
-    ])
-
-    const visitTimes = ref([
-        '10:00', '10:30', '11:00', '11:30', '12:00',
-        '12:30', '13:00', '13:30'
-    ])
+    const countDoctors = ref(0)
+    const currentCity = ref('Kyiv')
 
     const searchDoctorInfo = reactive({
         searchCity: '',
@@ -53,12 +35,6 @@ export default function () {
         return !(!!searchDoctorInfo.city)
     })
 
-    const cityRule = {
-        city: {
-            required: helpers.withMessage('Select city', required)
-        }
-    }
-
     getSpecialtiesHook(specialties)
 
     return {
@@ -68,13 +44,12 @@ export default function () {
         doctors,
         isLoading,
         staticDoctorInfo,
-        slotsDays,
-        visitTimes,
+        countDoctors,
+        currentCity,
         searchDoctorInfo,
         searchedCities,
         specialties,
         names,
-        isDoctorFieldsDisabled,
-        cityRule
+        isDoctorFieldsDisabled
     }
 }

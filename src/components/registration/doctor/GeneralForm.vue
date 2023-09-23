@@ -61,13 +61,36 @@
       </div>
     </div>
   </div>
-  <div class="registration-doctor__birth">
-    <label>Date of birth *</label>
-    <input
-        v-model="modelDateOfBirth"
-        type="date"
-        placeholder="Select date"
-    />
+  <div class="registration-doctor__birth-price">
+    <div class="registration-doctor__birth">
+      <label>Date of birth</label>
+      <input
+          v-model="modelDateOfBirth"
+          type="date"
+          placeholder="Select date"
+      />
+    </div>
+    <div
+        class="registration-doctor__price"
+        :class="{'form-error': v$.doctor.price.$error}"
+    >
+      <label>Price(UAH) *</label>
+      <input
+          v-model.number="modelPrice"
+          type="number"
+          placeholder="Write price in UAH"
+          required
+          @input="v$.doctor.price.$touch"
+          @blur="v$.doctor.price.$touch"
+      />
+      <div
+          v-for="error in v$.doctor.price.$errors"
+          :key="error.$uid"
+          class="input-error"
+      >
+        {{ error.$message }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -77,11 +100,30 @@ import {computed} from "vue";
 export default {
   name: "RegistrationDoctorForm",
   props: {
-    v$: {required: true},
-    firstName: {required: true,},
-    lastName: {required: true,},
-    surname: {required: true,},
-    dateOfBirth: {required: true,},
+    v$: {
+      type: Object,
+      required: true
+    },
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    surname: {
+      type: String,
+      required: true,
+    },
+    dateOfBirth: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    price: {
+      type: [String, Number],
+      required: true,
+    },
   },
   setup(props, {emit}) {
     const modelFirstName = computed({
@@ -104,11 +146,17 @@ export default {
       set: (val) => emit('update:date-of-birth', val)
     })
 
+    const modelPrice = computed({
+      get: () => props.price,
+      set: (val) => emit('update:price', val)
+    })
+
     return {
       modelFirstName,
       modelLastName,
       modelSurname,
-      modelDateOfBirth
+      modelDateOfBirth,
+      modelPrice
     }
   }
 }
@@ -118,7 +166,7 @@ export default {
 @import "src/assets/scss/variables";
 
 .registration-doctor {
-  &__name {
+  &__name, &__birth-price {
     display: flex;
     gap: 10px;
 
@@ -128,7 +176,21 @@ export default {
   }
 
   &__firstName, &__lastName, &__surname {
-    flex: 1 1 33.333%;
+    flex: 0 1 33.333%;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-basis: 100%;
+    }
+  }
+
+  &__birth {
+    input {
+      padding: 11px;
+    }
+  }
+
+  &__birth, &__price {
+    flex: 0 1 50%;
 
     @media screen and (max-width: $md4 + px) {
       flex-basis: 100%;

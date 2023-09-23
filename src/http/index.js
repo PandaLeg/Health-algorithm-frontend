@@ -1,8 +1,8 @@
 import axios from "axios";
 import {config} from "../util/config";
-import {vuexTypes} from "../store/vuexTypes";
-import routesNames from "../router/routesNames";
-import handleAuthInfo from "./handleAuthInfo";
+import {vuexTypes} from "../store/vuex-types";
+import routesNames from "../router/routes-names";
+import handleAuthInfo from "./handle-auth-info";
 import store from "../store";
 import router from "../router";
 
@@ -38,6 +38,7 @@ authAxios.interceptors.response.use((config) => {
             router.push({name: routesNames.login.name})
         }
     }
+    return Promise.reject(error)
 })
 
 export default authAxios

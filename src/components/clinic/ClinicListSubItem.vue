@@ -26,16 +26,23 @@
               :key="schedule.id"
               class="clinic-schedule__item"
           >
-            <span>{{ schedule.addressInfo }};</span>
+            <span>{{ schedule.date }};</span>
           </div>
         </div>
         <div class="clinic-card__address">
           <span>{{ clinic.address }}</span>
         </div>
         <div class="clinic-card__look card-look">
-          <button class="btn">
+          <router-link
+              :to="{
+              name: routesNames.clinic.name,
+              params: { id: clinic.clinicBranchId },
+              query: { city: clinic.city, clinic: clinic.clinicId }
+              }"
+              class="btn btn_a"
+          >
             <span class="btn__content">Look</span>
-          </button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -43,7 +50,7 @@
 </template>
 
 <script>
-import routes from "../../router/routesNames";
+import routes from "../../router/routes-names";
 import {getClinicConvenienceIcons} from "../../util/get-icons";
 import {computed} from "vue";
 
@@ -52,10 +59,6 @@ export default {
   props: {
     clinic: {
       type: Object,
-      required: true
-    },
-    pathToImg: {
-      type: String,
       required: true
     }
   },

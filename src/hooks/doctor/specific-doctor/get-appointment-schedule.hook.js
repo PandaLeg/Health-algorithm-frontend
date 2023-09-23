@@ -1,8 +1,10 @@
 import {useRoute} from "vue-router";
 import {config} from "../../../util/config";
-import {vuexTypes} from "../../../store/vuexTypes";
-import moment from "moment";
+import {vuexTypes} from "../../../store/vuex-types";
+import moment from "moment-timezone";
 import authAxios from "../../../http";
+
+const timezone = 'Europe/Kiev';
 
 export default function (emit, store) {
     const route = useRoute()
@@ -19,13 +21,13 @@ export default function (emit, store) {
 
             emit('update:appointment-schedule', data)
         } catch (err) {
-            store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
+            store.commit(vuexTypes.UPDATE_NOTIFICATION, err.response.data.message ?? 'Error')
         }
     }
 
     const appointmentScheduleForClinic = async () => {
         try {
-            const clinicBranchId = route.query.branch
+            const clinicBranchId = route.params.id
             const url = config.apiUrl + `/clinic-branches/${clinicBranchId}/doctors-schedule`
 
             const response = await authAxios.get(url)
@@ -40,7 +42,7 @@ export default function (emit, store) {
             const appointmentSchedule = formatAppointmentDate(data)
             emit('update:appointment-schedule', appointmentSchedule)
         } catch (err) {
-            store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
+            store.commit(vuexTypes.UPDATE_NOTIFICATION, err.response.data.message ?? 'Error')
         }
     }
 
@@ -58,8 +60,8 @@ function formatAppointmentDate(appointmentInfo, fromDoctorPage) {
         const doctorSchedule = []
 
         for (const schedule of appointment.schedule) {
-            const from = moment(schedule.from, 'HH:mm:ss')
-            const to = moment(schedule.to, 'HH:mm:ss')
+            const from = moment.tz(schedule.from, 'HH:mm:ss', timezone)
+            const to = moment.tz(schedule.to, 'HH:mm:ss', timezone)
             const workingHours = [
                 {time: from.format('HH:mm'), milliseconds: from.valueOf()},
             ]
@@ -68,7 +70,7 @@ function formatAppointmentDate(appointmentInfo, fromDoctorPage) {
                 const time = from.add(schedule.duration, 'h')
                 const timeFormat = time.format('HH:mm')
 
-                const isPossibleAppointment = moment(time).add(
+                const isPossibleAppointment = moment.tz(time, timezone).add(
                     schedule.duration,
                     'h',
                 )

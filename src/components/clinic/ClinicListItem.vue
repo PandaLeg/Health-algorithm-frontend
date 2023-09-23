@@ -9,8 +9,8 @@
           <router-link
               :to="{
             name: routesNames.clinic.name,
-            params: { id: clinic.clinicId },
-            query: { city: clinic.city, branch: clinic.clinicBranchId }
+            params: { id: clinic.clinicBranchId },
+            query: { city: clinic.city, clinic: clinic.clinicId }
           }">
             {{ clinic.name }}
           </router-link>
@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import routesNames from "../../router/routesNames";
+import routes from "../../router/routes-names";
+import {computed} from "vue";
 
 export default {
   name: "ClinicListItem",
@@ -46,12 +47,13 @@ export default {
       required: true
     }
   },
-  computed: {
-    routesNames() {
-      return routesNames
-    },
-    defaultAvatar() {
-      return require('../.././assets/images/clinic.webp')
+  setup() {
+    const routesNames = computed(() => routes)
+    const defaultAvatar = computed(() => require('../.././assets/images/clinic.webp'))
+
+    return {
+      routesNames,
+      defaultAvatar
     }
   }
 }

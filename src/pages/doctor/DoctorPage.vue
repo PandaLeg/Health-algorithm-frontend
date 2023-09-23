@@ -30,7 +30,10 @@
               {{ doctor.education }}
             </p>
           </div>
-          <div class="doctor-description__course">
+          <div
+              v-if="doctor.course"
+              class="doctor-description__course"
+          >
             <h2>Courses</h2>
             <p>
               {{ doctor.course }}
@@ -44,7 +47,6 @@
 
 <script>
 import regMountedStateHook from "../../hooks/reg-mounted-state.hook";
-import SubClinicListItem from "../../components/clinic/SubClinicListItem.vue";
 import ClinicList from "../../components/clinic/ClinicList.vue";
 import initStateHook from "../../hooks/doctor/specific-doctor/init-state.hook";
 import VSelect from "../../components/custom/VSelect.vue";
@@ -53,7 +55,7 @@ import {useVuelidate} from "@vuelidate/core";
 import computedErrorsHook from "../../hooks/doctor/specific-doctor/computed-errors.hook";
 import makeAppointmentHook from "../../hooks/doctor/specific-doctor/make-appointment.hook";
 import {useStore} from "vuex";
-import {vuexTypes} from "../../store/vuexTypes";
+import {vuexTypes} from "../../store/vuex-types";
 
 export default {
   name: "DoctorPage",
@@ -61,7 +63,6 @@ export default {
     DoctorCard,
     VSelect,
     ClinicList,
-    SubClinicListItem
   },
   setup() {
     regMountedStateHook()
@@ -134,9 +135,12 @@ export default {
   &__description {
     margin-top: 20px;
     background: $white;
-    padding: 20px;
     box-shadow: 2px 2px 15px rgb(128 142 184 / 10%);
     border-radius: 15px;
+  }
+
+  &__card {
+    margin-bottom: 20px;
   }
 }
 
@@ -172,6 +176,7 @@ export default {
 
 .doctor-description {
   &__wrapper {
+    padding: 20px;
   }
 
   &__about, &__education, &__course {

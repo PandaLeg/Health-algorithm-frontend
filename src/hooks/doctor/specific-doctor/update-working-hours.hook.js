@@ -1,16 +1,18 @@
 import {toRef, watch} from "vue";
 import {config} from "../../../util/config";
 import authAxios from "../../../http";
+import moment from "moment-timezone";
 
 export default function (modelDateAppointment, modelTime, getDoctor, props, emit, doctorId) {
     const appointmentSchedule = toRef(props, 'appointmentSchedule')
+    const timezone = 'Europe/Kiev';
 
     watch(modelDateAppointment, async (val) => {
         if (!val) return
 
         const doctor = getDoctor(appointmentSchedule)
-        const dayOfAppointment = new Date(val)
-        const schedule = doctor.schedule.find(el => el.weekDayId === dayOfAppointment.getDay())
+        let dayOfAppointment = moment.tz(val, 'yyyy-MM-DD', timezone)
+        const schedule = doctor.schedule.find(el => el.weekDayId === dayOfAppointment.day())
 
         let appointmentTime = {}
 
@@ -31,14 +33,23 @@ export default function (modelDateAppointment, modelTime, getDoctor, props, emit
         }
 
         const workingHours = schedule?.workingHours.reduce((acc, workingHour) => {
-            const today = new Date()
+            const today = moment.tz(timezone);
+            const toTime = moment.tz(workingHour.time, 'HH:mm:ss', timezone);
+
             const isSameDate =
-                dayOfAppointment.getDate() === today.getDate() &&
-                dayOfAppointment.getMonth() === today.getMonth() &&
-                dayOfAppointment.getFullYear() === today.getFullYear();
+                dayOfAppointment.toDate().getDate() === today.toDate().getDate() &&
+                dayOfAppointment.toDate().getMonth() === today.toDate().getMonth() &&
+                dayOfAppointment.toDate().getFullYear() === today.toDate().getFullYear();
             const timePassed = isSameDate && (today.valueOf() > workingHour.milliseconds)
 
-            return workingHour.time === appointmentTime[workingHour.time] || timePassed || dayOfAppointment < today ? acc : [...acc, workingHour.time]
+            const currentDayOfAppointment = moment.tz(dayOfAppointment, timezone).set({
+                hour: toTime.hours(),
+                minutes: toTime.minutes()
+            });
+
+            return workingHour.time === appointmentTime[workingHour.time] ||
+            timePassed ||
+            currentDayOfAppointment.isBefore(today) ? acc : [...acc, workingHour.time]
         }, []) ?? []
 
         emit('update:working-hours', workingHours)

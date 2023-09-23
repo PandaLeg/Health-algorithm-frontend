@@ -47,9 +47,9 @@
       class="registration-week__clinic-schedule"
   >
     The clinic is open from
-    <span>{{ clinicSchedule.from.substring(0, 5) }}</span>
+    <span>{{ clinicSchedule.from?.substring(0, 5) ?? '' }}</span>
     to
-    <span>{{ clinicSchedule.to.substring(0, 5) }}</span>
+    <span>{{ clinicSchedule.to?.substring(0, 5) ?? '' }}</span>
   </div>
   <div class="registration-week__time">
     <div
@@ -61,7 +61,6 @@
           v-model="modelFrom"
           placeholder="Select from time"
           type="time"
-          required
       >
       <div
           v-for="error in v.from.$errors"
@@ -81,7 +80,6 @@
           v-model="modelTo"
           placeholder="Select to time"
           type="time"
-          required
       >
       <div
           v-for="error in v.to.$errors"
@@ -93,7 +91,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 import VAutocomplete from "../../custom/VAutocomplete.vue";
@@ -107,22 +104,61 @@ export default {
   components: {VSelect, VAutocomplete},
   directives: {maska: vMaska},
   props: {
-    weekDay: {required: true},
-    duration: {required: true},
-    from: {required: true},
-    to: {required: true},
-    days: {required: true},
-    clinicBranches: {required: true},
-    addressBranchId: {required: true},
-    v: {required: true},
-    scheduleVuelidate: {required: true},
-    scheduleRule: {required: true},
-    indexSchedule: {required: true}
+    weekDay: {
+      required: true,
+      validator: (val) => typeof val === 'number' || typeof val === 'string' || val === null
+    },
+    duration: {
+      type: String,
+      required: true
+    },
+    from: {
+      type: String,
+      required: true
+    },
+    to: {
+      type: String,
+      required: true},
+    days: {
+      type: Array,
+      required: true
+    },
+    clinicBranches: {
+      type: Array,
+      required: true
+    },
+    addressBranchId: {
+      validator: (val) => typeof val === 'string' || val === null,
+      required: true
+    },
+    v: {
+      type: Object,
+      required: true
+    },
+    scheduleVuelidate: {
+      type: Array,
+      required: true
+    },
+    scheduleRule: {
+      type: Object,
+      required: true
+    },
+    indexSchedule: {
+      type: Number,
+      required: true
+    }
   },
   setup(props, {emit}) {
     const clinicSchedule = ref('')
     onMounted(() => {
-      emit('update:schedule-vuelidate', [...props.scheduleVuelidate, props.v])
+      let isExistsV = props.scheduleVuelidate[props.indexSchedule - 1]
+
+      if (!isExistsV) {
+        emit('update:schedule-vuelidate', [...props.scheduleVuelidate, props.v])
+      } else {
+        const newScheduleVuelidate = [...props.scheduleVuelidate].splice(props.indexSchedule - 1, 1, props.v)
+        emit('update:schedule-vuelidate', [...newScheduleVuelidate])
+      }
     })
 
     const modelWeekDay = computed({
@@ -145,7 +181,17 @@ export default {
       set: (val) => emit('update:to', val)
     })
 
-    updateScheduleVuelidate(props, emit)
+    if (modelWeekDay.value) {
+      const currentBranch = props.clinicBranches.find(branch => branch.id === props.addressBranchId)
+
+      const schedule = currentBranch.schedule.find(sh => sh.weekDayId === modelWeekDay.value)
+
+      if (schedule) {
+        clinicSchedule.value = schedule
+      }
+    }
+
+    updateScheduleVuelidate(props, emit, true)
     watchAndUpdateScheduleRule(modelWeekDay, props, clinicSchedule, emit)
 
     return {

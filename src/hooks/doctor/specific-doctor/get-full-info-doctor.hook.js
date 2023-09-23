@@ -1,7 +1,7 @@
 import {useStore} from "vuex";
 import {config} from "../../../util/config";
 import axios from "axios";
-import {vuexTypes} from "../../../store/vuexTypes";
+import {vuexTypes} from "../../../store/vuex-types";
 import {onMounted} from "vue";
 import {useRoute} from "vue-router";
 import buildSchedule from "../../clinic/specific-clinic/build-schedule";
@@ -10,7 +10,7 @@ export default function (doctor, clinics, clinicBranches) {
     const store = useStore()
     const route = useRoute()
 
-    const getDoctors = async () => {
+    const getDoctorsWithWorkPlaces = async () => {
         try {
             const doctorId = route.params.id;
             const url = config.apiUrl + `/doctors/${doctorId}/clinics`
@@ -36,5 +36,5 @@ export default function (doctor, clinics, clinicBranches) {
         }
     }
 
-    onMounted(getDoctors)
+    onMounted(getDoctorsWithWorkPlaces)
 }

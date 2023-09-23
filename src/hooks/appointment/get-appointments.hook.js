@@ -1,11 +1,14 @@
-import {vuexTypes} from "../../store/vuexTypes";
+import {vuexTypes} from "../../store/vuex-types";
 import {useStore} from "vuex";
 import {config} from "../../util/config";
 import {onMounted} from "vue";
 import authAxios from "../../http";
+import {useRouter} from "vue-router";
+import routesNames from "../../router/routes-names";
 
 export default function (appointments, page, perPage, totalPages) {
     const store = useStore()
+    const router = useRouter()
     const user = store.getters[vuexTypes.user]
 
     const getAppointments = async () => {
@@ -25,7 +28,13 @@ export default function (appointments, page, perPage, totalPages) {
             appointments.value = data.appointments
             totalPages.value = data.totalPages
         } catch (err) {
-            store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
+            const response = err.response
+
+            if (response.status === 403) {
+                router.push({name: routesNames.home.name})
+            }
+
+            store.commit(vuexTypes.UPDATE_NOTIFICATION, response.data.message ?? 'Error')
         }
     }
 

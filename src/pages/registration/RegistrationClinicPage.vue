@@ -37,7 +37,7 @@
                     :convenience-items="item.convenienceItems"
                     :days="item.days"
                     :index-location="item.id"
-                />
+                ></location-item>
                 <div
                     v-if="item.id !== 1"
                     class="registration-clinic__del"

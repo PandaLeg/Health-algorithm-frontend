@@ -1,4 +1,4 @@
-import {vuexTypes} from "../vuexTypes";
+import {vuexTypes} from "../vuex-types";
 
 export const defaultState = () => ({
     user: {

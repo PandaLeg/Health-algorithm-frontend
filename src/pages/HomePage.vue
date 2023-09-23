@@ -124,14 +124,14 @@
 
 <script>
 import regMountedState from "../hooks/reg-mounted-state.hook";
+import {computed} from "vue";
 
 export default {
   name: "HomePage",
   setup() {
     regMountedState()
-  },
-  computed: {
-    images() {
+
+    const images = computed(() => {
       return {
         mainPatientDoctor: require('../assets/images/main/main-patient-doctor.svg'),
         mainVideoPlay: require('../assets/images/main/main-video-play.svg'),
@@ -139,8 +139,10 @@ export default {
         mainPatient: require('../assets/images/main/main-patient.svg'),
         mainHeart: require('../assets/images/main/main-heart.svg'),
       }
-    }
-  }
+    })
+
+    return {images}
+  },
 }
 </script>
 

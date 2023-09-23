@@ -1,20 +1,15 @@
-import {onMounted} from "vue";
 import {config} from "../../../util/config";
 import axios from "axios";
-import {vuexTypes} from "../../../store/vuexTypes";
-import {useStore} from "vuex";
-import {useRoute} from "vue-router";
+import {vuexTypes} from "../../../store/vuex-types";
 import buildSchedule from "./build-schedule";
 
 export default function (clinic) {
-    const store = useStore()
-    const route = useRoute()
 
-    onMounted(async () => {
+    const getFullInfoClinic = async (store, route) => {
         try {
             const city = route.query.city
-            const clinicBranch = route.query.branch
-            const clinicId = route.params.id
+            const clinicBranch = route.params.id
+            const clinicId = route.query.clinic
 
             const url = config.apiUrl + `/clinics/${clinicId}/full-info`
 
@@ -36,6 +31,9 @@ export default function (clinic) {
         } catch (err) {
             store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
         }
-    })
+    }
 
+    return {
+        getFullInfoClinic
+    }
 }

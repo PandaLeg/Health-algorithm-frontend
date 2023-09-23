@@ -1,6 +1,6 @@
 import {useStore} from "vuex";
-import {vuexTypes} from "../../store/vuexTypes";
-import routesNames from "../../router/routesNames";
+import {vuexTypes} from "../../store/vuex-types";
+import routesNames from "../../router/routes-names";
 import {useRouter} from "vue-router";
 
 export default function (isActive = null, changeStateBurger = () => {}) {

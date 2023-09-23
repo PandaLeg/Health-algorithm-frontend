@@ -2,14 +2,14 @@
   <form @submit.prevent class="registration__form">
     <div class="registration__title-avatar-group">
       <div class="registration__title">
-        <span>Hover over the area below to select an image</span>
+        <span>Hover over the area below or click on it to select an image</span>
       </div>
       <div class="registration__avatar">
         <label for="image">+</label>
         <input
             type="file"
             id="image"
-            accept="image/*"
+            accept="image/png, image/jpeg"
             @change="onChangeImage"
         >
         <template v-if="imageUrl">
@@ -96,11 +96,26 @@ import {computed, ref} from "vue";
 export default {
   name: "RegistrationUserForm",
   props: {
-    v$: {required: true},
-    phone: {required: true},
-    email: {required: true},
-    password: {required: true},
-    image: {default: null},
+    v$: {
+      type: Object,
+      required: true
+    },
+    phone: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true
+    },
+    password: {
+      type: String,
+      required: true
+    },
+    image: {
+      required: true,
+      validator: (val) => typeof val === 'object' || val === null
+    },
   },
   setup(props, {emit}) {
     const imageUrl = ref('')
@@ -248,10 +263,18 @@ export default {
   &__contact-group {
     display: flex;
     gap: 15px;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-direction: column;
+    }
   }
 
   &__phone, &__email {
-    flex: 1 1 50%;
+    flex: 0 1 50%;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-basis: 100%;
+    }
   }
 }
 

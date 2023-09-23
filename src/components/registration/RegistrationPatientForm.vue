@@ -75,12 +75,30 @@ export default {
   name: "RegistrationPatientForm",
   components: {VAutocomplete},
   props: {
-    v$: {required: true},
-    firstName: {required: true,},
-    lastName: {required: true,},
-    city: {required: true,},
-    searchCity: {required: true},
-    searchedCities: {required: true},
+    v$: {
+      type: Object,
+      required: true
+    },
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    city: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    searchCity: {
+      type: String,
+      required: true
+    },
+    searchedCities: {
+      type: Array,
+      required: true
+    },
   },
   setup(props, {emit}) {
     const modelFirstName = computed({
@@ -115,15 +133,25 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+@import "src/assets/scss/variables";
+
 .registration-patient {
   &__name {
     display: flex;
     gap: 10px;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-direction: column;
+    }
   }
 
   &__firstName, &__lastName {
-    flex: 1 1 50%;
+    flex: 0 1 50%;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-basis: 100%
+    }
   }
 }
 </style>

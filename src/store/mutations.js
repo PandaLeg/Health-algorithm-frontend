@@ -1,5 +1,5 @@
-import {vuexTypes} from "./vuexTypes";
-import replaceState from "./replaceState";
+import {vuexTypes} from "./vuex-types";
+import replaceState from "./replace-state";
 
 export const mutations = {
     [vuexTypes.CLEAR_ALL_DATA](state) {

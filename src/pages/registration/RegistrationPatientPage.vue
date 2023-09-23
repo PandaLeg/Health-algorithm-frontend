@@ -17,7 +17,7 @@
               v-model:city="user.patient.city"
               v-model:search-city="searchCity"
               v-model:searched-cities="searchedCities"
-          />
+          ></registration-patient-form>
           <div class="registration__button">
             <button @click="registrationUser">Registration</button>
           </div>
@@ -67,7 +67,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "src/assets/scss/variables";
 
 .registration-patient {

@@ -1,7 +1,7 @@
 <template>
   <div
       v-if="doctors.length && !isLoading"
-      class="doctor__list doctor-list"
+      class="doctors__list doctor-list"
   >
     <div
         v-for="doctor in doctors"
@@ -11,8 +11,6 @@
       <DoctorListItem
           :doctor="doctor"
           :path-to-img="pathToImg"
-          :slots-days="slotsDays"
-          :visit-times="visitTimes"
       />
     </div>
   </div>
@@ -28,8 +26,6 @@
       <DoctorListItem
           :doctor="staticDoctorInfo"
           :path-to-img="pathToImg"
-          :slots-days="slotsDays"
-          :visit-times="visitTimes"
           :is-loading="isLoading"
       />
     </div>
@@ -54,26 +50,24 @@ export default defineComponent({
   },
   props: {
     doctors: {
+      type: Array,
       default: () => []
     },
     perPage: {
+      type: Number,
       required: true
     },
     isLoading: {
+      type: Boolean,
       required: true
     },
     staticDoctorInfo: {
+      type: Object,
       required: true
-    },
-    slotsDays: {
-      required: true
-    },
-    visitTimes: {
-      required: true
-    },
+    }
   },
   setup() {
-    const pathToImg = computed(() => config.apiUrl + '/')
+    const pathToImg = computed(() => config.backUrl + '/')
 
     return {
       pathToImg
@@ -87,10 +81,9 @@ export default defineComponent({
 @import "src/assets/scss/doctor-card";
 
 .doctor-list {
-  padding-top: 30px;
-
   &__card {
-    margin: 0 20px 20px;
+    max-width: 950px;
+    margin: 0 auto 20px;
   }
 }
 
@@ -325,6 +318,7 @@ export default defineComponent({
     cursor: pointer;
     text-align: center;
     position: relative;
+    transition: $transition03;
 
     &:not(&:last-child)::after {
       content: '';
@@ -333,6 +327,11 @@ export default defineComponent({
       width: 1px;
       height: 20px;
       background-color: #ebeff6;
+    }
+
+    &.slot-active {
+      background-color: rgba(221, 252, 246, 0.5);
+      border-radius: 8px;
     }
   }
 

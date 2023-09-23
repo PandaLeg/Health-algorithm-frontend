@@ -82,7 +82,7 @@
               :days="days"
               :types="scheduleItem.types"
               :index-schedule="scheduleItem.id"
-          />
+          ></schedule-item>
           <div
               v-if="scheduleItem.id !== 1"
               class="registration-clinic__calendar-minus calendar-minus"
@@ -94,7 +94,7 @@
         </template>
       </validate-each>
       <div class="registration-clinic__calendar-plus calendar-plus">
-        <button @click="addClinicSchedule">
+        <button @click="addSchedule">
           <calendar-plus-s-v-g/>
         </button>
       </div>
@@ -109,7 +109,7 @@ import {computed, onMounted, ref} from "vue";
 import {ValidateEach} from "@vuelidate/components";
 import VSelect from "../../custom/VSelect.vue";
 import ScheduleItem from "./ScheduleItem.vue";
-import manageScheduleHook from "../../../hooks/registration/manage-schedule.hook";
+import manageScheduleHook, {manageClinicSchedule} from "../../../hooks/registration/manage-schedule.hook";
 import CalendarPlusSVG from "../../svg/CalendarPlusSVG.vue";
 import CalendarMinusSVG from "../../svg/CalendarMinusSVG.vue";
 import {updateLocationVuelidate} from "../../../hooks/registration/watch-location.hook";
@@ -118,18 +118,54 @@ export default {
   name: "LocationItem",
   components: {CalendarPlusSVG, CalendarMinusSVG, ScheduleItem, VSelect, ValidateEach, VAutocomplete},
   props: {
-    city: {required: true},
-    address: {required: true},
-    conveniences: {required: true},
-    searchedCities: {required: true},
-    searchCity: {required: true},
-    convenienceItems: {required: true},
-    schedule: {required: true},
-    locationVuelidate: {default: () => []},
-    vLocation: {required: true},
-    scheduleRule: {required: true},
-    days: {required: true},
-    indexLocation: {required: true},
+    city: {
+      required: true,
+      validator: (val) => typeof val === 'string' || val === null
+    },
+    address: {
+      type: String,
+      required: true
+    },
+    conveniences: {
+      type: Array,
+      required: true
+    },
+    searchedCities: {
+      type: Array,
+      required: true
+    },
+    searchCity: {
+      type: String,
+      required: true
+    },
+    convenienceItems: {
+      type: Array,
+      required: true
+    },
+    schedule: {
+      type: Array,
+      required: true
+    },
+    locationVuelidate: {
+      type: Array,
+      required: true,
+    },
+    vLocation: {
+      type: Object,
+      required: true
+    },
+    scheduleRule: {
+      type: Object,
+      required: true
+    },
+    days: {
+      type: Array,
+      required: true
+    },
+    indexLocation: {
+      type: Number,
+      required: true
+    },
   },
   setup(props, {emit}) {
     const scheduleVuelidate = ref([])
@@ -161,7 +197,7 @@ export default {
     watchAndGetCities(modelSearchCity, emit)
     updateLocationVuelidate(scheduleVuelidate, props, emit)
 
-    const {addClinicSchedule, deleteSchedule} = manageScheduleHook(props, emit)
+    const {addSchedule, deleteSchedule} = manageClinicSchedule(props, emit, scheduleVuelidate)
 
     onMounted(() => {
       scheduleVuelidate.value.push(props.vLocation)
@@ -175,7 +211,7 @@ export default {
       modelAddress,
       modelConveniences,
       modelScheduleRule,
-      addClinicSchedule,
+      addSchedule,
       deleteSchedule
     }
   },

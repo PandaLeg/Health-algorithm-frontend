@@ -1,5 +1,5 @@
 import {STORAGE_KEY} from "../util/config";
-import {vuexTypes} from "./vuexTypes";
+import {vuexTypes} from "./vuex-types";
 
 const localStoragePlugin = store => {
 

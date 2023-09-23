@@ -1,20 +1,14 @@
 import {createRouter, createWebHistory} from "vue-router";
-import routesNames from "./routesNames";
+import routesNames from "./routes-names";
 import store from "../store";
-import {vuexTypes} from "../store/vuexTypes";
-import {errorCodes} from "../http/errorCodes";
+import {vuexTypes} from "../store/vuex-types";
+import {errorCodes} from "../http/error-codes";
 
 const routes = [
     {
         path: '/',
         name: routesNames.home.name,
         component: () => import(/* webpackChunkName: "HomePage" */ '../pages/HomePage.vue')
-    },
-    {
-        path: '/registration',
-        name: routesNames.registration.name,
-        component: () => import(/* webpackChunkName: "RegistrationPage" */ '../pages/registration/RegistrationPage.vue'),
-        beforeEnter: guardUnLogIn
     },
     {
         path: '/registration-patient',

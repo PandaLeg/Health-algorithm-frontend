@@ -19,7 +19,7 @@
   border-radius: 10px;
   background-color: transparent;
   color: #21243D;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 %label-reg {
@@ -66,6 +66,10 @@
   &:hover::before {
     opacity: 1;
   }
+
+  &_a {
+    display: inline-block;
+  }
 }
 
 .calendar-plus, .calendar-minus {
@@ -104,4 +108,38 @@
       font-weight: 700;
     }
   }
+}
+
+.total-pages {
+  box-shadow: 2px 2px 15px rgb(128 142 184 / 10%);
+  border-radius: 15px;
+  background: $white;
+  padding: 25px;
+
+  &__content {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 18px;
+
+    @media screen and (max-width: $md4 + px){
+      text-align: center;
+    }
+  }
+
+  &__count {
+    font-weight: 700;
+  }
+}
+
+@mixin lh-fz($fz, $lh) {
+  font-size: $fz;
+  line-height: $lh;
+}
+
+.name-lh-fz-18 {
+  @include lh-fz(18px, 18px);
+}
+
+.name-lh-fz-24 {
+  @include lh-fz(24px, 24px);
 }

@@ -12,10 +12,10 @@ export default function (locations, locationVuelidate, weekDays, conveniencesFro
         const fieldSchedule = {
             id: 1,
             weekDays: [],
-            dayType: null,
+            dayType: '',
             types: dayTypes,
-            from: null,
-            to: null
+            from: '',
+            to: ''
         }
 
         schedule.push(fieldSchedule)
@@ -25,7 +25,7 @@ export default function (locations, locationVuelidate, weekDays, conveniencesFro
             city: null,
             searchCity: '',
             searchedCities: [],
-            address: null,
+            address: '',
             conveniences: [],
             convenienceItems,
             days,

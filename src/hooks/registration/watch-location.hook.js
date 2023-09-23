@@ -12,18 +12,20 @@ export function updateLocationVuelidate(scheduleVuelidate, props, emit) {
     })
 }
 
-export function updateScheduleVuelidate(props, emit) {
+export function updateScheduleVuelidate(props, emit, isDoctorSchedule = false) {
     const scheduleRule = toRef(props, 'scheduleRule')
+
     watch(scheduleRule, () => {
         const scheduleVuelidate = props.scheduleVuelidate
-        scheduleVuelidate.splice(props.indexSchedule, 1, props.v)
+        const indexSchedule = isDoctorSchedule ? props.indexSchedule - 1 : props.indexSchedule
+        scheduleVuelidate.splice(indexSchedule, 1, props.v)
+
         emit('update:schedule-vuelidate', [...scheduleVuelidate])
-    })
+    }, {deep: true})
 }
 
 export function watchAndUpdateScheduleRule(modelWeekDay, props, clinicSchedule, emit) {
     watch(modelWeekDay, (weekDayId) => {
-        if (!weekDayId) return
         const currentBranch = props.clinicBranches.find(branch => branch.id === props.addressBranchId)
 
         const schedule = currentBranch.schedule.find(sh => sh.weekDayId === weekDayId)
@@ -45,6 +47,7 @@ export function watchAndUpdateScheduleRule(modelWeekDay, props, clinicSchedule, 
         }
 
         clinicSchedule.value = schedule
+
         emit('update:schedule-rule', {...props.scheduleRule})
     })
 }

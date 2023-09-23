@@ -75,7 +75,7 @@
 
 <script>
 
-import routesNames from "../../router/routesNames";
+import routesNames from "../../router/routes-names";
 import logout from "../../hooks/auth/logout.hook";
 import {ref} from "vue";
 

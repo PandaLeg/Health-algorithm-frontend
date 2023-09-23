@@ -1,16 +1,16 @@
 import {useStore} from "vuex";
 import {config} from "../../../util/config";
-import {vuexTypes} from "../../../store/vuexTypes";
+import {vuexTypes} from "../../../store/vuex-types";
 import {onMounted} from "vue";
 import axios from "axios";
 
-export default function (clinics, page, perPage, totalPages, clinicInfo) {
+export default function (clinics, page, perPage, totalPages, countClinics, currentCity, clinicInfo) {
     const store = useStore()
 
     const getClinics = async () => {
         try {
             const city = clinicInfo.city? clinicInfo.city : 'kyiv'
-            const url = config.apiUrl + '/clinics/card-info'
+            const url = config.apiUrl + '/clinics/search'
 
             const response = await axios.get(url, {
                 params: {city: city, page: page.value - 1, perPage: perPage.value}
@@ -19,6 +19,8 @@ export default function (clinics, page, perPage, totalPages, clinicInfo) {
 
             clinics.value = data.clinics
             totalPages.value = data.totalPages
+            countClinics.value = data.count
+            currentCity.value = clinicInfo.city ? clinicInfo.city : 'Kyiv'
         } catch (err) {
             store.commit(vuexTypes.UPDATE_NOTIFICATION, err.data?.message ?? 'Error')
         }
@@ -29,7 +31,7 @@ export default function (clinics, page, perPage, totalPages, clinicInfo) {
             const city = clinicInfo.city
             const clinicId = clinicInfo.clinic
 
-            const url = config.apiUrl + `/clinics/${clinicId}/card-info`
+            const url = config.apiUrl + `/clinics/${clinicId}/search`
 
             const response = await axios.get(url, {
                 params: { city }

@@ -1,36 +1,36 @@
 <template>
-    <div class="navigation">
-        <div class="v-pagination">
-            <button
-                    class="v-pagination__navigation"
-                    :disabled="isDisabledLeft"
-                    aria-label="prev"
-                    @click="prev"
-            >
-                <ArrowLeftSVG/>
-            </button>
-            <div
-                    v-for="page in totalPages"
-                    :key="`p${page}`"
-            >
-                <button
-                        class="v-pagination__item"
-                        :class="{'active' : page === currentPage}"
-                        @click="pageChange(page)"
-                >
-                    <span>{{ page }}</span>
-                </button>
-            </div>
-            <button
-                    class="v-pagination__navigation"
-                    :disabled="isDisabledRight"
-                    aria-label="next"
-                    @click="next"
-            >
-                <ArrowRightSVG/>
-            </button>
-        </div>
+  <div class="navigation">
+    <div class="v-pagination">
+      <button
+          class="v-pagination__navigation"
+          :disabled="isDisabledLeft"
+          aria-label="prev"
+          @click="prev"
+      >
+        <ArrowLeftSVG/>
+      </button>
+      <div
+          v-for="page in totalPages"
+          :key="`p${page}`"
+      >
+        <button
+            class="v-pagination__item"
+            :class="{'active' : page === currentPage}"
+            @click="pageChange(page)"
+        >
+          <span>{{ page }}</span>
+        </button>
+      </div>
+      <button
+          class="v-pagination__navigation"
+          :disabled="isDisabledRight"
+          aria-label="next"
+          @click="next"
+      >
+        <ArrowRightSVG/>
+      </button>
     </div>
+  </div>
 </template>
 
 <script>
@@ -38,40 +38,42 @@ import ArrowRightSVG from "../svg/ArrowRightSVG.vue";
 import ArrowLeftSVG from "../svg/ArrowLeftSVG.vue";
 
 export default {
-    name: "VPagination",
-    components: {ArrowLeftSVG, ArrowRightSVG},
-    props: {
-        totalPages: {
-            required: true
-        },
-        currentPage: {
-            required: true
-        }
+  name: "VPagination",
+  components: {ArrowLeftSVG, ArrowRightSVG},
+  props: {
+    totalPages: {
+      type: Number,
+      required: true
     },
-    emits: ['nextPage'],
-    computed: {
-        isDisabledRight() {
-            return this.currentPage === this.totalPages
-        },
-        isDisabledLeft() {
-            return this.currentPage === 1
-        }
-    },
-    methods: {
-        pageChange(value) {
-            this.$emit('nextPage', value)
-        },
-        next() {
-            if (!this.isDisabledRight) {
-                this.pageChange(this.currentPage + 1)
-            }
-        },
-        prev() {
-            if (!this.isDisabledLeft) {
-                this.pageChange(this.currentPage - 1)
-            }
-        }
+    currentPage: {
+      type: Number,
+      required: true
     }
+  },
+  emits: ['nextPage'],
+  computed: {
+    isDisabledRight() {
+      return this.currentPage === this.totalPages
+    },
+    isDisabledLeft() {
+      return this.currentPage === 1
+    }
+  },
+  methods: {
+    pageChange(value) {
+      this.$emit('nextPage', value)
+    },
+    next() {
+      if (!this.isDisabledRight) {
+        this.pageChange(this.currentPage + 1)
+      }
+    },
+    prev() {
+      if (!this.isDisabledLeft) {
+        this.pageChange(this.currentPage - 1)
+      }
+    }
+  }
 }
 </script>
 

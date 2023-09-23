@@ -55,7 +55,7 @@
         </ResetPasswordBody>
       </template>
       <template v-else>
-        <ForgotPasswordBody
+        <ResetPasswordBody
             :body="body"
             :is-successfully-sent="isSuccessfullySent"
         >
@@ -66,7 +66,7 @@
               </router-link>
             </div>
           </template>
-        </ForgotPasswordBody>
+        </ResetPasswordBody>
       </template>
     </div>
   </div>
@@ -79,14 +79,12 @@ import computedErrors from "../../hooks/computed-errors.hook";
 import initState from "../../hooks/auth/reset-password/init-state.hook";
 import ResetPasswordBody from "../../components/auth/ResetPasswordBody.vue";
 import resetPasswordHook from "../../hooks/auth/reset-password/reset-password.hook";
-import ForgotPasswordBody from "../../components/auth/ResetPasswordBody.vue";
-import routes from "../../router/routesNames";
+import routes from "../../router/routes-names";
 import {computed} from "vue";
 
 export default {
   name: 'ResetPasswordPage',
   components: {
-    ForgotPasswordBody,
     ResetPasswordBody
   },
   setup() {

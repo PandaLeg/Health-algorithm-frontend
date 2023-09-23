@@ -128,6 +128,15 @@ export default {
   created() {
     this.initializeValues()
   },
+  unmounted() {
+    if (!this.multiple) {
+      const savedItem = this.items.find(item => item[this.itemValue] === this.modelValue)
+
+      if (savedItem) {
+        this.activeLink(false, savedItem)
+      }
+    }
+  },
   methods: {
     initializeValues() {
       if (this.multiple) {
@@ -139,6 +148,15 @@ export default {
           this.savedItems.forEach(savedItem => {
             this.activeLink(true, savedItem)
           })
+        }
+      } else {
+        const savedItem = this.items.find(item => item[this.itemValue] === this.modelValue)
+
+        if (savedItem) {
+          this.modelInput = this.tempSavedItem = savedItem[this.itemTitle]
+          this.savedItems.push(savedItem)
+
+          this.activeLink(true, savedItem)
         }
       }
 

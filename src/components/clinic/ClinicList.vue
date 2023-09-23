@@ -36,11 +36,12 @@ export default {
   },
   props: {
     clinics: {
+      type: Array,
       default: () => []
     },
   },
   setup() {
-    const pathToImg = computed(() => config.apiUrl + '/')
+    const pathToImg = computed(() => config.backUrl + '/')
 
     return {
       pathToImg

@@ -7,7 +7,7 @@
         </div>
         <div class="doctor-card__inner">
           <div class="doctor-card__main">
-            <div class="doctor-card__full-name">
+            <div class="doctor-card__full-name name-lh-fz-24">
               <span>{{ doctor.firstName }} {{ doctor.lastName }} </span>
             </div>
             <div class="doctor-card__specialties specialties-list">
@@ -33,7 +33,7 @@
             </p>
           </div>
           <div class="doctor-card__price">
-            <span>250$</span>
+            <span>{{ doctor.price }} UAH</span>
           </div>
           <div
               v-if="isPatient"
@@ -135,7 +135,7 @@
       <div class="doctor-card__clinics">
         <clinic-list :clinics="clinics">
           <template #listItem="scope">
-            <sub-clinic-list-item
+            <clinic-list-sub-item
                 :path-to-img="scope.pathToImg"
                 :clinic="scope.clinic"
             />
@@ -149,19 +149,19 @@
 <script>
 import ClinicList from "../clinic/ClinicList.vue";
 import VSelect from "../custom/VSelect.vue";
-import SubClinicListItem from "../clinic/SubClinicListItem.vue";
+import ClinicListSubItem from "../clinic/ClinicListSubItem.vue";
 import {computed, defineAsyncComponent, ref} from "vue";
-import routes from "../../router/routesNames";
+import routes from "../../router/routes-names";
 import {config} from "../../util/config";
 import getAppointmentScheduleHook from "../../hooks/doctor/specific-doctor/get-appointment-schedule.hook";
 import updateWorkingHoursHook from "../../hooks/doctor/specific-doctor/update-working-hours.hook";
-import {vuexTypes} from "../../store/vuexTypes";
+import {vuexTypes} from "../../store/vuex-types";
 
 export default {
   name: "DoctorCard",
   components: {
     VDialog: defineAsyncComponent(() => import('../../components/custom/VDialog.vue')),
-    SubClinicListItem,
+    ClinicListSubItem,
     VSelect,
     ClinicList
   },
@@ -227,7 +227,7 @@ export default {
 
     const routesNames = computed(() => routes)
     const defaultAvatar = computed(() => require('../.././assets/images/doctor.webp'))
-    const pathToImg = computed(() => config.apiUrl + '/')
+    const pathToImg = computed(() => config.backUrl + '/')
 
     const doctorId = ref(props.doctorId)
     const modelClinicBranch = computed({

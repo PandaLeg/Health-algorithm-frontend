@@ -7,8 +7,8 @@ import store from "./store";
 if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
     // Use the window load event to keep the page load performant
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js').then();
-    });
+        navigator.serviceWorker.register('/service-worker.js')
+    })
 }
 
 const vm = createApp(App)

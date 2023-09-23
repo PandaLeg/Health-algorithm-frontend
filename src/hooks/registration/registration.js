@@ -1,9 +1,9 @@
 import {useStore} from "vuex";
-import {vuexTypes} from "../../store/vuexTypes";
+import {vuexTypes} from "../../store/vuex-types";
 import {useRouter} from "vue-router";
-import routesNames from "../../router/routesNames";
+import routesNames from "../../router/routes-names";
 
-export default function (v$, user, isValid, type, image = null, locations = [], isValidLocation) {
+export default function (v$, user, isValid, type, image = null, locations, isValidLocation) {
     const store = useStore()
     const router = useRouter()
 
@@ -25,8 +25,10 @@ export default function (v$, user, isValid, type, image = null, locations = [], 
                 }
 
                 if (type === 'doctor') {
-                    user.doctor.doctorWorkPlaces = formDoctorWorkPlaces(locations)
-                    user.doctor.cities = formDoctorCities(locations)
+                    const workPlace = locations
+                    user.doctor.workPlace = formDoctorWorkPlace(workPlace)
+                    user.doctor.city = workPlace.city
+                    user.doctor.price = user.doctor.price >= 10 ? Number(user.doctor.price) * 100 : 0
                 }
 
                 if (image) {
@@ -103,34 +105,14 @@ function formBranchWithSchedule(schedule, location) {
     }
 }
 
-function formDoctorCities(locations) {
-    const cities = []
-
-    locations.forEach(location => {
-        const isCityExists = cities.some(city => city === location.city)
-
-        if (!isCityExists) {
-            cities.push(location.city)
-        }
-    })
-    return cities
-}
-
-function formDoctorWorkPlaces(locations) {
-    const workPlaces = []
-
-    locations.forEach(location => {
-        const workPlace = {}
-
-        workPlace.id = location.address
-        workPlace.schedule = location.schedule.map(sh => ({
+function formDoctorWorkPlace(workPlace) {
+    return {
+        id: workPlace.address,
+        schedule: workPlace.schedule.map(sh => ({
             weekDayId: sh.weekDay,
             from: sh.from,
             to: sh.to,
             duration: sh.duration
         }))
-        workPlaces.push(workPlace)
-    })
-
-    return workPlaces
+    }
 }
