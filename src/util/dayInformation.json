@@ -1,0 +1,12 @@
+{
+  "dayTypes": [
+    {
+      "id": 1,
+      "name": "Workday"
+    },
+    {
+      "id": 2,
+      "name": "Day off"
+    }
+  ]
+}

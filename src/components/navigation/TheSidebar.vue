@@ -1,105 +1,105 @@
 <template>
-    <nav
-            class="sidebar"
-            :class="{'close': isOpen}"
-    >
-        <header class="sidebar__header header-sidebar">
-            <div class="header-sidebar__image-text">
+  <nav
+      class="sidebar"
+      :class="{'close': isOpen}"
+  >
+    <header class="sidebar__header header-sidebar">
+      <div class="header-sidebar__image-text">
               <span class="header-sidebar__image">
                   <img :src="images.verifiedEmail" alt="Not Found">
               </span>
 
-                <div class="sidebar__text header-sidebar__text">
-                    <span class="header-sidebar__title">Admin</span>
-                </div>
-            </div>
-
-            <i
-                    class="sidebar__toggle _icon-chevron-right-solid"
-                    @click="isOpen = !isOpen"
-            >
-            </i>
-        </header>
-
-        <div class="sidebar__menu menu-sidebar">
-            <div class="menu-sidebar__body">
-                <div class="menu-sidebar__search-box">
-                    <i class="menu-sidebar__icon _icon-search"></i>
-                    <input type="search" placeholder="Search...">
-                </div>
-
-                <ul class="menu-sidebar__links">
-                    <li>
-                        <router-link
-                                to=""
-                                class="menu-sidebar__link"
-                        >
-                            <i class="menu-sidebar__icon _icon-home"></i>
-                            <span class="sidebar__text menu-sidebar__text">Dashboard</span>
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link
-                                to=""
-                                class="menu-sidebar__link"
-                        >
-                            <i class="menu-sidebar__icon _icon-clinic"></i>
-                            <span class="sidebar__text menu-sidebar__text">Clinics</span>
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link
-                                to=""
-                                class="menu-sidebar__link"
-                        >
-                            <i class="menu-sidebar__icon _icon-doctor"></i>
-                            <span class="sidebar__text menu-sidebar__text">Doctors</span>
-                        </router-link>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="menu-sidebar__bottom-content">
-                <router-link
-                    to=""
-                    class="menu-sidebar__link"
-                    @click="logoutUser"
-                >
-                    <i class="menu-sidebar__icon _icon-logout"></i>
-                    <span class="sidebar__text menu-sidebar__text">Logout</span>
-                </router-link>
-            </div>
+        <div class="sidebar__text header-sidebar__text">
+          <span class="header-sidebar__title">Admin</span>
         </div>
-    </nav>
+      </div>
+
+      <i
+          class="sidebar__toggle _icon-chevron-right-solid"
+          @click="isOpen = !isOpen"
+      >
+      </i>
+    </header>
+
+    <div class="sidebar__menu menu-sidebar">
+      <div class="menu-sidebar__body">
+        <div class="menu-sidebar__search-box">
+          <i class="menu-sidebar__icon _icon-search"></i>
+          <input type="search" placeholder="Search...">
+        </div>
+
+        <ul class="menu-sidebar__links">
+          <li>
+            <router-link
+                to=""
+                class="menu-sidebar__link"
+            >
+              <i class="menu-sidebar__icon _icon-home"></i>
+              <span class="sidebar__text menu-sidebar__text">Dashboard</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+                to=""
+                class="menu-sidebar__link"
+            >
+              <i class="menu-sidebar__icon _icon-clinic"></i>
+              <span class="sidebar__text menu-sidebar__text">Clinics</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+                to=""
+                class="menu-sidebar__link"
+            >
+              <i class="menu-sidebar__icon _icon-doctor"></i>
+              <span class="sidebar__text menu-sidebar__text">Doctors</span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+
+      <div class="menu-sidebar__bottom-content">
+        <router-link
+            to=""
+            class="menu-sidebar__link"
+            @click="logoutUser"
+        >
+          <i class="menu-sidebar__icon _icon-logout"></i>
+          <span class="sidebar__text menu-sidebar__text">Logout</span>
+        </router-link>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <script>
 
-import routesNames from "../../router/routesNames";
-import logout from "../../hooks/auth/logout";
+import routesNames from "../../router/routes-names";
+import logout from "../../hooks/auth/logout.hook";
 import {ref} from "vue";
 
 export default {
-    name: "TheSidebar",
-    setup() {
-        const isOpen = ref(false)
-        const {logoutUser} = logout()
+  name: "TheSidebar",
+  setup() {
+    const isOpen = ref(false)
+    const {logoutUser} = logout()
 
-        return {
-            isOpen,
-            logoutUser
-        }
-    },
-    computed: {
-        routesNames() {
-            return routesNames
-        },
-        images() {
-            return {
-                verifiedEmail: require('../../assets/images/verified-email.webp')
-            }
-        }
+    return {
+      isOpen,
+      logoutUser
     }
+  },
+  computed: {
+    routesNames() {
+      return routesNames
+    },
+    images() {
+      return {
+        verifiedEmail: require('../../assets/images/verified-email.webp')
+      }
+    }
+  }
 }
 </script>
 

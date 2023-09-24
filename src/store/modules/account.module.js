@@ -1,4 +1,4 @@
-import {vuexTypes} from "../vuexTypes";
+import {vuexTypes} from "../vuex-types";
 
 export const defaultState = () => ({
     user: {
@@ -20,5 +20,7 @@ export const accountModule = {
         }
     },
     actions: {},
-    getters: {}
+    getters: {
+        [vuexTypes.user]: (state) => state.user,
+    }
 }

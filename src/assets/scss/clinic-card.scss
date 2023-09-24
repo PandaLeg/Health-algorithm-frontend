@@ -1,0 +1,92 @@
+@import "variables";
+
+.clinic-card {
+  box-shadow: 2px 2px 15px rgb(128 142 184 / 20%);
+  border-radius: 15px;
+  background: $white;
+
+  &__content {
+    display: flex;
+    padding-top: 20px;
+
+    @media screen and (max-width: $md4 + px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  &__avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 135px;
+    max-width: 135px;
+    width: 135px;
+    height: 135px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 10px 15px;
+    padding: 6px;
+    border: 1px solid $grayLighten2;
+
+    img {
+      border-radius: 8px;
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      padding: 0;
+      object-fit: cover;
+    }
+  }
+
+  &__inner {
+    flex: 1;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+
+    @media screen and (max-width: $md4 + px) {
+      text-align: center;
+      padding: 0 10px;
+    }
+
+    &_padding {
+      padding: 0 15px;
+
+      @media screen and (max-width: $md4 + px) {
+        padding: 0 10px;
+      }
+    }
+  }
+
+  &__name {
+    margin-bottom: 5px;
+    line-height: 24px;
+
+    a {
+      color: #000;
+      font-weight: 700;
+      font-size: 24px;
+      transition: color 0.2s;
+
+      &:hover {
+        color: $darkTeal;
+      }
+    }
+  }
+
+  &__type {
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  &__description {
+    margin-bottom: 15px;
+    line-height: 16px;
+    color: #707272;
+    font-size: 13px;
+    max-height: 80px;
+    height: 80px;
+    overflow: hidden;
+  }
+}

@@ -1,20 +1,14 @@
 import {createRouter, createWebHistory} from "vue-router";
-import routesNames from "./routesNames";
+import routesNames from "./routes-names";
 import store from "../store";
-import {vuexTypes} from "../store/vuexTypes";
-import {errorCodes} from "../http/errorCodes";
+import {vuexTypes} from "../store/vuex-types";
+import {errorCodes} from "../http/error-codes";
 
 const routes = [
     {
         path: '/',
         name: routesNames.home.name,
         component: () => import(/* webpackChunkName: "HomePage" */ '../pages/HomePage.vue')
-    },
-    {
-        path: '/registration',
-        name: routesNames.registration.name,
-        component: () => import(/* webpackChunkName: "RegistrationPage" */ '../pages/registration/RegistrationPage.vue'),
-        beforeEnter: guardUnLogIn
     },
     {
         path: '/registration-patient',
@@ -26,6 +20,12 @@ const routes = [
         path: '/registration-doctor',
         name: routesNames.registrationDoctor.name,
         component: () => import(/* webpackChunkName: "RegistrationDoctorPage" */ '../pages/registration/RegistrationDoctorPage.vue'),
+        beforeEnter: guardUnLogIn
+    },
+    {
+        path: '/registration-clinic',
+        name: routesNames.registrationClinic.name,
+        component: () => import(/* webpackChunkName: "RegistrationClinicPage" */ '../pages/registration/RegistrationClinicPage.vue'),
         beforeEnter: guardUnLogIn
     },
     {
@@ -55,8 +55,31 @@ const routes = [
     },
     {
         path: '/doctors',
+        name: routesNames.doctors.name,
+        component: () => import(/* webpackChunkName: "DoctorsPage" */ '../pages/doctor/DoctorsPage.vue')
+    },
+    {
+        path: '/doctors/:id',
         name: routesNames.doctor.name,
-        component: () => import(/* webpackChunkName: "DoctorPage" */ '../pages/doctor/DoctorPage.vue')
+        component: () => import(/* webpackChunkName: "DoctorPage" */ '../pages/doctor/DoctorPage.vue'),
+        params: true
+    },
+    {
+        path: '/clinics',
+        name: routesNames.clinics.name,
+        component: () => import(/* webpackChunkName: "ClinicsPage" */ '../pages/clinic/ClinicsPage.vue'),
+    },
+    {
+        path: '/clinics/:id',
+        name: routesNames.clinic.name,
+        component: () => import(/* webpackChunkName: "ClinicPage" */ '../pages/clinic/ClinicPage.vue'),
+        params: true
+    },
+    {
+        path: '/appointments',
+        name: routesNames.appointment.name,
+        component: () => import(/* webpackChunkName: "AppointmentPage" */ '../pages/appointment/AppointmentPage.vue'),
+        beforeEnter: guardLogIn
     }
 ]
 
@@ -70,6 +93,18 @@ function guardUnLogIn(to, from, next) {
         })
     } else {
         next()
+    }
+}
+
+function guardLogIn(to, from, next) {
+    const isLoggedIn = store.getters[vuexTypes.isLoggedIn]
+
+    if (isLoggedIn) {
+        next()
+    } else {
+        next({
+            name: routesNames.home.name
+        })
     }
 }
 

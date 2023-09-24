@@ -1,55 +1,55 @@
 <template>
-    <div
-            v-if="isOpen"
-            class="snackbar"
-    >
-        <div class="snackbar__body">
-            <div class="snackbar__content">
+  <div
+      v-if="isOpen"
+      class="snackbar"
+  >
+    <div class="snackbar__body">
+      <div class="snackbar__content">
                 <span>
                     <slot></slot>
                 </span>
-            </div>
-            <div class="snackbar__btn">
-                <button @click="isOpen = false">
-                    <span>Close</span>
-                </button>
-            </div>
-        </div>
+      </div>
+      <div class="snackbar__btn">
+        <button @click="isOpen = false">
+          <span>Close</span>
+        </button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: "VSnackBar",
-    props: {
-        duration: {
-            type: Number,
-            default: 4000
-        },
-        modelValue: {
-            type: Boolean,
-            required: true
-        }
+  name: "VSnackBar",
+  props: {
+    duration: {
+      type: Number,
+      default: 4000
     },
-    computed: {
-        isOpen: {
-            get() {
-                return this.modelValue;
-            },
-            set(value) {
-                this.$emit('update:modelValue', value)
-            }
-        }
-    },
-    watch: {
-        isOpen(value) {
-            if (value) {
-                setTimeout(() => {
-                    this.isOpen = false
-                }, this.duration)
-            }
-        }
+    modelValue: {
+      type: Boolean,
+      required: true
     }
+  },
+  computed: {
+    isOpen: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value)
+      }
+    }
+  },
+  watch: {
+    isOpen(value) {
+      if (value) {
+        setTimeout(() => {
+          this.isOpen = false
+        }, this.duration)
+      }
+    }
+  }
 }
 </script>
 

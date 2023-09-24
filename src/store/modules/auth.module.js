@@ -1,8 +1,8 @@
-import {vuexTypes} from "../vuexTypes";
+import {vuexTypes} from "../vuex-types";
 import axios from "axios";
 import {config} from "../../util/config";
 import authAxios from "../../http";
-import handleAuthInfo from "../../http/handleAuthInfo";
+import handleAuthInfo from "../../http/handle-auth-info";
 
 export const defaultState = () => ({
     isLoggedIn: false,

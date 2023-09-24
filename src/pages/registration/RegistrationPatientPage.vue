@@ -1,79 +1,73 @@
 <template>
-    <div class="registration-patient">
-        <div class="container">
-            <div class="registration-patient__body">
-                <h1 class="registration-patient__title">Registration Patient</h1>
-                <registration-user-form
-                        :v$="v$"
-                        :city-errors="cityErrors"
-                        :password-errors="passwordErrors"
-                        :email-errors="emailErrors"
-                        :phone-errors="phoneErrors"
-                        v-model:city="user.city"
-                        v-model:password="user.password"
-                        v-model:email="user.email"
-                        v-model:phone="user.phone"
-                        @registration="registrationUser"
-                >
-                    <registration-patient-form
-                            :v$="v$"
-                            :first-name-errors="firstNameErrors"
-                            :last-name-errors="lastNameErrors"
-                            v-model:first-name="user.patient.firstName"
-                            v-model:last-name="user.patient.lastName"
-                    />
-                </registration-user-form>
-            </div>
-        </div>
+  <div class="registration-patient">
+    <div class="container">
+      <div class="registration-patient__body">
+        <h1 class="registration-patient__title">Registration Patient</h1>
+        <registration-user-form
+            :v$="v$"
+            v-model:password="user.password"
+            v-model:email="user.email"
+            v-model:phone="user.phone"
+            v-model:image="image"
+        >
+          <registration-patient-form
+              :v$="v$"
+              v-model:first-name="user.patient.firstName"
+              v-model:last-name="user.patient.lastName"
+              v-model:city="user.patient.city"
+              v-model:search-city="searchCity"
+              v-model:searched-cities="searchedCities"
+          ></registration-patient-form>
+          <div class="registration__button">
+            <button @click="registrationUser">Registration</button>
+          </div>
+        </registration-user-form>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import RegistrationUserForm from "../../components/registration/RegistrationUserForm.vue";
 import RegistrationPatientForm from "../../components/registration/RegistrationPatientForm.vue";
-import initUserStateAndRules from "../../hooks/registration/initUserStateAndRules";
+import initUserStateAndRules from "../../hooks/registration/init-user-state-rules.hook";
 import {useVuelidate} from "@vuelidate/core";
 import registration from "../../hooks/registration/registration";
-import computedErrors from "../../hooks/computedErrors";
-import computedPatientErrors from "../../hooks/registration/patient/computedPatientErrors";
-import initStateAndRules from "../../hooks/registration/patient/initStateAndRules";
-import regMountedState from "../../hooks/regMountedState";
+import computedPatientErrors from "../../hooks/registration/patient/computed-patient-errors.hook";
+import initStateAndRules from "../../hooks/registration/patient/init-state-rules.hook";
+import regMountedState from "../../hooks/reg-mounted-state.hook";
 
 export default {
-    name: "RegistrationPatientPage",
-    components: {
-        RegistrationUserForm,
-        RegistrationPatientForm
-    },
-    setup() {
-        const {entity, rule} = initStateAndRules();
-        const {user, rules} = initUserStateAndRules(entity, rule);
-        const v$ = useVuelidate(rules, user)
+  name: "RegistrationPatientPage",
+  components: {
+    RegistrationUserForm,
+    RegistrationPatientForm
+  },
+  setup() {
+    const {entity, rule, searchCity, searchedCities} = initStateAndRules();
+    const {user, rules, image} = initUserStateAndRules(entity, rule);
+    const v$ = useVuelidate(rules, user)
 
-        const {
-            emailErrors,
-            passwordErrors,
-            phoneErrors,
-            cityErrors,
-        } = computedErrors(v$)
-        const {firstNameErrors, lastNameErrors, isValid} = computedPatientErrors(v$)
+    const {isValid} = computedPatientErrors(v$)
 
-        const type = 'patient'
-        const {registrationUser} = registration(v$, user, isValid, type)
+    const type = 'patient'
+    const {registrationUser} = registration(v$, user, isValid, type)
 
-        regMountedState()
+    regMountedState()
 
-        return {
-            v$,
-            user,
-            emailErrors, passwordErrors, phoneErrors, cityErrors, firstNameErrors, lastNameErrors,
-            registrationUser
-        }
-    },
+    return {
+      v$,
+      user,
+      image,
+      searchCity,
+      searchedCities,
+      registrationUser
+    }
+  },
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "src/assets/scss/variables";
 
 .registration-patient {

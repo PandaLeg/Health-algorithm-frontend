@@ -1,45 +1,55 @@
 <template>
-    <select v-model="selectModel">
-        <option
-            value=""
-            disabled
-            selected
-        >
-            Выберите из списка
-        </option>
-        <option
-                v-for="option in options"
-                :key="`k-${option.id}`"
-                :value="option.id"
-        >
-            {{ option.name }}
-        </option>
-    </select>
+  <select v-model="selectModel">
+    <option
+        value=""
+        disabled
+        selected
+    >
+      {{ label }}
+    </option>
+    <option
+        v-for="option in options"
+        :key="`k-${itemValue ? option[itemValue] : option}`"
+        :value="itemValue ? option[itemValue] : option"
+    >
+      {{ itemTitle ? option[itemTitle] : option }}
+    </option>
+  </select>
 </template>
 
 <script>
 export default {
-    name: "VSelect",
-    props: {
-        options: {
-            type: Array,
-            default: () => []
-        },
-        modelValue: {
-            required: true
-        }
+  name: "VSelect",
+  props: {
+    options: {
+      type: Array,
+      default: () => []
     },
-    computed: {
-        selectModel: {
-            get() {
-                return this.modelValue
-            },
+    modelValue: {
+      required: true
+    },
+    itemTitle: {
+      type: String,
+    },
+    itemValue: {
+      type: String,
+    },
+    label: {
+      type: String,
+      default: 'Select from list'
+    },
+  },
+  computed: {
+    selectModel: {
+      get() {
+        return this.modelValue
+      },
 
-            set(event) {
-                this.$emit('update:modelValue', event)
-            }
-        }
+      set(event) {
+        this.$emit('update:modelValue', event)
+      }
     }
+  }
 }
 </script>
 

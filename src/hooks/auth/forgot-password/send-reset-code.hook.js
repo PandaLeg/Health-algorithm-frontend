@@ -1,5 +1,5 @@
 import {useStore} from "vuex";
-import {vuexTypes} from "../../../store/vuexTypes";
+import {vuexTypes} from "../../../store/vuex-types";
 
 export default function (v$, email, isSuccessfullySent) {
     const store = useStore()

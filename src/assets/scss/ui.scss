@@ -1,3 +1,5 @@
+@import "variables";
+
 %input-error {
   font-family: 'MyRoboto', sans-serif;
   color: #f57f6c;
@@ -14,10 +16,10 @@
   padding: 12px;
   width: 100%;
   border: 2px solid #000;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: transparent;
   color: #21243D;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 %label-reg {
@@ -37,5 +39,107 @@
   height: 100%;
   transition: all 0.2s;
   opacity: 0;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+@mixin main-btn($background, $color) {
+  padding: 13px 30px;
+  background-color: $background;
+  color: $color;
+  font-family: "MyRoboto", sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.btn {
+  @include main-btn($burgundyLighten, $LightenBlue2);
+
+  &::before {
+    @extend %after-effect-btn;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &_a {
+    display: inline-block;
+  }
+}
+
+.calendar-plus, .calendar-minus {
+  text-align: center;
+
+  button {
+    height: 30px;
+    background-color: #fff;
+    font-size: 30px;
+  }
+}
+
+.registration-week {
+  &, &__time {
+    display: flex;
+    gap: 15px;
+  }
+
+  &__day, &__day-type, &__from, &__to, &__duration {
+    flex: 0 1 50%;
+  }
+
+  &, &__time:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  &__clinic-schedule {
+    margin-bottom: 10px;
+    background-color: $darkTeal;
+    padding: 15px;
+    font-weight: 500;
+    color: $white;
+    border-radius: 5px;
+
+    & > span {
+      font-weight: 700;
+    }
+  }
+}
+
+.total-pages {
+  box-shadow: 2px 2px 15px rgb(128 142 184 / 10%);
+  border-radius: 15px;
+  background: $white;
+  padding: 25px;
+
+  &__content {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 18px;
+
+    @media screen and (max-width: $md4 + px){
+      text-align: center;
+    }
+  }
+
+  &__count {
+    font-weight: 700;
+  }
+}
+
+@mixin lh-fz($fz, $lh) {
+  font-size: $fz;
+  line-height: $lh;
+}
+
+.name-lh-fz-18 {
+  @include lh-fz(18px, 18px);
+}
+
+.name-lh-fz-24 {
+  @include lh-fz(24px, 24px);
 }

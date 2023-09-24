@@ -1,89 +1,87 @@
 <template>
-    <div class="verify-email">
-        <div class="container verify-email__container">
-            <div
-                    v-if="!activationTokenError"
-                    class="verify-email__content content-success"
+  <div class="verify-email">
+    <div class="container verify-email__container">
+      <div
+          v-if="!activationTokenError"
+          class="verify-email__content content-success"
+      >
+        <div class="content-success__item">
+          <div class="content-success__block">
+            <h2 class="content-success__title">Great! Email has been verified!</h2>
+            <p class="content-success__subtitle">Thank you</p>
+            <router-link
+                :to="{name: routesNames.login.name}"
+                class="content-success__link"
             >
-                <div class="content-success__item">
-                    <div class="content-success__block">
-                        <h2 class="content-success__title">Great! Email has been verified!</h2>
-                        <p class="content-success__subtitle">Thank you</p>
-                        <router-link
-                                :to="{name: routesNames.login.name}"
-                                class="content-success__link"
-                        >
-                            Login
-                        </router-link>
-                    </div>
-                </div>
-                <div class="content-success__item">
-                    <div class="content-success__img">
-                        <img :src="images.verifiedEmail" alt="Not Found">
-                    </div>
-                </div>
-            </div>
-            <div
-                    v-else
-                    class="verify-email__content content-failure"
-            >
-                <div class="content-failure__block">
-                    <h2 class="content-failure__title">Please verify your email</h2>
-                    <div class="content-failure__text">
-                        <p>
-                            If you landed on this page, either the user is already activated or the token has expired.
-                            Please click "Resend Verification Email", to send the activation email again
-                        </p>
-                        <p>
-                            Then follow the instructions in the letter. If you didn't receive the email, please check
-                            your Spam folder
-                        </p>
-                    </div>
-                    <div
-                            class="content-failure__resend"
-                            @click="sendConfirmation"
-                    >
-                        <button>Resend Verification Email</button>
-                    </div>
-                </div>
-            </div>
+              Login
+            </router-link>
+          </div>
         </div>
+        <div class="content-success__item">
+          <div class="content-success__img">
+            <img :src="images.verifiedEmail" alt="Not Found">
+          </div>
+        </div>
+      </div>
+      <div
+          v-else
+          class="verify-email__content content-failure"
+      >
+        <div class="content-failure__block">
+          <h2 class="content-failure__title">Please verify your email</h2>
+          <div class="content-failure__text">
+            <p>
+              If you landed on this page, either the user is already activated or the token has expired.
+              Please click "Resend Verification Email", to send the activation email again
+            </p>
+            <p>
+              Then follow the instructions in the letter. If you didn't receive the email, please check
+              your Spam folder
+            </p>
+          </div>
+          <div
+              class="content-failure__resend"
+              @click="sendConfirmation"
+          >
+            <button>Resend Verification Email</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-import routesNames from "../../router/routesNames";
-import initState from "../../hooks/auth/verify-email/initState";
-import checkParams from "../../hooks/auth/verify-email/checkParams";
-import sendConfirmationEmail from "../../hooks/auth/verify-email/sendConfirmationEmail";
-import regMountedState from "../../hooks/regMountedState";
+import initState from "../../hooks/auth/verify-email/init-state.hook";
+import checkParams from "../../hooks/auth/verify-email/check-params.hook";
+import sendConfirmationEmail from "../../hooks/auth/verify-email/send-confirmation-email.hook";
+import regMountedState from "../../hooks/reg-mounted-state.hook";
+import {computed} from "vue";
+import routes from "../../router/routes-names";
 
 export default {
-    name: "VerifyEmail",
-    setup() {
-        const {activationTokenError, email} = initState()
+  name: "VerifyEmail",
+  setup() {
+    const {activationTokenError, email} = initState()
 
-        checkParams(activationTokenError, email)
+    checkParams(activationTokenError, email)
 
-        const {sendConfirmation} = sendConfirmationEmail(email)
+    const {sendConfirmation} = sendConfirmationEmail(email)
 
-        regMountedState()
+    const routesNames = computed(() => routes)
+    const images = computed(() => ({
+      verifiedEmail: require('../../assets/images/verified-email.webp')
+    }))
 
-        return {
-            activationTokenError,
-            sendConfirmation
-        }
-    },
-    computed: {
-        routesNames() {
-            return routesNames
-        },
-        images() {
-            return {
-                verifiedEmail: require('../../assets/images/verified-email.webp')
-            }
-        }
+    regMountedState()
+
+    return {
+      activationTokenError,
+      routesNames,
+      images,
+      sendConfirmation
     }
+  }
 }
 </script>
 
