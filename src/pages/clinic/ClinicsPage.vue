@@ -48,11 +48,9 @@ import initStateHook from "../../hooks/clinic/clinic-search/init-state.hook";
 import getClinicsHook from "../../hooks/clinic/clinic-search/get-clinics.hook";
 import VPagination from "../../components/custom/VPagination.vue";
 import VAutocomplete from "../../components/custom/VAutocomplete.vue";
-import {watchAndGetCities, watchAndGetClinics} from "../../hooks/registration/get-cities-clinic.hook";
 import {useVuelidate} from "@vuelidate/core";
 import searchClinicsHook from "../../hooks/clinic/clinic-search/search-clinics.hook";
 import ClinicListItem from "../../components/clinic/ClinicListItem.vue";
-import {config} from "../../util/config";
 import SearchClinic from "../../components/clinic/SearchClinic.vue";
 
 export default {
