@@ -8,9 +8,9 @@ export default function (schedule) {
             for (let i = 0; i < weekDays.length; i++) {
                 const currentDay = weekDays[i]
                 let currentDayIndex = weekDays[i].id
-                const nextDayIndex = weekDays[i + 1]?.id
+                const nextDayIndex = weekDays[i + 1]?.id === 0 ? 7 : weekDays[i + 1]?.id
 
-                const isConsecutive = ++currentDayIndex === nextDayIndex;
+                const isConsecutive = ++currentDayIndex === nextDayIndex
 
                 if (isConsecutive && weekDays.length - 1 !== i) {
                     weekDay += weekDay.indexOf(', ') === -1 ? currentDay.name + '-' : currentDay.name + ', '

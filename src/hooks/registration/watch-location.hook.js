@@ -26,6 +26,7 @@ export function updateScheduleVuelidate(props, emit, isDoctorSchedule = false) {
 
 export function watchAndUpdateScheduleRule(modelWeekDay, props, clinicSchedule, emit) {
     watch(modelWeekDay, (weekDayId) => {
+        if (!weekDayId) return
         const currentBranch = props.clinicBranches.find(branch => branch.id === props.addressBranchId)
 
         const schedule = currentBranch.schedule.find(sh => sh.weekDayId === weekDayId)

@@ -122,7 +122,7 @@ export default {
       this.savedItems = []
     },
     modelValue(val) {
-      if (!this.modelValue) this.modelInput = ''
+      if (this.modelValue === null || this.modelValue === '') this.modelInput = ''
     },
   },
   created() {
